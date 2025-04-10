@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -ueo pipefail
+
+echo 'data,rate'
+tidy -xml -indent -q | grep '<Obs' | sed 's/.*TIME_PERIOD="//; s/" OBS_VALUE="/,/; s/"//'
