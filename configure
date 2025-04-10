@@ -22,13 +22,14 @@ cp "$SCRIPT_DIR/facts/inflation/"* facts/inflation
 mkdir -p facts/exchange-rates
 cp "$SCRIPT_DIR/facts/exchange-rates/"* facts/exchange-rates
 
-exit 0
-
 log "Fetching MSCI indexes"
 ignore_comments "$SCRIPT_DIR/"data/interesting-indexes/msci.csv | "$SCRIPT_DIR/scripts/fetch-msci-indexes.py"
 
 log "Fetching indexes from Wall Street Journal"
 ignore_comments "$SCRIPT_DIR/"data/interesting-indexes/wall-street-journal.csv | "$SCRIPT_DIR/scripts/fetch-indexes-from-wsj.py" 57494d5ed7ad44af85bc59a51dd87c90
+
+log "Fetching ETFs"
+ignore_comments facts/indexes.csv | "$SCRIPT_DIR/scripts/fetch-etfs.py" > facts/etfs.csv
 
 # Initialize the build.ninja file
 log "Generating build.ninja..."
