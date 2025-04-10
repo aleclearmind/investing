@@ -1,0 +1,43 @@
+name,full-name,code,currency,earliest_date,url
+msci-world-growth-index-105867,MSCI World Growth Index,105867,USD,1998-12-31,https://www.msci.com/indexes/index//105867
+msci-world-value-index-105868,MSCI World Value Index,105868,USD,1998-12-31,https://www.msci.com/indexes/index//105868
+msci-world-small-cap-index-106230,MSCI World Small Cap Index,106230,USD,1998-12-31,https://www.msci.com/indexes/index//106230
+msci-world-equal-weighted-index-129857,MSCI World Equal Weighted Index,129857,USD,1997-01-01,https://www.msci.com/indexes/index//129857
+msci-world-minimum-volatility-index-usd-129896,MSCI World Minimum Volatility Index (USD),129896,USD,1997-01-01,https://www.msci.com/indexes/index//129896
+msci-world-imi-index-664185,MSCI World IMI Index,664185,USD,1997-01-01,https://www.msci.com/indexes/index//664185
+msci-world-quality-index-702787,MSCI World Quality Index,702787,USD,1997-01-01,https://www.msci.com/indexes/index//702787
+msci-world-momentum-index-703755,MSCI World Momentum Index,703755,USD,1997-01-01,https://www.msci.com/indexes/index//703755
+msci-world-factor-mix-a-series-index-usd-703454,MSCI World Factor Mix A-Series Index (USD),703454,USD,1997-01-01,https://www.msci.com/indexes/index//703454
+msci-world-mid-cap-equal-weighted-index-705043,MSCI World Mid Cap Equal Weighted Index,705043,USD,1997-01-01,https://www.msci.com/indexes/index//705043
+msci-world-enhanced-value-index-705130,MSCI World Enhanced Value Index,705130,USD,1997-11-28,https://www.msci.com/indexes/index//705130
+msci-world-sector-neutral-quality-index-705169,MSCI World Sector Neutral Quality Index,705169,USD,1998-11-30,https://www.msci.com/indexes/index//705169
+msci-world-diversified-multiple-factor-index-706536,MSCI World Diversified Multiple-Factor Index,706536,USD,1998-11-30,https://www.msci.com/indexes/index//706536
+msci-world-value-advanced-index-716001,MSCI World Value Advanced Index,716001,USD,2007-11-30,https://www.msci.com/indexes/index//716001
+msci-world-quality-advanced-index-716002,MSCI World Quality Advanced Index,716002,USD,2007-11-30,https://www.msci.com/indexes/index//716002
+msci-world-minimum-volatility-advanced-index-716003,MSCI World Minimum Volatility Advanced Index,716003,USD,2007-11-30,https://www.msci.com/indexes/index//716003
+msci-world-multiple-factor-advanced-index-716004,MSCI World Multiple-Factor Advanced Index,716004,USD,2007-11-30,https://www.msci.com/indexes/index//716004
+msci-world-selection-minimum-volatility-index-usd-717716,MSCI World Selection Minimum Volatility Index (USD),717716,USD,2010-11-30,https://www.msci.com/indexes/index//717716
+msci-world-value-exposure-select-index-720342,MSCI World Value Exposure Select Index,720342,USD,1998-11-30,https://www.msci.com/indexes/index//720342
+msci-world-growth-target-index-729749,MSCI World Growth Target Index,729749,USD,1999-05-31,https://www.msci.com/indexes/index//729749
+msci-world-minimum-volatility-advanced-select-index-730529,MSCI World Minimum Volatility Advanced Select Index,730529,USD,2010-05-26,https://www.msci.com/indexes/index//730529
+msci-world-momentum-advanced-select-index-738853,MSCI World Momentum Advanced Select Index,738853,USD,2010-05-26,https://www.msci.com/indexes/index//738853
+msci-world-value-advanced-select-index-738937,MSCI World Value Advanced Select Index,738937,USD,2010-05-26,https://www.msci.com/indexes/index//738937
+msci-world-quality-advanced-select-index-747073,MSCI World Quality Advanced Select Index,747073,USD,2010-05-26,https://www.msci.com/indexes/index//747073
+msci-world-value-select-screens-advanced-index-749045,MSCI World Value Select Screens Advanced Index,749045,USD,2014-11-25,https://www.msci.com/indexes/index//749045
+msci-world-30-index-750288,MSCI World 30 Index,750288,USD,2000-05-31,https://www.msci.com/indexes/index//750288
+msci-world-40-index-750290,MSCI World 40 Index,750290,USD,2000-05-31,https://www.msci.com/indexes/index//750290
+msci-world-50-index-750292,MSCI World 50 Index,750292,USD,2000-05-31,https://www.msci.com/indexes/index//750292
+msci-world-100-index-750294,MSCI World 100 Index,750294,USD,2000-05-31,https://www.msci.com/indexes/index//750294
+msci-world-500-index-750297,MSCI World 500 Index,750297,USD,2000-05-31,https://www.msci.com/indexes/index//750297
+msci-world-1000-index-750299,MSCI World 1000 Index,750299,USD,2000-05-31,https://www.msci.com/indexes/index//750299
+msci-world-imi-value-advanced-target-index-757222,MSCI World IMI Value Advanced Target Index,757222,USD,2010-05-26,https://www.msci.com/indexes/index//757222
+msci-world-minimum-volatility-advanced-target-index-757224,MSCI World Minimum Volatility Advanced Target Index,757224,USD,2010-05-26,https://www.msci.com/indexes/index//757224
+msci-world-momentum-advanced-target-index-757225,MSCI World Momentum Advanced Target Index,757225,USD,2010-05-26,https://www.msci.com/indexes/index//757225
+msci-world-index-990100,MSCI World Index,990100,USD,1998-12-31,https://www.msci.com/indexes/index//990100
+stoxx-global-1800-index-usd,STOXX Global 1800 Index USD,SXW1,USD,2008-12-31,https://www.wsj.com/market-data/quotes/index/INDEX/XX/XSTX/SXW1
+stoxx-europe-600-index,STOXX Europe 600 Index,SXXP,EUR,1986-12-31,https://www.wsj.com/market-data/quotes/index/INDEX/XX/XSTX/SXXP
+euro-stoxx-50-index,EURO STOXX 50 Index,SX5E,EUR,1986-12-31,https://www.wsj.com/market-data/quotes/index/INDEX/XX/XSTX/SX5E
+euro-stoxx-index-eur,EURO STOXX Index EUR,SXXE,EUR,2008-12-31,https://www.wsj.com/market-data/quotes/index/INDEX/XX/XSTX/SXXE
+s&p-global-1200-index,S&P Global 1200 Index,SPG1200,USD,2008-12-31,https://www.wsj.com/market-data/quotes/index/INDEX/XX/S&P GLOBAL INDICES/SPG1200
+s&p-500-index,S&P 500 Index,SPX,USD,1978-01-03,https://www.wsj.com/market-data/quotes/index/SPX
+s&p-small-cap-600-growth-index,S&P Small Cap 600 Growth Index,SP600G,USD,2008-12-31,https://www.wsj.com/market-data/quotes/index/INDEX/XX/S&P US/SP600G
