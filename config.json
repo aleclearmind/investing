@@ -1,4 +1,6 @@
 {
   "country": "italy",
-  "reference_currency": "EUR"
+  "reference_currency": "EUR",
+  "max_date": "2025-02-28",
+  "min_date": "1999-01-04"
 }

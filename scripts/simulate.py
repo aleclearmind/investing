@@ -14,25 +14,21 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Simulate buy/sell outcomes over time using KDE.")
     parser.add_argument("index", help="Name of the index to load (must match an entry in facts/indexes/indexes.csv)")
     parser.add_argument("--hold", type=float, default=10, help="Holding period in years (default: 10)")
-    parser.add_argument("--min-date", type=str, default="1970-01", help="Minimum date (e.g., 2024-01)")
-    parser.add_argument("--max-date", type=str, default="2270-01", help="Maximum date (e.g., 2024-01)")
     parser.add_argument("--ignore-inflation", action="store_true", help="Ignore inflation adjustment.")
     parser.add_argument("--ignore-currency", action="store_true", help="Ignore currency adjustment.")
+    parser.add_argument("--years", type=str, default="max", help="Years of historical data to consider (default: max, or specify an integer)")
     return parser.parse_args()
 
 def log(message):
     print(message, file=sys.stderr)
 
-def get_last_month_end():
-    today = datetime.today()
-    first_of_this_month = today.replace(day=1)
-    last_month_end = first_of_this_month - timedelta(days=1)
-    return last_month_end
-
 def read_config():
     config_path = os.path.join(os.getcwd(), "config.json")
     with open(config_path, "r") as f:
-        return json.load(f)
+        config = json.load(f)
+        config["max_date"] = datetime.strptime(config["max_date"], "%Y-%m-%d")
+        config["min_date"] = datetime.strptime(config["min_date"], "%Y-%m-%d")
+        return config
 
 def read_csv_file(file_path, delimiter=","):
     with open(file_path, "r") as f:
@@ -47,31 +43,28 @@ def get_index_metadata(index_name):
             return index
     raise ValueError(f"Index '{index_name}' not found in {index_file}")
 
-def read_main_data(file_path, cutoff_date, min_date, max_date):
+def read_main_data(file_path, min_date, max_date):
     data = []
     for row in read_csv_file(file_path):
         date = datetime.strptime(row["date"], "%Y-%m-%d")
-        if date <= cutoff_date and min_date <= date < max_date:
+        if min_date <= date < max_date:
             value = float(row["value"])
             data.append((date, value))
     return data
 
-def read_inflation_data(file_path, cutoff_date):
+def read_inflation_data(file_path):
     inflation_data = {}
     for row in read_csv_file(file_path):
         month = row["month"]
         index = float(row["index"])
-        month_date = datetime.strptime(month, "%Y-%m")
-        if month_date <= cutoff_date:
-            inflation_data[month] = index
+        inflation_data[month] = index
     return inflation_data
 
-def read_exchange_rates(file_path, cutoff_date):
+def read_exchange_rates(file_path):
     rates = {}
     for row in read_csv_file(file_path):
         date = datetime.strptime(row["date"], "%Y-%m-%d")
-        if date <= cutoff_date:
-            rates[date] = float(row["rate"])
+        rates[date] = float(row["rate"])
     return dict(sorted(rates.items()))
 
 def get_inflation_factor(buy_date, sell_date, inflation_data):
@@ -161,11 +154,7 @@ def write_statistics(results, hold_years, index_name):
     finally:
         os.remove(lock_file)
 
-def save_kde_json(results, hold_years, kde_points, index_name):
-    sim_dir = os.path.join("simulations", index_name, str(hold_years))
-    os.makedirs(sim_dir, exist_ok=True)
-    json_path = os.path.join(sim_dir, "kde.json")
-
+def save_kde_json(results, json_path, kde_points):
     global_min = min(results)
     global_max = max(results)
     x_range = np.linspace(global_min, global_max, kde_points)
@@ -192,12 +181,11 @@ def save_kde_json(results, hold_years, kde_points, index_name):
     with open(json_path, "w") as f:
         json.dump(kde_data, f, indent=4)
 
-def parse_month(string):
-    return datetime.strptime(string, "%Y-%m")
-
 def main():
-    args = parse_args()
     config = read_config()
+    max_date = config["max_date"]
+    min_date = config["min_date"]
+    args = parse_args()
 
     country = config.get("country")
     reference_currency = config.get("reference_currency")
@@ -207,8 +195,21 @@ def main():
     assert country, "Country must be specified in config.json"
     assert reference_currency, "Reference currency must be specified in config.json"
 
-    cutoff_date = get_last_month_end()
-    log(f"Cutoff date for filtering: {cutoff_date.strftime('%Y-%m-%d')}")
+    # Compute output path once at the start
+    specific_years = args.years
+    sim_dir = os.path.join("simulations", args.index, f"hold-{args.hold}", f"years-{specific_years}")
+    json_path = os.path.join(sim_dir, "kde.json")
+    os.makedirs(sim_dir, exist_ok=True)
+
+    # Calculate effective min_date based on whether --years is not "max"
+    if args.years != "max":
+        years = int(args.years)
+        earliest_date_from_max = max_date - timedelta(days=years * 365)
+        effective_min_date = max(min_date, earliest_date_from_max)
+    else:
+        effective_min_date = min_date
+    
+    log(f"Considering data from {effective_min_date.strftime('%Y-%m-%d')} to {max_date.strftime('%Y-%m-%d')}")
 
     metadata = get_index_metadata(args.index)
     index_currency = metadata["currency"]
@@ -218,19 +219,25 @@ def main():
     exchange_file = os.path.join("facts", "exchange-rates", f"{reference_currency.lower()}-{index_currency.lower()}.csv")
 
     log(f"Reading index data from: {index_file}")
-    data = read_main_data(index_file, cutoff_date, parse_month(args.min_date), parse_month(args.max_date))
+    data = read_main_data(index_file, effective_min_date, max_date)
+
+    # If --years is not "max", check if data spans less than specified years
+    if args.years != "max" and data:
+        years = int(args.years)
+        data_span_years = (data[-1][0] - data[0][0]).days / 365.0
+        if data_span_years < years:
+            log(f"Data span ({data_span_years:.2f} years) is less than requested years ({years}). Emitting empty JSON.")
+            with open(json_path, "w") as f:
+                json.dump({}, f)
+            return
 
     log(f"Reading inflation data from: {inflation_file}")
-    inflation_data = read_inflation_data(inflation_file, cutoff_date)
+    inflation_data = read_inflation_data(inflation_file)
 
     ignore_currency = args.ignore_currency or (reference_currency.lower() == index_currency.lower())
     if ignore_currency:
         log("Skipping currency correction due to flag or matching currencies.")
-
-    exchange_rates = {}
-    if not ignore_currency:
-        log(f"Reading exchange rate data from: {exchange_file}")
-        exchange_rates = read_exchange_rates(exchange_file, cutoff_date)
+    exchange_rates = {} if ignore_currency else read_exchange_rates(exchange_file)
 
     log(f"Simulating for hold period: {args.hold} years")
     results = simulate_trades(
@@ -245,7 +252,7 @@ def main():
 
     if results:
         write_statistics(results, args.hold, args.index)
-        save_kde_json(results, args.hold, kde_points, args.index)
+        save_kde_json(results, json_path, kde_points)
 
 if __name__ == "__main__":
     main()
