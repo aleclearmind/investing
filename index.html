@@ -54,22 +54,31 @@
       .navbar { background-color: ${COLORS.navbar} !important; border-radius: 10px; padding: 5px 10px; }
       a { color: ${COLORS.link}; }
       a:hover { color: ${COLORS.linkHover}; }
-      .horizon-select { min-width: 120px; max-width: 120px; }
+      .horizon-select { min-width: 120px; max-width: 30%; }
       .table { margin-bottom: 20px; }
       .table td.number, .table th.number { text-align: right; }
       .sort-link { text-decoration: none; margin-left: 5px; }
       .sort-link:hover { color: ${COLORS.linkHover}; }
     `;
 
-    const HORIZONS = [
-      { value: '3.0', label: '3 Years' },
-      { value: '5.0', label: '5 Years' },
-      { value: '10.0', label: '10 Years' }
-    ];
+    const COMBINATIONS = (() => {
+      const yearsOptions = [10, 15, 20, 25, 30, 'max'];
+      const holdOptions = [1.0, 3.0, 5.0, 10.0];
+      return yearsOptions.flatMap(years =>
+        holdOptions.map(hold => ({
+          hold: hold.toFixed(1),
+          years,
+          value: `hold-${hold.toFixed(1)}/years-${years}`,
+          label: `Hold for ${hold} / Data for ${years === 'max' ? 'Max' : years}`
+        }))
+      ).filter(value => value.years =="max" || (value.years > new Number(value.hold)));
+    })();
+
+    console.log(COMBINATIONS);
 
     const app = document.getElementById('app');
     const router = new Navigo(baseUrl, { hash: true });
-    let selectedHorizon = localStorage.getItem('selectedHorizon') || HORIZONS[0].value;
+    let selectedCombo = localStorage.getItem('selectedCombo') || COMBINATIONS[0].value;
     let indexesMeta = {}, simulationsData = {}, etfsData = [], currentIndexName = null;
     let sortState = JSON.parse(localStorage.getItem('sortState')) || { column: 0, ascending: true };
 
@@ -96,8 +105,8 @@
     ];
 
     const horizonSelect = document.getElementById('horizonSelect');
-    horizonSelect.innerHTML = HORIZONS.map(h => `<option value="${h.value}">${h.label}</option>`).join('');
-    horizonSelect.value = selectedHorizon;
+    horizonSelect.innerHTML = COMBINATIONS.map(c => `<option value="${c.value}">${c.label}</option>`).join('');
+    horizonSelect.value = selectedCombo;
 
     // Centralized CSV Parsing
     function parseCSV(csvData) {
@@ -140,9 +149,10 @@
 
     function loadSimulationsData() {
       return fetchCSV('simulations/indexes.csv').then(rows => {
-        rows.forEach(([index, hold_years, simulations, mean, median, std_dev, min, max]) => {
+        rows.forEach(([index, hold_years, total_years, simulations, mean, median, std_dev, min, max]) => {
           if (!simulationsData[index]) simulationsData[index] = {};
-          simulationsData[index][hold_years] = {
+          const key = `hold-${hold_years}/years-${total_years}`;
+          simulationsData[index][key] = {
             simulations: Math.round(Number(simulations)),
             mean: Number(mean).toFixed(2),
             median: Number(median).toFixed(2),
@@ -193,7 +203,7 @@
     // Rendering Functions
     function renderTable() {
       const indexesData = Object.keys(indexesMeta).map(name => ({
-        name, meta: indexesMeta[name], simData: simulationsData[name]?.[selectedHorizon] || {},
+        name, meta: indexesMeta[name], simData: simulationsData[name]?.[selectedCombo] || {},
         etfCount: etfsData.filter(etf => etf.indexName === name).length
       }));
       indexesData.sort((a, b) => sortState.ascending ? columns[sortState.column].sort(a, b) : columns[sortState.column].sort(b, a));
@@ -273,10 +283,12 @@
     }
 
     function updateKDE(name) {
-      fetch(`${baseUrl}simulations/${name}/${selectedHorizon}/kde.json`)
+      const [hold, years] = selectedCombo.split('/').map(part => part.split('-')[1]);
+      document.getElementById('kdePlot').innerHTML = "";
+      fetch(`${baseUrl}simulations/${name}/hold-${hold}/years-${years}/kde.json`)
         .then(res => res.json())
         .then(data => renderKDE('kdePlot', data))
-        .catch(() => document.getElementById('kdePlot').innerHTML = `<p class="text-danger">No data for ${selectedHorizon}-year simulation.</p>`);
+        .catch(() => document.getElementById('kdePlot').innerHTML = `<p class="text-danger">No data for ${hold}-year hold / ${years}-year simulation.</p>`);
     }
 
     function renderEtfsTable(name) {
@@ -340,8 +352,8 @@
 
     // Event Listeners and Routing
     horizonSelect.addEventListener('change', e => {
-      selectedHorizon = e.target.value;
-      localStorage.setItem('selectedHorizon', selectedHorizon);
+      selectedCombo = e.target.value;
+      localStorage.setItem('selectedCombo', selectedCombo);
       if (document.getElementById('indexesTable')) renderTable();
       if (currentIndexName) updateKDE(currentIndexName);
     });
