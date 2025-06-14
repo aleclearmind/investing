@@ -62,22 +62,6 @@ build simulations/euro-stoxx-50-index/hold-10.0/years-25/kde.json: generate_kde 
   YEARS = 25
   HOLD = 10.0
   INDEX = euro-stoxx-50-index
-build simulations/euro-stoxx-50-index/hold-1.0/years-30/kde.json: generate_kde facts/indexes/euro-stoxx-50-index.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = euro-stoxx-50-index
-build simulations/euro-stoxx-50-index/hold-3.0/years-30/kde.json: generate_kde facts/indexes/euro-stoxx-50-index.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = euro-stoxx-50-index
-build simulations/euro-stoxx-50-index/hold-5.0/years-30/kde.json: generate_kde facts/indexes/euro-stoxx-50-index.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = euro-stoxx-50-index
-build simulations/euro-stoxx-50-index/hold-10.0/years-30/kde.json: generate_kde facts/indexes/euro-stoxx-50-index.csv
-  YEARS = 30
-  HOLD = 10.0
-  INDEX = euro-stoxx-50-index
 build simulations/euro-stoxx-50-index/hold-1.0/years-max/kde.json: generate_kde facts/indexes/euro-stoxx-50-index.csv
   YEARS = max
   HOLD = 1.0
@@ -152,22 +136,6 @@ build simulations/euro-stoxx-index-eur/hold-5.0/years-25/kde.json: generate_kde 
   INDEX = euro-stoxx-index-eur
 build simulations/euro-stoxx-index-eur/hold-10.0/years-25/kde.json: generate_kde facts/indexes/euro-stoxx-index-eur.csv
   YEARS = 25
-  HOLD = 10.0
-  INDEX = euro-stoxx-index-eur
-build simulations/euro-stoxx-index-eur/hold-1.0/years-30/kde.json: generate_kde facts/indexes/euro-stoxx-index-eur.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = euro-stoxx-index-eur
-build simulations/euro-stoxx-index-eur/hold-3.0/years-30/kde.json: generate_kde facts/indexes/euro-stoxx-index-eur.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = euro-stoxx-index-eur
-build simulations/euro-stoxx-index-eur/hold-5.0/years-30/kde.json: generate_kde facts/indexes/euro-stoxx-index-eur.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = euro-stoxx-index-eur
-build simulations/euro-stoxx-index-eur/hold-10.0/years-30/kde.json: generate_kde facts/indexes/euro-stoxx-index-eur.csv
-  YEARS = 30
   HOLD = 10.0
   INDEX = euro-stoxx-index-eur
 build simulations/euro-stoxx-index-eur/hold-1.0/years-max/kde.json: generate_kde facts/indexes/euro-stoxx-index-eur.csv
@@ -246,22 +214,6 @@ build simulations/msci-world-100-index-750294/hold-10.0/years-25/kde.json: gener
   YEARS = 25
   HOLD = 10.0
   INDEX = msci-world-100-index-750294
-build simulations/msci-world-100-index-750294/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-100-index-750294.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-100-index-750294
-build simulations/msci-world-100-index-750294/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-100-index-750294.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-100-index-750294
-build simulations/msci-world-100-index-750294/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-100-index-750294.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-100-index-750294
-build simulations/msci-world-100-index-750294/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-100-index-750294.csv
-  YEARS = 30
-  HOLD = 10.0
-  INDEX = msci-world-100-index-750294
 build simulations/msci-world-100-index-750294/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-100-index-750294.csv
   YEARS = max
   HOLD = 1.0
@@ -336,22 +288,6 @@ build simulations/msci-world-1000-index-750299/hold-5.0/years-25/kde.json: gener
   INDEX = msci-world-1000-index-750299
 build simulations/msci-world-1000-index-750299/hold-10.0/years-25/kde.json: generate_kde facts/indexes/msci-world-1000-index-750299.csv
   YEARS = 25
-  HOLD = 10.0
-  INDEX = msci-world-1000-index-750299
-build simulations/msci-world-1000-index-750299/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-1000-index-750299.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-1000-index-750299
-build simulations/msci-world-1000-index-750299/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-1000-index-750299.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-1000-index-750299
-build simulations/msci-world-1000-index-750299/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-1000-index-750299.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-1000-index-750299
-build simulations/msci-world-1000-index-750299/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-1000-index-750299.csv
-  YEARS = 30
   HOLD = 10.0
   INDEX = msci-world-1000-index-750299
 build simulations/msci-world-1000-index-750299/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-1000-index-750299.csv
@@ -430,22 +366,6 @@ build simulations/msci-world-30-index-750288/hold-10.0/years-25/kde.json: genera
   YEARS = 25
   HOLD = 10.0
   INDEX = msci-world-30-index-750288
-build simulations/msci-world-30-index-750288/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-30-index-750288.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-30-index-750288
-build simulations/msci-world-30-index-750288/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-30-index-750288.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-30-index-750288
-build simulations/msci-world-30-index-750288/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-30-index-750288.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-30-index-750288
-build simulations/msci-world-30-index-750288/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-30-index-750288.csv
-  YEARS = 30
-  HOLD = 10.0
-  INDEX = msci-world-30-index-750288
 build simulations/msci-world-30-index-750288/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-30-index-750288.csv
   YEARS = max
   HOLD = 1.0
@@ -520,22 +440,6 @@ build simulations/msci-world-40-index-750290/hold-5.0/years-25/kde.json: generat
   INDEX = msci-world-40-index-750290
 build simulations/msci-world-40-index-750290/hold-10.0/years-25/kde.json: generate_kde facts/indexes/msci-world-40-index-750290.csv
   YEARS = 25
-  HOLD = 10.0
-  INDEX = msci-world-40-index-750290
-build simulations/msci-world-40-index-750290/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-40-index-750290.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-40-index-750290
-build simulations/msci-world-40-index-750290/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-40-index-750290.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-40-index-750290
-build simulations/msci-world-40-index-750290/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-40-index-750290.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-40-index-750290
-build simulations/msci-world-40-index-750290/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-40-index-750290.csv
-  YEARS = 30
   HOLD = 10.0
   INDEX = msci-world-40-index-750290
 build simulations/msci-world-40-index-750290/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-40-index-750290.csv
@@ -614,22 +518,6 @@ build simulations/msci-world-50-index-750292/hold-10.0/years-25/kde.json: genera
   YEARS = 25
   HOLD = 10.0
   INDEX = msci-world-50-index-750292
-build simulations/msci-world-50-index-750292/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-50-index-750292.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-50-index-750292
-build simulations/msci-world-50-index-750292/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-50-index-750292.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-50-index-750292
-build simulations/msci-world-50-index-750292/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-50-index-750292.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-50-index-750292
-build simulations/msci-world-50-index-750292/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-50-index-750292.csv
-  YEARS = 30
-  HOLD = 10.0
-  INDEX = msci-world-50-index-750292
 build simulations/msci-world-50-index-750292/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-50-index-750292.csv
   YEARS = max
   HOLD = 1.0
@@ -704,22 +592,6 @@ build simulations/msci-world-500-index-750297/hold-5.0/years-25/kde.json: genera
   INDEX = msci-world-500-index-750297
 build simulations/msci-world-500-index-750297/hold-10.0/years-25/kde.json: generate_kde facts/indexes/msci-world-500-index-750297.csv
   YEARS = 25
-  HOLD = 10.0
-  INDEX = msci-world-500-index-750297
-build simulations/msci-world-500-index-750297/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-500-index-750297.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-500-index-750297
-build simulations/msci-world-500-index-750297/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-500-index-750297.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-500-index-750297
-build simulations/msci-world-500-index-750297/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-500-index-750297.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-500-index-750297
-build simulations/msci-world-500-index-750297/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-500-index-750297.csv
-  YEARS = 30
   HOLD = 10.0
   INDEX = msci-world-500-index-750297
 build simulations/msci-world-500-index-750297/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-500-index-750297.csv
@@ -798,22 +670,6 @@ build simulations/msci-world-diversified-multiple-factor-index-706536/hold-10.0/
   YEARS = 25
   HOLD = 10.0
   INDEX = msci-world-diversified-multiple-factor-index-706536
-build simulations/msci-world-diversified-multiple-factor-index-706536/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-diversified-multiple-factor-index-706536.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-diversified-multiple-factor-index-706536
-build simulations/msci-world-diversified-multiple-factor-index-706536/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-diversified-multiple-factor-index-706536.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-diversified-multiple-factor-index-706536
-build simulations/msci-world-diversified-multiple-factor-index-706536/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-diversified-multiple-factor-index-706536.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-diversified-multiple-factor-index-706536
-build simulations/msci-world-diversified-multiple-factor-index-706536/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-diversified-multiple-factor-index-706536.csv
-  YEARS = 30
-  HOLD = 10.0
-  INDEX = msci-world-diversified-multiple-factor-index-706536
 build simulations/msci-world-diversified-multiple-factor-index-706536/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-diversified-multiple-factor-index-706536.csv
   YEARS = max
   HOLD = 1.0
@@ -888,22 +744,6 @@ build simulations/msci-world-enhanced-value-index-705130/hold-5.0/years-25/kde.j
   INDEX = msci-world-enhanced-value-index-705130
 build simulations/msci-world-enhanced-value-index-705130/hold-10.0/years-25/kde.json: generate_kde facts/indexes/msci-world-enhanced-value-index-705130.csv
   YEARS = 25
-  HOLD = 10.0
-  INDEX = msci-world-enhanced-value-index-705130
-build simulations/msci-world-enhanced-value-index-705130/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-enhanced-value-index-705130.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-enhanced-value-index-705130
-build simulations/msci-world-enhanced-value-index-705130/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-enhanced-value-index-705130.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-enhanced-value-index-705130
-build simulations/msci-world-enhanced-value-index-705130/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-enhanced-value-index-705130.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-enhanced-value-index-705130
-build simulations/msci-world-enhanced-value-index-705130/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-enhanced-value-index-705130.csv
-  YEARS = 30
   HOLD = 10.0
   INDEX = msci-world-enhanced-value-index-705130
 build simulations/msci-world-enhanced-value-index-705130/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-enhanced-value-index-705130.csv
@@ -982,22 +822,6 @@ build simulations/msci-world-equal-weighted-index-129857/hold-10.0/years-25/kde.
   YEARS = 25
   HOLD = 10.0
   INDEX = msci-world-equal-weighted-index-129857
-build simulations/msci-world-equal-weighted-index-129857/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-equal-weighted-index-129857.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-equal-weighted-index-129857
-build simulations/msci-world-equal-weighted-index-129857/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-equal-weighted-index-129857.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-equal-weighted-index-129857
-build simulations/msci-world-equal-weighted-index-129857/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-equal-weighted-index-129857.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-equal-weighted-index-129857
-build simulations/msci-world-equal-weighted-index-129857/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-equal-weighted-index-129857.csv
-  YEARS = 30
-  HOLD = 10.0
-  INDEX = msci-world-equal-weighted-index-129857
 build simulations/msci-world-equal-weighted-index-129857/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-equal-weighted-index-129857.csv
   YEARS = max
   HOLD = 1.0
@@ -1072,22 +896,6 @@ build simulations/msci-world-factor-mix-a-series-index-usd-703454/hold-5.0/years
   INDEX = msci-world-factor-mix-a-series-index-usd-703454
 build simulations/msci-world-factor-mix-a-series-index-usd-703454/hold-10.0/years-25/kde.json: generate_kde facts/indexes/msci-world-factor-mix-a-series-index-usd-703454.csv
   YEARS = 25
-  HOLD = 10.0
-  INDEX = msci-world-factor-mix-a-series-index-usd-703454
-build simulations/msci-world-factor-mix-a-series-index-usd-703454/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-factor-mix-a-series-index-usd-703454.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-factor-mix-a-series-index-usd-703454
-build simulations/msci-world-factor-mix-a-series-index-usd-703454/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-factor-mix-a-series-index-usd-703454.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-factor-mix-a-series-index-usd-703454
-build simulations/msci-world-factor-mix-a-series-index-usd-703454/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-factor-mix-a-series-index-usd-703454.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-factor-mix-a-series-index-usd-703454
-build simulations/msci-world-factor-mix-a-series-index-usd-703454/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-factor-mix-a-series-index-usd-703454.csv
-  YEARS = 30
   HOLD = 10.0
   INDEX = msci-world-factor-mix-a-series-index-usd-703454
 build simulations/msci-world-factor-mix-a-series-index-usd-703454/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-factor-mix-a-series-index-usd-703454.csv
@@ -1166,22 +974,6 @@ build simulations/msci-world-growth-index-105867/hold-10.0/years-25/kde.json: ge
   YEARS = 25
   HOLD = 10.0
   INDEX = msci-world-growth-index-105867
-build simulations/msci-world-growth-index-105867/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-growth-index-105867.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-growth-index-105867
-build simulations/msci-world-growth-index-105867/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-growth-index-105867.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-growth-index-105867
-build simulations/msci-world-growth-index-105867/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-growth-index-105867.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-growth-index-105867
-build simulations/msci-world-growth-index-105867/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-growth-index-105867.csv
-  YEARS = 30
-  HOLD = 10.0
-  INDEX = msci-world-growth-index-105867
 build simulations/msci-world-growth-index-105867/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-growth-index-105867.csv
   YEARS = max
   HOLD = 1.0
@@ -1256,22 +1048,6 @@ build simulations/msci-world-growth-target-index-729749/hold-5.0/years-25/kde.js
   INDEX = msci-world-growth-target-index-729749
 build simulations/msci-world-growth-target-index-729749/hold-10.0/years-25/kde.json: generate_kde facts/indexes/msci-world-growth-target-index-729749.csv
   YEARS = 25
-  HOLD = 10.0
-  INDEX = msci-world-growth-target-index-729749
-build simulations/msci-world-growth-target-index-729749/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-growth-target-index-729749.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-growth-target-index-729749
-build simulations/msci-world-growth-target-index-729749/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-growth-target-index-729749.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-growth-target-index-729749
-build simulations/msci-world-growth-target-index-729749/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-growth-target-index-729749.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-growth-target-index-729749
-build simulations/msci-world-growth-target-index-729749/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-growth-target-index-729749.csv
-  YEARS = 30
   HOLD = 10.0
   INDEX = msci-world-growth-target-index-729749
 build simulations/msci-world-growth-target-index-729749/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-growth-target-index-729749.csv
@@ -1350,22 +1126,6 @@ build simulations/msci-world-imi-index-664185/hold-10.0/years-25/kde.json: gener
   YEARS = 25
   HOLD = 10.0
   INDEX = msci-world-imi-index-664185
-build simulations/msci-world-imi-index-664185/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-imi-index-664185.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-imi-index-664185
-build simulations/msci-world-imi-index-664185/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-imi-index-664185.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-imi-index-664185
-build simulations/msci-world-imi-index-664185/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-imi-index-664185.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-imi-index-664185
-build simulations/msci-world-imi-index-664185/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-imi-index-664185.csv
-  YEARS = 30
-  HOLD = 10.0
-  INDEX = msci-world-imi-index-664185
 build simulations/msci-world-imi-index-664185/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-imi-index-664185.csv
   YEARS = max
   HOLD = 1.0
@@ -1440,22 +1200,6 @@ build simulations/msci-world-imi-value-advanced-target-index-757222/hold-5.0/yea
   INDEX = msci-world-imi-value-advanced-target-index-757222
 build simulations/msci-world-imi-value-advanced-target-index-757222/hold-10.0/years-25/kde.json: generate_kde facts/indexes/msci-world-imi-value-advanced-target-index-757222.csv
   YEARS = 25
-  HOLD = 10.0
-  INDEX = msci-world-imi-value-advanced-target-index-757222
-build simulations/msci-world-imi-value-advanced-target-index-757222/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-imi-value-advanced-target-index-757222.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-imi-value-advanced-target-index-757222
-build simulations/msci-world-imi-value-advanced-target-index-757222/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-imi-value-advanced-target-index-757222.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-imi-value-advanced-target-index-757222
-build simulations/msci-world-imi-value-advanced-target-index-757222/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-imi-value-advanced-target-index-757222.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-imi-value-advanced-target-index-757222
-build simulations/msci-world-imi-value-advanced-target-index-757222/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-imi-value-advanced-target-index-757222.csv
-  YEARS = 30
   HOLD = 10.0
   INDEX = msci-world-imi-value-advanced-target-index-757222
 build simulations/msci-world-imi-value-advanced-target-index-757222/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-imi-value-advanced-target-index-757222.csv
@@ -1534,22 +1278,6 @@ build simulations/msci-world-index-990100/hold-10.0/years-25/kde.json: generate_
   YEARS = 25
   HOLD = 10.0
   INDEX = msci-world-index-990100
-build simulations/msci-world-index-990100/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-index-990100.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-index-990100
-build simulations/msci-world-index-990100/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-index-990100.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-index-990100
-build simulations/msci-world-index-990100/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-index-990100.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-index-990100
-build simulations/msci-world-index-990100/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-index-990100.csv
-  YEARS = 30
-  HOLD = 10.0
-  INDEX = msci-world-index-990100
 build simulations/msci-world-index-990100/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-index-990100.csv
   YEARS = max
   HOLD = 1.0
@@ -1624,22 +1352,6 @@ build simulations/msci-world-mid-cap-equal-weighted-index-705043/hold-5.0/years-
   INDEX = msci-world-mid-cap-equal-weighted-index-705043
 build simulations/msci-world-mid-cap-equal-weighted-index-705043/hold-10.0/years-25/kde.json: generate_kde facts/indexes/msci-world-mid-cap-equal-weighted-index-705043.csv
   YEARS = 25
-  HOLD = 10.0
-  INDEX = msci-world-mid-cap-equal-weighted-index-705043
-build simulations/msci-world-mid-cap-equal-weighted-index-705043/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-mid-cap-equal-weighted-index-705043.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-mid-cap-equal-weighted-index-705043
-build simulations/msci-world-mid-cap-equal-weighted-index-705043/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-mid-cap-equal-weighted-index-705043.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-mid-cap-equal-weighted-index-705043
-build simulations/msci-world-mid-cap-equal-weighted-index-705043/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-mid-cap-equal-weighted-index-705043.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-mid-cap-equal-weighted-index-705043
-build simulations/msci-world-mid-cap-equal-weighted-index-705043/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-mid-cap-equal-weighted-index-705043.csv
-  YEARS = 30
   HOLD = 10.0
   INDEX = msci-world-mid-cap-equal-weighted-index-705043
 build simulations/msci-world-mid-cap-equal-weighted-index-705043/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-mid-cap-equal-weighted-index-705043.csv
@@ -1718,22 +1430,6 @@ build simulations/msci-world-minimum-volatility-advanced-index-716003/hold-10.0/
   YEARS = 25
   HOLD = 10.0
   INDEX = msci-world-minimum-volatility-advanced-index-716003
-build simulations/msci-world-minimum-volatility-advanced-index-716003/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-minimum-volatility-advanced-index-716003.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-minimum-volatility-advanced-index-716003
-build simulations/msci-world-minimum-volatility-advanced-index-716003/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-minimum-volatility-advanced-index-716003.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-minimum-volatility-advanced-index-716003
-build simulations/msci-world-minimum-volatility-advanced-index-716003/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-minimum-volatility-advanced-index-716003.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-minimum-volatility-advanced-index-716003
-build simulations/msci-world-minimum-volatility-advanced-index-716003/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-minimum-volatility-advanced-index-716003.csv
-  YEARS = 30
-  HOLD = 10.0
-  INDEX = msci-world-minimum-volatility-advanced-index-716003
 build simulations/msci-world-minimum-volatility-advanced-index-716003/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-minimum-volatility-advanced-index-716003.csv
   YEARS = max
   HOLD = 1.0
@@ -1808,22 +1504,6 @@ build simulations/msci-world-minimum-volatility-advanced-select-index-730529/hol
   INDEX = msci-world-minimum-volatility-advanced-select-index-730529
 build simulations/msci-world-minimum-volatility-advanced-select-index-730529/hold-10.0/years-25/kde.json: generate_kde facts/indexes/msci-world-minimum-volatility-advanced-select-index-730529.csv
   YEARS = 25
-  HOLD = 10.0
-  INDEX = msci-world-minimum-volatility-advanced-select-index-730529
-build simulations/msci-world-minimum-volatility-advanced-select-index-730529/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-minimum-volatility-advanced-select-index-730529.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-minimum-volatility-advanced-select-index-730529
-build simulations/msci-world-minimum-volatility-advanced-select-index-730529/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-minimum-volatility-advanced-select-index-730529.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-minimum-volatility-advanced-select-index-730529
-build simulations/msci-world-minimum-volatility-advanced-select-index-730529/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-minimum-volatility-advanced-select-index-730529.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-minimum-volatility-advanced-select-index-730529
-build simulations/msci-world-minimum-volatility-advanced-select-index-730529/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-minimum-volatility-advanced-select-index-730529.csv
-  YEARS = 30
   HOLD = 10.0
   INDEX = msci-world-minimum-volatility-advanced-select-index-730529
 build simulations/msci-world-minimum-volatility-advanced-select-index-730529/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-minimum-volatility-advanced-select-index-730529.csv
@@ -1902,22 +1582,6 @@ build simulations/msci-world-minimum-volatility-advanced-target-index-757224/hol
   YEARS = 25
   HOLD = 10.0
   INDEX = msci-world-minimum-volatility-advanced-target-index-757224
-build simulations/msci-world-minimum-volatility-advanced-target-index-757224/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-minimum-volatility-advanced-target-index-757224.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-minimum-volatility-advanced-target-index-757224
-build simulations/msci-world-minimum-volatility-advanced-target-index-757224/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-minimum-volatility-advanced-target-index-757224.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-minimum-volatility-advanced-target-index-757224
-build simulations/msci-world-minimum-volatility-advanced-target-index-757224/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-minimum-volatility-advanced-target-index-757224.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-minimum-volatility-advanced-target-index-757224
-build simulations/msci-world-minimum-volatility-advanced-target-index-757224/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-minimum-volatility-advanced-target-index-757224.csv
-  YEARS = 30
-  HOLD = 10.0
-  INDEX = msci-world-minimum-volatility-advanced-target-index-757224
 build simulations/msci-world-minimum-volatility-advanced-target-index-757224/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-minimum-volatility-advanced-target-index-757224.csv
   YEARS = max
   HOLD = 1.0
@@ -1992,22 +1656,6 @@ build simulations/msci-world-minimum-volatility-index-usd-129896/hold-5.0/years-
   INDEX = msci-world-minimum-volatility-index-usd-129896
 build simulations/msci-world-minimum-volatility-index-usd-129896/hold-10.0/years-25/kde.json: generate_kde facts/indexes/msci-world-minimum-volatility-index-usd-129896.csv
   YEARS = 25
-  HOLD = 10.0
-  INDEX = msci-world-minimum-volatility-index-usd-129896
-build simulations/msci-world-minimum-volatility-index-usd-129896/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-minimum-volatility-index-usd-129896.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-minimum-volatility-index-usd-129896
-build simulations/msci-world-minimum-volatility-index-usd-129896/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-minimum-volatility-index-usd-129896.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-minimum-volatility-index-usd-129896
-build simulations/msci-world-minimum-volatility-index-usd-129896/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-minimum-volatility-index-usd-129896.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-minimum-volatility-index-usd-129896
-build simulations/msci-world-minimum-volatility-index-usd-129896/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-minimum-volatility-index-usd-129896.csv
-  YEARS = 30
   HOLD = 10.0
   INDEX = msci-world-minimum-volatility-index-usd-129896
 build simulations/msci-world-minimum-volatility-index-usd-129896/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-minimum-volatility-index-usd-129896.csv
@@ -2086,22 +1734,6 @@ build simulations/msci-world-momentum-advanced-select-index-738853/hold-10.0/yea
   YEARS = 25
   HOLD = 10.0
   INDEX = msci-world-momentum-advanced-select-index-738853
-build simulations/msci-world-momentum-advanced-select-index-738853/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-momentum-advanced-select-index-738853.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-momentum-advanced-select-index-738853
-build simulations/msci-world-momentum-advanced-select-index-738853/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-momentum-advanced-select-index-738853.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-momentum-advanced-select-index-738853
-build simulations/msci-world-momentum-advanced-select-index-738853/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-momentum-advanced-select-index-738853.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-momentum-advanced-select-index-738853
-build simulations/msci-world-momentum-advanced-select-index-738853/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-momentum-advanced-select-index-738853.csv
-  YEARS = 30
-  HOLD = 10.0
-  INDEX = msci-world-momentum-advanced-select-index-738853
 build simulations/msci-world-momentum-advanced-select-index-738853/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-momentum-advanced-select-index-738853.csv
   YEARS = max
   HOLD = 1.0
@@ -2176,22 +1808,6 @@ build simulations/msci-world-momentum-advanced-target-index-757225/hold-5.0/year
   INDEX = msci-world-momentum-advanced-target-index-757225
 build simulations/msci-world-momentum-advanced-target-index-757225/hold-10.0/years-25/kde.json: generate_kde facts/indexes/msci-world-momentum-advanced-target-index-757225.csv
   YEARS = 25
-  HOLD = 10.0
-  INDEX = msci-world-momentum-advanced-target-index-757225
-build simulations/msci-world-momentum-advanced-target-index-757225/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-momentum-advanced-target-index-757225.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-momentum-advanced-target-index-757225
-build simulations/msci-world-momentum-advanced-target-index-757225/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-momentum-advanced-target-index-757225.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-momentum-advanced-target-index-757225
-build simulations/msci-world-momentum-advanced-target-index-757225/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-momentum-advanced-target-index-757225.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-momentum-advanced-target-index-757225
-build simulations/msci-world-momentum-advanced-target-index-757225/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-momentum-advanced-target-index-757225.csv
-  YEARS = 30
   HOLD = 10.0
   INDEX = msci-world-momentum-advanced-target-index-757225
 build simulations/msci-world-momentum-advanced-target-index-757225/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-momentum-advanced-target-index-757225.csv
@@ -2270,22 +1886,6 @@ build simulations/msci-world-momentum-index-703755/hold-10.0/years-25/kde.json: 
   YEARS = 25
   HOLD = 10.0
   INDEX = msci-world-momentum-index-703755
-build simulations/msci-world-momentum-index-703755/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-momentum-index-703755.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-momentum-index-703755
-build simulations/msci-world-momentum-index-703755/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-momentum-index-703755.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-momentum-index-703755
-build simulations/msci-world-momentum-index-703755/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-momentum-index-703755.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-momentum-index-703755
-build simulations/msci-world-momentum-index-703755/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-momentum-index-703755.csv
-  YEARS = 30
-  HOLD = 10.0
-  INDEX = msci-world-momentum-index-703755
 build simulations/msci-world-momentum-index-703755/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-momentum-index-703755.csv
   YEARS = max
   HOLD = 1.0
@@ -2360,22 +1960,6 @@ build simulations/msci-world-multiple-factor-advanced-index-716004/hold-5.0/year
   INDEX = msci-world-multiple-factor-advanced-index-716004
 build simulations/msci-world-multiple-factor-advanced-index-716004/hold-10.0/years-25/kde.json: generate_kde facts/indexes/msci-world-multiple-factor-advanced-index-716004.csv
   YEARS = 25
-  HOLD = 10.0
-  INDEX = msci-world-multiple-factor-advanced-index-716004
-build simulations/msci-world-multiple-factor-advanced-index-716004/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-multiple-factor-advanced-index-716004.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-multiple-factor-advanced-index-716004
-build simulations/msci-world-multiple-factor-advanced-index-716004/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-multiple-factor-advanced-index-716004.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-multiple-factor-advanced-index-716004
-build simulations/msci-world-multiple-factor-advanced-index-716004/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-multiple-factor-advanced-index-716004.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-multiple-factor-advanced-index-716004
-build simulations/msci-world-multiple-factor-advanced-index-716004/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-multiple-factor-advanced-index-716004.csv
-  YEARS = 30
   HOLD = 10.0
   INDEX = msci-world-multiple-factor-advanced-index-716004
 build simulations/msci-world-multiple-factor-advanced-index-716004/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-multiple-factor-advanced-index-716004.csv
@@ -2454,22 +2038,6 @@ build simulations/msci-world-quality-advanced-index-716002/hold-10.0/years-25/kd
   YEARS = 25
   HOLD = 10.0
   INDEX = msci-world-quality-advanced-index-716002
-build simulations/msci-world-quality-advanced-index-716002/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-quality-advanced-index-716002.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-quality-advanced-index-716002
-build simulations/msci-world-quality-advanced-index-716002/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-quality-advanced-index-716002.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-quality-advanced-index-716002
-build simulations/msci-world-quality-advanced-index-716002/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-quality-advanced-index-716002.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-quality-advanced-index-716002
-build simulations/msci-world-quality-advanced-index-716002/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-quality-advanced-index-716002.csv
-  YEARS = 30
-  HOLD = 10.0
-  INDEX = msci-world-quality-advanced-index-716002
 build simulations/msci-world-quality-advanced-index-716002/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-quality-advanced-index-716002.csv
   YEARS = max
   HOLD = 1.0
@@ -2544,22 +2112,6 @@ build simulations/msci-world-quality-advanced-select-index-747073/hold-5.0/years
   INDEX = msci-world-quality-advanced-select-index-747073
 build simulations/msci-world-quality-advanced-select-index-747073/hold-10.0/years-25/kde.json: generate_kde facts/indexes/msci-world-quality-advanced-select-index-747073.csv
   YEARS = 25
-  HOLD = 10.0
-  INDEX = msci-world-quality-advanced-select-index-747073
-build simulations/msci-world-quality-advanced-select-index-747073/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-quality-advanced-select-index-747073.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-quality-advanced-select-index-747073
-build simulations/msci-world-quality-advanced-select-index-747073/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-quality-advanced-select-index-747073.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-quality-advanced-select-index-747073
-build simulations/msci-world-quality-advanced-select-index-747073/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-quality-advanced-select-index-747073.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-quality-advanced-select-index-747073
-build simulations/msci-world-quality-advanced-select-index-747073/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-quality-advanced-select-index-747073.csv
-  YEARS = 30
   HOLD = 10.0
   INDEX = msci-world-quality-advanced-select-index-747073
 build simulations/msci-world-quality-advanced-select-index-747073/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-quality-advanced-select-index-747073.csv
@@ -2638,22 +2190,6 @@ build simulations/msci-world-quality-index-702787/hold-10.0/years-25/kde.json: g
   YEARS = 25
   HOLD = 10.0
   INDEX = msci-world-quality-index-702787
-build simulations/msci-world-quality-index-702787/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-quality-index-702787.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-quality-index-702787
-build simulations/msci-world-quality-index-702787/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-quality-index-702787.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-quality-index-702787
-build simulations/msci-world-quality-index-702787/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-quality-index-702787.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-quality-index-702787
-build simulations/msci-world-quality-index-702787/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-quality-index-702787.csv
-  YEARS = 30
-  HOLD = 10.0
-  INDEX = msci-world-quality-index-702787
 build simulations/msci-world-quality-index-702787/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-quality-index-702787.csv
   YEARS = max
   HOLD = 1.0
@@ -2728,22 +2264,6 @@ build simulations/msci-world-sector-neutral-quality-index-705169/hold-5.0/years-
   INDEX = msci-world-sector-neutral-quality-index-705169
 build simulations/msci-world-sector-neutral-quality-index-705169/hold-10.0/years-25/kde.json: generate_kde facts/indexes/msci-world-sector-neutral-quality-index-705169.csv
   YEARS = 25
-  HOLD = 10.0
-  INDEX = msci-world-sector-neutral-quality-index-705169
-build simulations/msci-world-sector-neutral-quality-index-705169/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-sector-neutral-quality-index-705169.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-sector-neutral-quality-index-705169
-build simulations/msci-world-sector-neutral-quality-index-705169/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-sector-neutral-quality-index-705169.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-sector-neutral-quality-index-705169
-build simulations/msci-world-sector-neutral-quality-index-705169/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-sector-neutral-quality-index-705169.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-sector-neutral-quality-index-705169
-build simulations/msci-world-sector-neutral-quality-index-705169/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-sector-neutral-quality-index-705169.csv
-  YEARS = 30
   HOLD = 10.0
   INDEX = msci-world-sector-neutral-quality-index-705169
 build simulations/msci-world-sector-neutral-quality-index-705169/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-sector-neutral-quality-index-705169.csv
@@ -2822,22 +2342,6 @@ build simulations/msci-world-selection-minimum-volatility-index-usd-717716/hold-
   YEARS = 25
   HOLD = 10.0
   INDEX = msci-world-selection-minimum-volatility-index-usd-717716
-build simulations/msci-world-selection-minimum-volatility-index-usd-717716/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-selection-minimum-volatility-index-usd-717716.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-selection-minimum-volatility-index-usd-717716
-build simulations/msci-world-selection-minimum-volatility-index-usd-717716/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-selection-minimum-volatility-index-usd-717716.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-selection-minimum-volatility-index-usd-717716
-build simulations/msci-world-selection-minimum-volatility-index-usd-717716/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-selection-minimum-volatility-index-usd-717716.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-selection-minimum-volatility-index-usd-717716
-build simulations/msci-world-selection-minimum-volatility-index-usd-717716/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-selection-minimum-volatility-index-usd-717716.csv
-  YEARS = 30
-  HOLD = 10.0
-  INDEX = msci-world-selection-minimum-volatility-index-usd-717716
 build simulations/msci-world-selection-minimum-volatility-index-usd-717716/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-selection-minimum-volatility-index-usd-717716.csv
   YEARS = max
   HOLD = 1.0
@@ -2912,22 +2416,6 @@ build simulations/msci-world-small-cap-index-106230/hold-5.0/years-25/kde.json: 
   INDEX = msci-world-small-cap-index-106230
 build simulations/msci-world-small-cap-index-106230/hold-10.0/years-25/kde.json: generate_kde facts/indexes/msci-world-small-cap-index-106230.csv
   YEARS = 25
-  HOLD = 10.0
-  INDEX = msci-world-small-cap-index-106230
-build simulations/msci-world-small-cap-index-106230/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-small-cap-index-106230.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-small-cap-index-106230
-build simulations/msci-world-small-cap-index-106230/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-small-cap-index-106230.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-small-cap-index-106230
-build simulations/msci-world-small-cap-index-106230/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-small-cap-index-106230.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-small-cap-index-106230
-build simulations/msci-world-small-cap-index-106230/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-small-cap-index-106230.csv
-  YEARS = 30
   HOLD = 10.0
   INDEX = msci-world-small-cap-index-106230
 build simulations/msci-world-small-cap-index-106230/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-small-cap-index-106230.csv
@@ -3006,22 +2494,6 @@ build simulations/msci-world-value-advanced-index-716001/hold-10.0/years-25/kde.
   YEARS = 25
   HOLD = 10.0
   INDEX = msci-world-value-advanced-index-716001
-build simulations/msci-world-value-advanced-index-716001/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-value-advanced-index-716001.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-value-advanced-index-716001
-build simulations/msci-world-value-advanced-index-716001/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-value-advanced-index-716001.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-value-advanced-index-716001
-build simulations/msci-world-value-advanced-index-716001/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-value-advanced-index-716001.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-value-advanced-index-716001
-build simulations/msci-world-value-advanced-index-716001/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-value-advanced-index-716001.csv
-  YEARS = 30
-  HOLD = 10.0
-  INDEX = msci-world-value-advanced-index-716001
 build simulations/msci-world-value-advanced-index-716001/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-value-advanced-index-716001.csv
   YEARS = max
   HOLD = 1.0
@@ -3096,22 +2568,6 @@ build simulations/msci-world-value-advanced-select-index-738937/hold-5.0/years-2
   INDEX = msci-world-value-advanced-select-index-738937
 build simulations/msci-world-value-advanced-select-index-738937/hold-10.0/years-25/kde.json: generate_kde facts/indexes/msci-world-value-advanced-select-index-738937.csv
   YEARS = 25
-  HOLD = 10.0
-  INDEX = msci-world-value-advanced-select-index-738937
-build simulations/msci-world-value-advanced-select-index-738937/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-value-advanced-select-index-738937.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-value-advanced-select-index-738937
-build simulations/msci-world-value-advanced-select-index-738937/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-value-advanced-select-index-738937.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-value-advanced-select-index-738937
-build simulations/msci-world-value-advanced-select-index-738937/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-value-advanced-select-index-738937.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-value-advanced-select-index-738937
-build simulations/msci-world-value-advanced-select-index-738937/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-value-advanced-select-index-738937.csv
-  YEARS = 30
   HOLD = 10.0
   INDEX = msci-world-value-advanced-select-index-738937
 build simulations/msci-world-value-advanced-select-index-738937/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-value-advanced-select-index-738937.csv
@@ -3190,22 +2646,6 @@ build simulations/msci-world-value-exposure-select-index-720342/hold-10.0/years-
   YEARS = 25
   HOLD = 10.0
   INDEX = msci-world-value-exposure-select-index-720342
-build simulations/msci-world-value-exposure-select-index-720342/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-value-exposure-select-index-720342.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-value-exposure-select-index-720342
-build simulations/msci-world-value-exposure-select-index-720342/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-value-exposure-select-index-720342.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-value-exposure-select-index-720342
-build simulations/msci-world-value-exposure-select-index-720342/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-value-exposure-select-index-720342.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-value-exposure-select-index-720342
-build simulations/msci-world-value-exposure-select-index-720342/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-value-exposure-select-index-720342.csv
-  YEARS = 30
-  HOLD = 10.0
-  INDEX = msci-world-value-exposure-select-index-720342
 build simulations/msci-world-value-exposure-select-index-720342/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-value-exposure-select-index-720342.csv
   YEARS = max
   HOLD = 1.0
@@ -3280,22 +2720,6 @@ build simulations/msci-world-value-index-105868/hold-5.0/years-25/kde.json: gene
   INDEX = msci-world-value-index-105868
 build simulations/msci-world-value-index-105868/hold-10.0/years-25/kde.json: generate_kde facts/indexes/msci-world-value-index-105868.csv
   YEARS = 25
-  HOLD = 10.0
-  INDEX = msci-world-value-index-105868
-build simulations/msci-world-value-index-105868/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-value-index-105868.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-value-index-105868
-build simulations/msci-world-value-index-105868/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-value-index-105868.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-value-index-105868
-build simulations/msci-world-value-index-105868/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-value-index-105868.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-value-index-105868
-build simulations/msci-world-value-index-105868/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-value-index-105868.csv
-  YEARS = 30
   HOLD = 10.0
   INDEX = msci-world-value-index-105868
 build simulations/msci-world-value-index-105868/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-value-index-105868.csv
@@ -3374,22 +2798,6 @@ build simulations/msci-world-value-select-screens-advanced-index-749045/hold-10.
   YEARS = 25
   HOLD = 10.0
   INDEX = msci-world-value-select-screens-advanced-index-749045
-build simulations/msci-world-value-select-screens-advanced-index-749045/hold-1.0/years-30/kde.json: generate_kde facts/indexes/msci-world-value-select-screens-advanced-index-749045.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = msci-world-value-select-screens-advanced-index-749045
-build simulations/msci-world-value-select-screens-advanced-index-749045/hold-3.0/years-30/kde.json: generate_kde facts/indexes/msci-world-value-select-screens-advanced-index-749045.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = msci-world-value-select-screens-advanced-index-749045
-build simulations/msci-world-value-select-screens-advanced-index-749045/hold-5.0/years-30/kde.json: generate_kde facts/indexes/msci-world-value-select-screens-advanced-index-749045.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = msci-world-value-select-screens-advanced-index-749045
-build simulations/msci-world-value-select-screens-advanced-index-749045/hold-10.0/years-30/kde.json: generate_kde facts/indexes/msci-world-value-select-screens-advanced-index-749045.csv
-  YEARS = 30
-  HOLD = 10.0
-  INDEX = msci-world-value-select-screens-advanced-index-749045
 build simulations/msci-world-value-select-screens-advanced-index-749045/hold-1.0/years-max/kde.json: generate_kde facts/indexes/msci-world-value-select-screens-advanced-index-749045.csv
   YEARS = max
   HOLD = 1.0
@@ -3464,22 +2872,6 @@ build simulations/s&p-500-index/hold-5.0/years-25/kde.json: generate_kde facts/i
   INDEX = s&p-500-index
 build simulations/s&p-500-index/hold-10.0/years-25/kde.json: generate_kde facts/indexes/s&p-500-index.csv
   YEARS = 25
-  HOLD = 10.0
-  INDEX = s&p-500-index
-build simulations/s&p-500-index/hold-1.0/years-30/kde.json: generate_kde facts/indexes/s&p-500-index.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = s&p-500-index
-build simulations/s&p-500-index/hold-3.0/years-30/kde.json: generate_kde facts/indexes/s&p-500-index.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = s&p-500-index
-build simulations/s&p-500-index/hold-5.0/years-30/kde.json: generate_kde facts/indexes/s&p-500-index.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = s&p-500-index
-build simulations/s&p-500-index/hold-10.0/years-30/kde.json: generate_kde facts/indexes/s&p-500-index.csv
-  YEARS = 30
   HOLD = 10.0
   INDEX = s&p-500-index
 build simulations/s&p-500-index/hold-1.0/years-max/kde.json: generate_kde facts/indexes/s&p-500-index.csv
@@ -3558,22 +2950,6 @@ build simulations/s&p-global-1200-index/hold-10.0/years-25/kde.json: generate_kd
   YEARS = 25
   HOLD = 10.0
   INDEX = s&p-global-1200-index
-build simulations/s&p-global-1200-index/hold-1.0/years-30/kde.json: generate_kde facts/indexes/s&p-global-1200-index.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = s&p-global-1200-index
-build simulations/s&p-global-1200-index/hold-3.0/years-30/kde.json: generate_kde facts/indexes/s&p-global-1200-index.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = s&p-global-1200-index
-build simulations/s&p-global-1200-index/hold-5.0/years-30/kde.json: generate_kde facts/indexes/s&p-global-1200-index.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = s&p-global-1200-index
-build simulations/s&p-global-1200-index/hold-10.0/years-30/kde.json: generate_kde facts/indexes/s&p-global-1200-index.csv
-  YEARS = 30
-  HOLD = 10.0
-  INDEX = s&p-global-1200-index
 build simulations/s&p-global-1200-index/hold-1.0/years-max/kde.json: generate_kde facts/indexes/s&p-global-1200-index.csv
   YEARS = max
   HOLD = 1.0
@@ -3648,22 +3024,6 @@ build simulations/s&p-small-cap-600-growth-index/hold-5.0/years-25/kde.json: gen
   INDEX = s&p-small-cap-600-growth-index
 build simulations/s&p-small-cap-600-growth-index/hold-10.0/years-25/kde.json: generate_kde facts/indexes/s&p-small-cap-600-growth-index.csv
   YEARS = 25
-  HOLD = 10.0
-  INDEX = s&p-small-cap-600-growth-index
-build simulations/s&p-small-cap-600-growth-index/hold-1.0/years-30/kde.json: generate_kde facts/indexes/s&p-small-cap-600-growth-index.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = s&p-small-cap-600-growth-index
-build simulations/s&p-small-cap-600-growth-index/hold-3.0/years-30/kde.json: generate_kde facts/indexes/s&p-small-cap-600-growth-index.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = s&p-small-cap-600-growth-index
-build simulations/s&p-small-cap-600-growth-index/hold-5.0/years-30/kde.json: generate_kde facts/indexes/s&p-small-cap-600-growth-index.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = s&p-small-cap-600-growth-index
-build simulations/s&p-small-cap-600-growth-index/hold-10.0/years-30/kde.json: generate_kde facts/indexes/s&p-small-cap-600-growth-index.csv
-  YEARS = 30
   HOLD = 10.0
   INDEX = s&p-small-cap-600-growth-index
 build simulations/s&p-small-cap-600-growth-index/hold-1.0/years-max/kde.json: generate_kde facts/indexes/s&p-small-cap-600-growth-index.csv
@@ -3742,22 +3102,6 @@ build simulations/stoxx-europe-600-index/hold-10.0/years-25/kde.json: generate_k
   YEARS = 25
   HOLD = 10.0
   INDEX = stoxx-europe-600-index
-build simulations/stoxx-europe-600-index/hold-1.0/years-30/kde.json: generate_kde facts/indexes/stoxx-europe-600-index.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = stoxx-europe-600-index
-build simulations/stoxx-europe-600-index/hold-3.0/years-30/kde.json: generate_kde facts/indexes/stoxx-europe-600-index.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = stoxx-europe-600-index
-build simulations/stoxx-europe-600-index/hold-5.0/years-30/kde.json: generate_kde facts/indexes/stoxx-europe-600-index.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = stoxx-europe-600-index
-build simulations/stoxx-europe-600-index/hold-10.0/years-30/kde.json: generate_kde facts/indexes/stoxx-europe-600-index.csv
-  YEARS = 30
-  HOLD = 10.0
-  INDEX = stoxx-europe-600-index
 build simulations/stoxx-europe-600-index/hold-1.0/years-max/kde.json: generate_kde facts/indexes/stoxx-europe-600-index.csv
   YEARS = max
   HOLD = 1.0
@@ -3832,22 +3176,6 @@ build simulations/stoxx-global-1800-index-usd/hold-5.0/years-25/kde.json: genera
   INDEX = stoxx-global-1800-index-usd
 build simulations/stoxx-global-1800-index-usd/hold-10.0/years-25/kde.json: generate_kde facts/indexes/stoxx-global-1800-index-usd.csv
   YEARS = 25
-  HOLD = 10.0
-  INDEX = stoxx-global-1800-index-usd
-build simulations/stoxx-global-1800-index-usd/hold-1.0/years-30/kde.json: generate_kde facts/indexes/stoxx-global-1800-index-usd.csv
-  YEARS = 30
-  HOLD = 1.0
-  INDEX = stoxx-global-1800-index-usd
-build simulations/stoxx-global-1800-index-usd/hold-3.0/years-30/kde.json: generate_kde facts/indexes/stoxx-global-1800-index-usd.csv
-  YEARS = 30
-  HOLD = 3.0
-  INDEX = stoxx-global-1800-index-usd
-build simulations/stoxx-global-1800-index-usd/hold-5.0/years-30/kde.json: generate_kde facts/indexes/stoxx-global-1800-index-usd.csv
-  YEARS = 30
-  HOLD = 5.0
-  INDEX = stoxx-global-1800-index-usd
-build simulations/stoxx-global-1800-index-usd/hold-10.0/years-30/kde.json: generate_kde facts/indexes/stoxx-global-1800-index-usd.csv
-  YEARS = 30
   HOLD = 10.0
   INDEX = stoxx-global-1800-index-usd
 build simulations/stoxx-global-1800-index-usd/hold-1.0/years-max/kde.json: generate_kde facts/indexes/stoxx-global-1800-index-usd.csv

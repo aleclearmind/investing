@@ -62,7 +62,7 @@
     `;
 
     const COMBINATIONS = (() => {
-      const yearsOptions = [10, 15, 20, 25, 30, 'max'];
+      const yearsOptions = [10, 15, 20, 25, 'max'];
       const holdOptions = [1.0, 3.0, 5.0, 10.0];
       return yearsOptions.flatMap(years =>
         holdOptions.map(hold => ({
@@ -73,8 +73,6 @@
         }))
       ).filter(value => value.years =="max" || (value.years > new Number(value.hold)));
     })();
-
-    console.log(COMBINATIONS);
 
     const app = document.getElementById('app');
     const router = new Navigo(baseUrl, { hash: true });
@@ -99,6 +97,7 @@
       { name: 'Mean', numeric: true, sort: (a, b) => (a.simData.mean || 0) - (b.simData.mean || 0), isPercent: true, isHigherBetter: true },
       { name: 'Median', numeric: true, sort: (a, b) => (a.simData.median || 0) - (b.simData.median || 0), isPercent: true, isHigherBetter: true },
       { name: 'Std Dev', numeric: true, sort: (a, b) => (a.simData.std_dev || 0) - (b.simData.std_dev || 0), isLowerBetter: true },
+      { name: 'Std Err', numeric: true, sort: (a, b) => (a.simData.std_err || 0) - (b.simData.std_err || 0), isLowerBetter: true },
       { name: 'Min', numeric: true, sort: (a, b) => (a.simData.min || 0) - (b.simData.min || 0), isPercent: true, isHigherBetter: true },
       { name: 'Max', numeric: true, sort: (a, b) => (a.simData.max || 0) - (b.simData.max || 0), isPercent: true, isHigherBetter: true },
       { name: 'ETFs', numeric: true, sort: (a, b) => (a.etfCount || 0) - (b.etfCount || 0), isHigherBetter: true }
@@ -149,7 +148,7 @@
 
     function loadSimulationsData() {
       return fetchCSV('simulations/indexes.csv').then(rows => {
-        rows.forEach(([index, hold_years, total_years, simulations, mean, median, std_dev, min, max]) => {
+        rows.forEach(([index, hold_years, total_years, simulations, mean, median, std_dev, std_err, min, max]) => {
           if (!simulationsData[index]) simulationsData[index] = {};
           const key = `hold-${hold_years}/years-${total_years}`;
           simulationsData[index][key] = {
@@ -157,6 +156,7 @@
             mean: Number(mean).toFixed(2),
             median: Number(median).toFixed(2),
             std_dev: Number(std_dev).toFixed(2),
+            std_err: Number(std_err).toFixed(4),
             min: Number(min).toFixed(2),
             max: Number(max).toFixed(2)
           };
@@ -206,7 +206,29 @@
         name, meta: indexesMeta[name], simData: simulationsData[name]?.[selectedCombo] || {},
         etfCount: etfsData.filter(etf => etf.indexName === name).length
       }));
-      indexesData.sort((a, b) => sortState.ascending ? columns[sortState.column].sort(a, b) : columns[sortState.column].sort(b, a));
+
+      // a - b
+      function sortColumn(a, b) {
+        if (a.simData.mean === undefined)
+          return Infinity;
+        if (b.simData.mean === undefined)
+          return -Infinity;
+        if (sortState.ascending) {
+          return columns[sortState.column].sort(b, a);
+        } else {
+          return columns[sortState.column].sort(a, b);
+        }
+      }
+
+      function wrapper(a, b) {
+        result = sortColumn(a, b);
+        console.log(a);
+        console.log(b);
+        console.log(result);
+        return result;
+      }
+
+      indexesData.sort(wrapper);
       const ranges = columns.reduce((acc, col) => {
         if (col.numeric) {
           const key = col.name;
@@ -226,6 +248,7 @@
           <td class="number" style="color: ${getColorScale(simData.mean, ranges.Mean.min, ranges.Mean.max)}">${formatPercent(simData.mean)}</td>
           <td class="number" style="color: ${getColorScale(simData.median, ranges.Median.min, ranges.Median.max)}">${formatPercent(simData.median)}</td>
           <td class="number" style="color: ${getColorScale(simData.std_dev, ranges['Std Dev'].min, ranges['Std Dev'].max, true)}">${formatNumber(simData.std_dev)}</td>
+          <td class="number" style="color: ${getColorScale(simData.std_err, ranges['Std Err'].min, ranges['Std Err'].max, true)}">${formatNumber(simData.std_err)}</td>
           <td class="number" style="color: ${getColorScale(simData.min, ranges.Min.min, ranges.Min.max)}">${formatPercent(simData.min)}</td>
           <td class="number" style="color: ${getColorScale(simData.max, ranges.Max.min, ranges.Max.max)}">${formatPercent(simData.max)}</td>
           <td class="number" style="color: ${getColorScale(etfCount, ranges.ETFs.min, ranges.ETFs.max)}">${formatNumber(etfCount)}</td>
