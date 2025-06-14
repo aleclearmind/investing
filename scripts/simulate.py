@@ -10,17 +10,36 @@ import numpy as np
 from scipy.stats import gaussian_kde
 import time
 
+
 def parse_args():
-    parser = argparse.ArgumentParser(description="Simulate buy/sell outcomes over time using KDE.")
-    parser.add_argument("index", help="Name of the index to load (must match an entry in facts/indexes/indexes.csv)")
-    parser.add_argument("--hold", type=float, default=10, help="Holding period in years (default: 10)")
-    parser.add_argument("--ignore-inflation", action="store_true", help="Ignore inflation adjustment.")
-    parser.add_argument("--ignore-currency", action="store_true", help="Ignore currency adjustment.")
-    parser.add_argument("--years", type=str, default="max", help="Years of historical data to consider (default: max, or specify an integer)")
+    parser = argparse.ArgumentParser(
+        description="Simulate buy/sell outcomes over time using KDE."
+    )
+    parser.add_argument(
+        "index",
+        help="Name of the index to load (must match an entry in facts/indexes/indexes.csv)",
+    )
+    parser.add_argument(
+        "--hold", type=float, default=10, help="Holding period in years (default: 10)"
+    )
+    parser.add_argument(
+        "--ignore-inflation", action="store_true", help="Ignore inflation adjustment."
+    )
+    parser.add_argument(
+        "--ignore-currency", action="store_true", help="Ignore currency adjustment."
+    )
+    parser.add_argument(
+        "--years",
+        type=str,
+        default="max",
+        help="Years of historical data to consider (default: max, or specify an integer)",
+    )
     return parser.parse_args()
+
 
 def log(message):
     print(message, file=sys.stderr)
+
 
 def read_config():
     config_path = os.path.join(os.getcwd(), "config.json")
@@ -30,10 +49,12 @@ def read_config():
         config["min_date"] = datetime.strptime(config["min_date"], "%Y-%m-%d")
         return config
 
+
 def read_csv_file(file_path, delimiter=","):
     with open(file_path, "r") as f:
         reader = csv.DictReader(f, delimiter=delimiter)
         return [row for row in reader]
+
 
 def get_index_metadata(index_name):
     index_file = os.path.join("facts", "indexes.csv")
@@ -42,6 +63,7 @@ def get_index_metadata(index_name):
         if index["name"] == index_name:
             return index
     raise ValueError(f"Index '{index_name}' not found in {index_file}")
+
 
 def read_main_data(file_path, min_date, max_date):
     data = []
@@ -52,6 +74,7 @@ def read_main_data(file_path, min_date, max_date):
             data.append((date, value))
     return data
 
+
 def read_inflation_data(file_path):
     inflation_data = {}
     for row in read_csv_file(file_path):
@@ -60,12 +83,14 @@ def read_inflation_data(file_path):
         inflation_data[month] = index
     return inflation_data
 
+
 def read_exchange_rates(file_path):
     rates = {}
     for row in read_csv_file(file_path):
         date = datetime.strptime(row["date"], "%Y-%m-%d")
         rates[date] = float(row["rate"])
     return dict(sorted(rates.items()))
+
 
 def get_inflation_factor(buy_date, sell_date, inflation_data):
     buy_month = buy_date.strftime("%Y-%m")
@@ -74,6 +99,7 @@ def get_inflation_factor(buy_date, sell_date, inflation_data):
     assert sell_month in inflation_data, f"Missing inflation data for {sell_month}"
     return inflation_data[sell_month] / inflation_data[buy_month]
 
+
 def get_fx_factor(buy_date, sell_date, exchange_rates):
     def get_nearest_rate(date):
         while date not in exchange_rates:
@@ -81,12 +107,21 @@ def get_fx_factor(buy_date, sell_date, exchange_rates):
             if date < min(exchange_rates):
                 raise ValueError(f"No exchange rate data for or before {date}")
         return exchange_rates[date]
+
     buy_rate = get_nearest_rate(buy_date)
     sell_rate = get_nearest_rate(sell_date)
     return buy_rate / sell_rate
 
-def simulate_trades(data, hold_years, window_days, inflation_data, exchange_rates,
-                    ignore_inflation, ignore_currency):
+
+def simulate_trades(
+    data,
+    hold_years,
+    window_days,
+    inflation_data,
+    exchange_rates,
+    ignore_inflation,
+    ignore_currency,
+):
     results = []
     hold_days = int(hold_years * 365)
 
@@ -99,7 +134,9 @@ def simulate_trades(data, hold_years, window_days, inflation_data, exchange_rate
                 total_return = sell_value / buy_value
 
                 if not ignore_inflation:
-                    inflation_factor = get_inflation_factor(buy_date, sell_date, inflation_data)
+                    inflation_factor = get_inflation_factor(
+                        buy_date, sell_date, inflation_data
+                    )
                     total_return /= inflation_factor
 
                 if not ignore_currency:
@@ -111,48 +148,63 @@ def simulate_trades(data, hold_years, window_days, inflation_data, exchange_rate
                 results.append(percent)
     return results
 
-def write_statistics(results, hold_years, index_name):
+
+def write_statistics(results, hold_years, index_name, years):
     sim_file = "simulations/indexes.csv"
     os.makedirs("simulations", exist_ok=True)
-    
+
     lock_file = sim_file + ".lock"
     max_attempts = 10
     attempt = 0
-    
+
     while attempt < max_attempts:
         try:
-            with open(lock_file, 'x'):
+            with open(lock_file, "x"):
                 pass
             break
         except FileExistsError:
             time.sleep(1)
             attempt += 1
-    
+
     if attempt == max_attempts:
         raise RuntimeError("Could not acquire lock on simulations/indexes.csv")
 
     try:
         file_exists = os.path.exists(sim_file)
-        header = ["index", "hold_years", "simulations", "mean", "median", "std_dev", "min", "max"]
+        header = [
+            "index",
+            "hold_years",
+            "years",
+            "simulations",
+            "mean",
+            "median",
+            "std_dev",
+            "std_err",
+            "min",
+            "max",
+        ]
         stats = {
             "index": index_name,
             "hold_years": hold_years,
+            "years": years,
             "simulations": len(results),
             "mean": np.mean(results),
             "median": np.median(results),
             "std_dev": np.std(results),
+            "std_err": np.std(results) / np.sqrt(len(results)),
             "min": np.min(results),
-            "max": np.max(results)
+            "max": np.max(results),
         }
-        
-        with open(sim_file, 'a', newline='') as f:
+
+        with open(sim_file, "a", newline="") as f:
             writer = csv.DictWriter(f, fieldnames=header)
             if not file_exists:
                 writer.writeheader()
             writer.writerow(stats)
-    
+
     finally:
         os.remove(lock_file)
+
 
 def save_kde_json(results, json_path, kde_points):
     global_min = min(results)
@@ -171,15 +223,19 @@ def save_kde_json(results, json_path, kde_points):
             "25th": percentiles[1],
             "50th": percentiles[2],
             "75th": percentiles[3],
-            "95th": percentiles[4]
+            "95th": percentiles[4],
         },
         "median": median,
         "mean": mean,
-        "kde_points": [{"x": float(x), "density": float(density)} for x, density in zip(x_range, kde_values)]
+        "kde_points": [
+            {"x": float(x), "density": float(density)}
+            for x, density in zip(x_range, kde_values)
+        ],
     }
 
     with open(json_path, "w") as f:
         json.dump(kde_data, f, indent=4)
+
 
 def main():
     config = read_config()
@@ -197,44 +253,55 @@ def main():
 
     # Compute output path once at the start
     specific_years = args.years
-    sim_dir = os.path.join("simulations", args.index, f"hold-{args.hold}", f"years-{specific_years}")
+    sim_dir = os.path.join(
+        "simulations", args.index, f"hold-{args.hold}", f"years-{specific_years}"
+    )
     json_path = os.path.join(sim_dir, "kde.json")
     os.makedirs(sim_dir, exist_ok=True)
+
+    index_file = os.path.join("facts", "indexes", f"{args.index}.csv")
 
     # Calculate effective min_date based on whether --years is not "max"
     if args.years != "max":
         years = int(args.years)
-        earliest_date_from_max = max_date - timedelta(days=years * 365)
-        effective_min_date = max(min_date, earliest_date_from_max)
-    else:
-        effective_min_date = min_date
-    
-    log(f"Considering data from {effective_min_date.strftime('%Y-%m-%d')} to {max_date.strftime('%Y-%m-%d')}")
-
-    metadata = get_index_metadata(args.index)
-    index_currency = metadata["currency"]
-
-    index_file = os.path.join("facts", "indexes", f"{args.index}.csv")
-    inflation_file = os.path.join("facts", "inflation", f"{country}.csv")
-    exchange_file = os.path.join("facts", "exchange-rates", f"{reference_currency.lower()}-{index_currency.lower()}.csv")
-
-    log(f"Reading index data from: {index_file}")
-    data = read_main_data(index_file, effective_min_date, max_date)
-
-    # If --years is not "max", check if data spans less than specified years
-    if args.years != "max" and data:
-        years = int(args.years)
+        data = read_main_data(index_file, min_date, max_date)
         data_span_years = (data[-1][0] - data[0][0]).days / 365.0
         if data_span_years < years:
-            log(f"Data span ({data_span_years:.2f} years) is less than requested years ({years}). Emitting empty JSON.")
+            log(
+                f"Data span ({data_span_years:.2f} years) is less than requested years ({years}). Emitting empty JSON."
+            )
             with open(json_path, "w") as f:
                 json.dump({}, f)
             return
 
+        earliest_date_from_max = max_date - timedelta(days=years * 365)
+        effective_min_date = max(min_date, earliest_date_from_max)
+    else:
+        effective_min_date = min_date
+
+    log(
+        f"Considering data from {effective_min_date.strftime('%Y-%m-%d')} to {max_date.strftime('%Y-%m-%d')}"
+    )
+
+    metadata = get_index_metadata(args.index)
+    index_currency = metadata["currency"]
+
+    inflation_file = os.path.join("facts", "inflation", f"{country}.csv")
+    exchange_file = os.path.join(
+        "facts",
+        "exchange-rates",
+        f"{reference_currency.lower()}-{index_currency.lower()}.csv",
+    )
+
+    log(f"Reading index data from: {index_file}")
+    data = read_main_data(index_file, effective_min_date, max_date)
+
     log(f"Reading inflation data from: {inflation_file}")
     inflation_data = read_inflation_data(inflation_file)
 
-    ignore_currency = args.ignore_currency or (reference_currency.lower() == index_currency.lower())
+    ignore_currency = args.ignore_currency or (
+        reference_currency.lower() == index_currency.lower()
+    )
     if ignore_currency:
         log("Skipping currency correction due to flag or matching currencies.")
     exchange_rates = {} if ignore_currency else read_exchange_rates(exchange_file)
@@ -251,8 +318,11 @@ def main():
     )
 
     if results:
-        write_statistics(results, args.hold, args.index)
+        write_statistics(results, args.hold, args.index, args.years)
         save_kde_json(results, json_path, kde_points)
+    else:
+        log("No results!")
+
 
 if __name__ == "__main__":
     main()

@@ -54,22 +54,29 @@
       .navbar { background-color: ${COLORS.navbar} !important; border-radius: 10px; padding: 5px 10px; }
       a { color: ${COLORS.link}; }
       a:hover { color: ${COLORS.linkHover}; }
-      .horizon-select { min-width: 120px; max-width: 120px; }
+      .horizon-select { min-width: 120px; max-width: 30%; }
       .table { margin-bottom: 20px; }
       .table td.number, .table th.number { text-align: right; }
       .sort-link { text-decoration: none; margin-left: 5px; }
       .sort-link:hover { color: ${COLORS.linkHover}; }
     `;
 
-    const HORIZONS = [
-      { value: '3.0', label: '3 Years' },
-      { value: '5.0', label: '5 Years' },
-      { value: '10.0', label: '10 Years' }
-    ];
+    const COMBINATIONS = (() => {
+      const yearsOptions = [10, 15, 20, 25, 'max'];
+      const holdOptions = [1.0, 3.0, 5.0, 10.0];
+      return yearsOptions.flatMap(years =>
+        holdOptions.map(hold => ({
+          hold: hold.toFixed(1),
+          years,
+          value: `hold-${hold.toFixed(1)}/years-${years}`,
+          label: `Hold for ${hold} / Data for ${years === 'max' ? 'Max' : years}`
+        }))
+      ).filter(value => value.years =="max" || (value.years > new Number(value.hold)));
+    })();
 
     const app = document.getElementById('app');
     const router = new Navigo(baseUrl, { hash: true });
-    let selectedHorizon = localStorage.getItem('selectedHorizon') || HORIZONS[0].value;
+    let selectedCombo = localStorage.getItem('selectedCombo') || COMBINATIONS[0].value;
     let indexesMeta = {}, simulationsData = {}, etfsData = [], currentIndexName = null;
     let sortState = JSON.parse(localStorage.getItem('sortState')) || { column: 0, ascending: true };
 
@@ -90,14 +97,15 @@
       { name: 'Mean', numeric: true, sort: (a, b) => (a.simData.mean || 0) - (b.simData.mean || 0), isPercent: true, isHigherBetter: true },
       { name: 'Median', numeric: true, sort: (a, b) => (a.simData.median || 0) - (b.simData.median || 0), isPercent: true, isHigherBetter: true },
       { name: 'Std Dev', numeric: true, sort: (a, b) => (a.simData.std_dev || 0) - (b.simData.std_dev || 0), isLowerBetter: true },
+      { name: 'Std Err', numeric: true, sort: (a, b) => (a.simData.std_err || 0) - (b.simData.std_err || 0), isLowerBetter: true },
       { name: 'Min', numeric: true, sort: (a, b) => (a.simData.min || 0) - (b.simData.min || 0), isPercent: true, isHigherBetter: true },
       { name: 'Max', numeric: true, sort: (a, b) => (a.simData.max || 0) - (b.simData.max || 0), isPercent: true, isHigherBetter: true },
       { name: 'ETFs', numeric: true, sort: (a, b) => (a.etfCount || 0) - (b.etfCount || 0), isHigherBetter: true }
     ];
 
     const horizonSelect = document.getElementById('horizonSelect');
-    horizonSelect.innerHTML = HORIZONS.map(h => `<option value="${h.value}">${h.label}</option>`).join('');
-    horizonSelect.value = selectedHorizon;
+    horizonSelect.innerHTML = COMBINATIONS.map(c => `<option value="${c.value}">${c.label}</option>`).join('');
+    horizonSelect.value = selectedCombo;
 
     // Centralized CSV Parsing
     function parseCSV(csvData) {
@@ -140,13 +148,15 @@
 
     function loadSimulationsData() {
       return fetchCSV('simulations/indexes.csv').then(rows => {
-        rows.forEach(([index, hold_years, simulations, mean, median, std_dev, min, max]) => {
+        rows.forEach(([index, hold_years, total_years, simulations, mean, median, std_dev, std_err, min, max]) => {
           if (!simulationsData[index]) simulationsData[index] = {};
-          simulationsData[index][hold_years] = {
+          const key = `hold-${hold_years}/years-${total_years}`;
+          simulationsData[index][key] = {
             simulations: Math.round(Number(simulations)),
             mean: Number(mean).toFixed(2),
             median: Number(median).toFixed(2),
             std_dev: Number(std_dev).toFixed(2),
+            std_err: Number(std_err).toFixed(4),
             min: Number(min).toFixed(2),
             max: Number(max).toFixed(2)
           };
@@ -193,10 +203,32 @@
     // Rendering Functions
     function renderTable() {
       const indexesData = Object.keys(indexesMeta).map(name => ({
-        name, meta: indexesMeta[name], simData: simulationsData[name]?.[selectedHorizon] || {},
+        name, meta: indexesMeta[name], simData: simulationsData[name]?.[selectedCombo] || {},
         etfCount: etfsData.filter(etf => etf.indexName === name).length
       }));
-      indexesData.sort((a, b) => sortState.ascending ? columns[sortState.column].sort(a, b) : columns[sortState.column].sort(b, a));
+
+      // a - b
+      function sortColumn(a, b) {
+        if (a.simData.mean === undefined)
+          return Infinity;
+        if (b.simData.mean === undefined)
+          return -Infinity;
+        if (sortState.ascending) {
+          return columns[sortState.column].sort(b, a);
+        } else {
+          return columns[sortState.column].sort(a, b);
+        }
+      }
+
+      function wrapper(a, b) {
+        result = sortColumn(a, b);
+        console.log(a);
+        console.log(b);
+        console.log(result);
+        return result;
+      }
+
+      indexesData.sort(wrapper);
       const ranges = columns.reduce((acc, col) => {
         if (col.numeric) {
           const key = col.name;
@@ -216,6 +248,7 @@
           <td class="number" style="color: ${getColorScale(simData.mean, ranges.Mean.min, ranges.Mean.max)}">${formatPercent(simData.mean)}</td>
           <td class="number" style="color: ${getColorScale(simData.median, ranges.Median.min, ranges.Median.max)}">${formatPercent(simData.median)}</td>
           <td class="number" style="color: ${getColorScale(simData.std_dev, ranges['Std Dev'].min, ranges['Std Dev'].max, true)}">${formatNumber(simData.std_dev)}</td>
+          <td class="number" style="color: ${getColorScale(simData.std_err, ranges['Std Err'].min, ranges['Std Err'].max, true)}">${formatNumber(simData.std_err)}</td>
           <td class="number" style="color: ${getColorScale(simData.min, ranges.Min.min, ranges.Min.max)}">${formatPercent(simData.min)}</td>
           <td class="number" style="color: ${getColorScale(simData.max, ranges.Max.min, ranges.Max.max)}">${formatPercent(simData.max)}</td>
           <td class="number" style="color: ${getColorScale(etfCount, ranges.ETFs.min, ranges.ETFs.max)}">${formatNumber(etfCount)}</td>
@@ -273,10 +306,12 @@
     }
 
     function updateKDE(name) {
-      fetch(`${baseUrl}simulations/${name}/${selectedHorizon}/kde.json`)
+      const [hold, years] = selectedCombo.split('/').map(part => part.split('-')[1]);
+      document.getElementById('kdePlot').innerHTML = "";
+      fetch(`${baseUrl}simulations/${name}/hold-${hold}/years-${years}/kde.json`)
         .then(res => res.json())
         .then(data => renderKDE('kdePlot', data))
-        .catch(() => document.getElementById('kdePlot').innerHTML = `<p class="text-danger">No data for ${selectedHorizon}-year simulation.</p>`);
+        .catch(() => document.getElementById('kdePlot').innerHTML = `<p class="text-danger">No data for ${hold}-year hold / ${years}-year simulation.</p>`);
     }
 
     function renderEtfsTable(name) {
@@ -340,8 +375,8 @@
 
     // Event Listeners and Routing
     horizonSelect.addEventListener('change', e => {
-      selectedHorizon = e.target.value;
-      localStorage.setItem('selectedHorizon', selectedHorizon);
+      selectedCombo = e.target.value;
+      localStorage.setItem('selectedCombo', selectedCombo);
       if (document.getElementById('indexesTable')) renderTable();
       if (currentIndexName) updateKDE(currentIndexName);
     });

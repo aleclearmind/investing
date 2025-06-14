@@ -64,11 +64,13 @@ for csv_file in facts/indexes/*.csv; do
   # Extract the base name of the CSV (e.g., myfile-123.csv -> myfile-123)
   base_name=$(basename "$csv_file" .csv)
 
-  for YEARS in 10 15 20 25 30 max; do
+  for YEARS in 10 15 20 25 max; do
     emit_build "$base_name" 1.0 "$YEARS"
     emit_build "$base_name" 3.0 "$YEARS"
     emit_build "$base_name" 5.0 "$YEARS"
-    emit_build "$base_name" 10.0 "$YEARS"
+    if test "$YEARS" != 10; then
+      emit_build "$base_name" 10.0 "$YEARS"
+    fi
   done
 
 done

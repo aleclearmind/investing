@@ -9,19 +9,20 @@ import logging
 import requests
 from datetime import datetime
 
-INDEX_URL="https://www.msci.com/indexes/index/"
+INDEX_URL = "https://www.msci.com/indexes/index/"
 API_URL = "https://www.msci.com/indexes/api/index/performance"
 OUTPUT_DIR = "facts/indexes"
 SUMMARY_CSV = "facts/indexes.csv"
 DATE_FORMAT = "%Y-%m-%d"
 
 logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s"
+    level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s"
 )
 
+
 def kebab_case(s):
-    return re.sub(r'[^a-z0-9]+', '-', s.lower()).strip('-')
+    return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
+
 
 def fetch_index_data(index_code, end_date):
     logging.info(f"Fetching data for index code {index_code}...")
@@ -32,18 +33,24 @@ def fetch_index_data(index_code, end_date):
         "frequency": "daily",
         "baseValue100": "false",
         "startDate": "1957-11-16",
-        "endDate": end_date
+        "endDate": end_date,
     }
     response = requests.get(API_URL, params=params)
     response.raise_for_status()
     return response.json()
 
-def write_summary_row(index_summary, normalized_name, index_name, index_code, currency, earliest_date, url):
+
+def write_summary_row(
+    index_summary, normalized_name, index_name, index_code, currency, earliest_date, url
+):
     logging.info(f"Adding entry to summary for index {index_name} ({index_code})...")
     with open(SUMMARY_CSV, "a", newline="") as summary_file:
         writer = csv.writer(summary_file)
-        writer.writerow([normalized_name, index_name, index_code, currency, earliest_date, url])
+        writer.writerow(
+            [normalized_name, index_name, index_code, currency, earliest_date, url]
+        )
         index_summary.add(str(index_code))
+
 
 def write_performance_csv(index_data, filename):
     filepath = os.path.join(OUTPUT_DIR, filename)
@@ -53,6 +60,7 @@ def write_performance_csv(index_data, filename):
         writer.writerow(["date", "value"])
         for entry in index_data:
             writer.writerow([entry["date"], entry["value"]])
+
 
 def load_existing_index_codes():
     pattern = os.path.join(OUTPUT_DIR, "*-*.csv")
@@ -65,16 +73,20 @@ def load_existing_index_codes():
             existing_codes.add(match.group(1))
     return existing_codes
 
+
 def load_existing_summary_index_codes():
     if not os.path.exists(SUMMARY_CSV):
         with open(SUMMARY_CSV, "w", newline="") as f:
             writer = csv.writer(f)
-            writer.writerow(["name", "full-name", "code", "currency", "earliest_date", "url"])
+            writer.writerow(
+                ["name", "full-name", "code", "currency", "earliest_date", "url"]
+            )
         return set()
     with open(SUMMARY_CSV, newline="") as f:
         reader = csv.reader(f)
         next(reader, None)  # skip header
         return {row[2] for row in reader}
+
 
 def collect_indexes(index_codes):
     os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -86,7 +98,9 @@ def collect_indexes(index_codes):
     for code in index_codes:
         str_code = str(code)
         if str_code in existing_files:
-            logging.info(f"Skipping index code {code} — performance file already exists.")
+            logging.info(
+                f"Skipping index code {code} — performance file already exists."
+            )
             continue
 
         try:
@@ -101,22 +115,38 @@ def collect_indexes(index_codes):
         performance_history = index_info["performanceHistory"]
 
         # Extract the earliest date from performance history
-        earliest_date = min(entry["date"] for entry in performance_history) if performance_history else "N/A"
+        earliest_date = (
+            min(entry["date"] for entry in performance_history)
+            if performance_history
+            else "N/A"
+        )
 
         normalized_name = kebab_case(index_name) + f"-{code}"
         filename = f"{normalized_name}.csv"
 
         if str_code not in existing_summary:
-            write_summary_row(existing_summary, normalized_name, index_name, code, currency, earliest_date, f"{INDEX_URL}/{code}")
+            write_summary_row(
+                existing_summary,
+                normalized_name,
+                index_name,
+                code,
+                currency,
+                earliest_date,
+                f"{INDEX_URL}/{code}",
+            )
         else:
-            logging.info(f"Index code {code} already in summary. Skipping summary update.")
+            logging.info(
+                f"Index code {code} already in summary. Skipping summary update."
+            )
 
         write_performance_csv(performance_history, filename)
+
 
 def main():
     input_codes = [line.strip() for line in sys.stdin if line.strip()]
     index_codes = [int(code) for code in input_codes]
     collect_indexes(index_codes)
+
 
 if __name__ == "__main__":
     main()
