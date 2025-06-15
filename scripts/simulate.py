@@ -10,6 +10,8 @@ import numpy as np
 from scipy.stats import gaussian_kde
 import time
 
+verbose = False
+
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -28,6 +30,7 @@ def parse_args():
     parser.add_argument(
         "--ignore-currency", action="store_true", help="Ignore currency adjustment."
     )
+    parser.add_argument("--verbose", action="store_true", help="Verbose output.")
     parser.add_argument(
         "--years",
         type=str,
@@ -39,6 +42,12 @@ def parse_args():
 
 def log(message):
     print(message, file=sys.stderr)
+
+
+def log_verbose(message):
+    global verbose
+    if verbose:
+        print(message, file=sys.stderr)
 
 
 def read_config():
@@ -66,12 +75,13 @@ def get_index_metadata(index_name):
 
 
 def read_main_data(file_path, min_date, max_date):
-    data = []
+    data = {}
     for row in read_csv_file(file_path):
         date = datetime.strptime(row["date"], "%Y-%m-%d")
         if min_date <= date < max_date:
             value = float(row["value"])
-            data.append((date, value))
+            assert date not in data
+            data[date] = value
     return data
 
 
@@ -110,46 +120,55 @@ def get_fx_factor(buy_date, sell_date, exchange_rates):
 
     buy_rate = get_nearest_rate(buy_date)
     sell_rate = get_nearest_rate(sell_date)
-    return buy_rate / sell_rate
+    return sell_rate / buy_rate
 
 
 def simulate_trades(
     data,
+    start_date,
+    end_date,
     hold_years,
     window_days,
     inflation_data,
     exchange_rates,
-    ignore_inflation,
     ignore_currency,
+    ignore_inflation,
 ):
     results = []
     hold_days = int(hold_years * 365)
 
-    for i in range(len(data) - hold_days - window_days):
-        buy_date, buy_value = data[i]
-        for j in range(hold_days - window_days, hold_days + window_days + 1):
-            sell_index = i + j
-            if sell_index < len(data):
-                sell_date, sell_value = data[sell_index]
-                total_return = sell_value / buy_value
+    for i in range((end_date - start_date).days - hold_days - window_days):
+        buy_date = start_date + timedelta(days=i)
+        if buy_date not in data:
+            continue
+        buy_value = data[buy_date]
+        for j in range(window_days * 2 + 1):
+            sell_date = buy_date + timedelta(days=hold_days + j)
+            if sell_date not in data:
+                continue
+            sell_value = data[sell_date]
+            total_return = sell_value / buy_value
 
-                if not ignore_inflation:
-                    inflation_factor = get_inflation_factor(
-                        buy_date, sell_date, inflation_data
-                    )
-                    total_return /= inflation_factor
+            if not ignore_inflation:
+                inflation_factor = get_inflation_factor(
+                    buy_date, sell_date, inflation_data
+                )
+                total_return /= inflation_factor
 
-                if not ignore_currency:
-                    fx_factor = get_fx_factor(buy_date, sell_date, exchange_rates)
-                    total_return *= fx_factor
+            if not ignore_currency:
+                fx_factor = get_fx_factor(buy_date, sell_date, exchange_rates)
+                total_return *= fx_factor
 
-                annualized_return = total_return ** (1 / hold_years)
-                percent = (annualized_return - 1) * 100
-                results.append(percent)
+            annualized_return = total_return ** (1 / hold_years)
+            percent = (annualized_return - 1) * 100
+            results.append(percent)
+            log_verbose(f"ROI of {buy_date} -> {sell_date}: {percent}")
     return results
 
 
-def write_statistics(results, hold_years, index_name, years):
+def write_statistics(
+    results, hold_years, index_name, years, ignore_currency, ignore_inflation
+):
     sim_file = "simulations/indexes.csv"
     os.makedirs("simulations", exist_ok=True)
 
@@ -175,6 +194,8 @@ def write_statistics(results, hold_years, index_name, years):
             "index",
             "hold_years",
             "years",
+            "adjust_currency",
+            "adjust_inflation",
             "simulations",
             "mean",
             "median",
@@ -187,6 +208,8 @@ def write_statistics(results, hold_years, index_name, years):
             "index": index_name,
             "hold_years": hold_years,
             "years": years,
+            "adjust_currency": "ignore-currency" if ignore_currency else "adjust-currency",
+            "adjust_inflation": "ignore-inflation" if ignore_inflation else "adjust-inflation",
             "simulations": len(results),
             "mean": np.mean(results),
             "median": np.median(results),
@@ -243,6 +266,9 @@ def main():
     min_date = config["min_date"]
     args = parse_args()
 
+    global verbose
+    verbose = args.verbose
+
     country = config.get("country")
     reference_currency = config.get("reference_currency")
     window = config.get("window", 10)
@@ -254,7 +280,12 @@ def main():
     # Compute output path once at the start
     specific_years = args.years
     sim_dir = os.path.join(
-        "simulations", args.index, f"hold-{args.hold}", f"years-{specific_years}"
+        "simulations",
+        args.index,
+        f"hold-{args.hold}",
+        f"years-{specific_years}",
+        "ignore-currency" if args.ignore_currency else "adjust-currency",
+        "ignore-inflation" if args.ignore_inflation else "adjust-inflation",
     )
     json_path = os.path.join(sim_dir, "kde.json")
     os.makedirs(sim_dir, exist_ok=True)
@@ -264,8 +295,8 @@ def main():
     # Calculate effective min_date based on whether --years is not "max"
     if args.years != "max":
         years = int(args.years)
-        data = read_main_data(index_file, min_date, max_date)
-        data_span_years = (data[-1][0] - data[0][0]).days / 365.0
+        data = list(read_main_data(index_file, min_date, max_date))
+        data_span_years = (data[-1] - data[0]).days / 365.0
         if data_span_years < years:
             log(
                 f"Data span ({data_span_years:.2f} years) is less than requested years ({years}). Emitting empty JSON."
@@ -309,16 +340,25 @@ def main():
     log(f"Simulating for hold period: {args.hold} years")
     results = simulate_trades(
         data,
+        effective_min_date,
+        max_date,
         args.hold,
         window,
         inflation_data,
         exchange_rates,
-        ignore_inflation=args.ignore_inflation,
         ignore_currency=ignore_currency,
+        ignore_inflation=args.ignore_inflation,
     )
 
     if results:
-        write_statistics(results, args.hold, args.index, args.years)
+        write_statistics(
+            results,
+            args.hold,
+            args.index,
+            args.years,
+            ignore_currency=ignore_currency,
+            ignore_inflation=args.ignore_inflation,
+        )
         save_kde_json(results, json_path, kde_points)
     else:
         log("No results!")

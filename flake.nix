@@ -19,8 +19,6 @@
           pkgs.python3Packages.numpy
           pkgs.python3Packages.mypy
           pkgs.python3Packages.scipy
-          pkgs.python3Packages.matplotlib
-          pkgs.python3Packages.yfinance
         ];
 
 
