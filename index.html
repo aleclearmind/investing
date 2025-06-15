@@ -17,7 +17,19 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <select id="horizonSelect" class="form-select horizon-select ms-auto"></select>
+        <span class="ms-auto">
+          <input class="form-check-input" type="checkbox" value="" id="adjust-currency" checked>
+          <label class="form-check-label" for="adjust-currency">
+            Adjust currency
+          </label>
+        </span>
+        <span style="margin-left: 1em">
+          <input class="form-check-input" type="checkbox" value="" id="adjust-inflation" checked>
+          <label class="form-check-label" for="adjust-inflation">
+            Adjust inflation
+          </label>
+        </span>
+        <select style="margin-left: 1em" id="horizonSelect" class="form-select horizon-select"></select>
       </div>
     </div>
   </nav>
@@ -69,14 +81,16 @@
           hold: hold.toFixed(1),
           years,
           value: `hold-${hold.toFixed(1)}/years-${years}`,
-          label: `Hold for ${hold} / Data for ${years === 'max' ? 'Max' : years}`
+          label: `Hold for ${hold} years / Data for ${years === 'max' ? 'all' : years} years`
         }))
       ).filter(value => value.years =="max" || (value.years > new Number(value.hold)));
     })();
 
     const app = document.getElementById('app');
     const router = new Navigo(baseUrl, { hash: true });
-    let selectedCombo = localStorage.getItem('selectedCombo') || COMBINATIONS[0].value;
+    let selectedCombo = localStorage.getItem('selectedCombo') ?? COMBINATIONS[0].value;
+    let adjustCurrency = localStorage.getItem('adjustCurrency') ?? "adjust-currency";
+    let adjustInflation = localStorage.getItem('adjustInflation') ?? "adjust-inflation";
     let indexesMeta = {}, simulationsData = {}, etfsData = [], currentIndexName = null;
     let sortState = JSON.parse(localStorage.getItem('sortState')) || { column: 0, ascending: true };
 
@@ -91,21 +105,26 @@
     };
 
     const columns = [
-      { name: 'Full Name', sort: (a, b) => a.meta.full_name.localeCompare(b.meta.full_name) },
-      { name: 'Currency', sort: (a, b) => a.meta.currency.localeCompare(b.meta.currency) },
+      { name: 'Index', sort: (a, b) => a.meta.full_name.localeCompare(b.meta.full_name) },
+      { name: 'Curr.', sort: (a, b) => a.meta.currency.localeCompare(b.meta.currency) },
       { name: 'Years', numeric: true, sort: (a, b) => (a.meta.years || 0) - (b.meta.years || 0), isHigherBetter: true },
       { name: 'Mean', numeric: true, sort: (a, b) => (a.simData.mean || 0) - (b.simData.mean || 0), isPercent: true, isHigherBetter: true },
       { name: 'Median', numeric: true, sort: (a, b) => (a.simData.median || 0) - (b.simData.median || 0), isPercent: true, isHigherBetter: true },
-      { name: 'Std Dev', numeric: true, sort: (a, b) => (a.simData.std_dev || 0) - (b.simData.std_dev || 0), isLowerBetter: true },
-      { name: 'Std Err', numeric: true, sort: (a, b) => (a.simData.std_err || 0) - (b.simData.std_err || 0), isLowerBetter: true },
+      { name: 'σ', numeric: true, sort: (a, b) => (a.simData.std_dev || 0) - (b.simData.std_dev || 0), isLowerBetter: true },
+      { name: 'SE', numeric: true, sort: (a, b) => (a.simData.std_err || 0) - (b.simData.std_err || 0), isLowerBetter: true },
       { name: 'Min', numeric: true, sort: (a, b) => (a.simData.min || 0) - (b.simData.min || 0), isPercent: true, isHigherBetter: true },
       { name: 'Max', numeric: true, sort: (a, b) => (a.simData.max || 0) - (b.simData.max || 0), isPercent: true, isHigherBetter: true },
-      { name: 'ETFs', numeric: true, sort: (a, b) => (a.etfCount || 0) - (b.etfCount || 0), isHigherBetter: true }
+      { name: 'ETF #', numeric: true, sort: (a, b) => (a.etfCount || 0) - (b.etfCount || 0), isHigherBetter: true }
     ];
 
     const horizonSelect = document.getElementById('horizonSelect');
     horizonSelect.innerHTML = COMBINATIONS.map(c => `<option value="${c.value}">${c.label}</option>`).join('');
     horizonSelect.value = selectedCombo;
+
+    const adjustCurrencyCheckbox = document.getElementById('adjust-currency');
+    adjustCurrencyCheckbox.checked = adjustCurrency === "adjust-currency";
+    const adjustInflationCheckbox = document.getElementById('adjust-inflation');
+    adjustInflationCheckbox.checked = adjustInflation === "adjust-inflation";
 
     // Centralized CSV Parsing
     function parseCSV(csvData) {
@@ -148,9 +167,9 @@
 
     function loadSimulationsData() {
       return fetchCSV('simulations/indexes.csv').then(rows => {
-        rows.forEach(([index, hold_years, total_years, simulations, mean, median, std_dev, std_err, min, max]) => {
+        rows.forEach(([index, hold_years, total_years, adjustCurrency, adjustInflation, simulations, mean, median, std_dev, std_err, min, max]) => {
           if (!simulationsData[index]) simulationsData[index] = {};
-          const key = `hold-${hold_years}/years-${total_years}`;
+          const key = `hold-${hold_years}/years-${total_years}/${adjustCurrency}/${adjustInflation}`;
           simulationsData[index][key] = {
             simulations: Math.round(Number(simulations)),
             mean: Number(mean).toFixed(2),
@@ -203,7 +222,7 @@
     // Rendering Functions
     function renderTable() {
       const indexesData = Object.keys(indexesMeta).map(name => ({
-        name, meta: indexesMeta[name], simData: simulationsData[name]?.[selectedCombo] || {},
+        name, meta: indexesMeta[name], simData: simulationsData[name]?.[`${selectedCombo}/${adjustCurrency}/${adjustInflation}`] || {},
         etfCount: etfsData.filter(etf => etf.indexName === name).length
       }));
 
@@ -222,9 +241,6 @@
 
       function wrapper(a, b) {
         result = sortColumn(a, b);
-        console.log(a);
-        console.log(b);
-        console.log(result);
         return result;
       }
 
@@ -247,11 +263,11 @@
           <td class="number" style="color: ${getColorScale(meta.years, ranges.Years.min, ranges.Years.max)}">${formatNumber(meta.years)}</td>
           <td class="number" style="color: ${getColorScale(simData.mean, ranges.Mean.min, ranges.Mean.max)}">${formatPercent(simData.mean)}</td>
           <td class="number" style="color: ${getColorScale(simData.median, ranges.Median.min, ranges.Median.max)}">${formatPercent(simData.median)}</td>
-          <td class="number" style="color: ${getColorScale(simData.std_dev, ranges['Std Dev'].min, ranges['Std Dev'].max, true)}">${formatNumber(simData.std_dev)}</td>
-          <td class="number" style="color: ${getColorScale(simData.std_err, ranges['Std Err'].min, ranges['Std Err'].max, true)}">${formatNumber(simData.std_err)}</td>
+          <td class="number" style="color: ${getColorScale(simData.std_dev, ranges['σ'].min, ranges['σ'].max, true)}">${formatNumber(simData.std_dev)}</td>
+          <td class="number" style="color: ${getColorScale(simData.std_err, ranges['SE'].min, ranges['SE'].max, true)}">${formatNumber(simData.std_err)}</td>
           <td class="number" style="color: ${getColorScale(simData.min, ranges.Min.min, ranges.Min.max)}">${formatPercent(simData.min)}</td>
           <td class="number" style="color: ${getColorScale(simData.max, ranges.Max.min, ranges.Max.max)}">${formatPercent(simData.max)}</td>
-          <td class="number" style="color: ${getColorScale(etfCount, ranges.ETFs.min, ranges.ETFs.max)}">${formatNumber(etfCount)}</td>
+          <td class="number" style="color: ${getColorScale(etfCount, ranges["ETF #"].min, ranges["ETF #"].max)}">${formatNumber(etfCount)}</td>
         </tr>`;
       }).join('');
       updateSortIndicators();
@@ -308,7 +324,7 @@
     function updateKDE(name) {
       const [hold, years] = selectedCombo.split('/').map(part => part.split('-')[1]);
       document.getElementById('kdePlot').innerHTML = "";
-      fetch(`${baseUrl}simulations/${name}/hold-${hold}/years-${years}/kde.json`)
+      fetch(`${baseUrl}simulations/${name}/hold-${hold}/years-${years}/${adjustCurrency}/${adjustInflation}/kde.json`)
         .then(res => res.json())
         .then(data => renderKDE('kdePlot', data))
         .catch(() => document.getElementById('kdePlot').innerHTML = `<p class="text-danger">No data for ${hold}-year hold / ${years}-year simulation.</p>`);
@@ -377,6 +393,20 @@
     horizonSelect.addEventListener('change', e => {
       selectedCombo = e.target.value;
       localStorage.setItem('selectedCombo', selectedCombo);
+      if (document.getElementById('indexesTable')) renderTable();
+      if (currentIndexName) updateKDE(currentIndexName);
+    });
+
+    adjustCurrencyCheckbox.addEventListener('change', e => {
+      adjustCurrency = e.target.checked ? "adjust-currency" : "ignore-currency";
+      localStorage.setItem('adjustCurrency', adjustCurrency);
+      if (document.getElementById('indexesTable')) renderTable();
+      if (currentIndexName) updateKDE(currentIndexName);
+    });
+
+    adjustInflationCheckbox.addEventListener('change', e => {
+      adjustInflation = e.target.checked ? "adjust-inflation" : "ignore-inflation";
+      localStorage.setItem('adjustInflation', adjustInflation);
       if (document.getElementById('indexesTable')) renderTable();
       if (currentIndexName) updateKDE(currentIndexName);
     });
