@@ -18,6 +18,7 @@
         propagatedBuildInputs = [
           pkgs.python3Packages.numpy
           pkgs.python3Packages.mypy
+          pkgs.python3Packages.requests
           pkgs.python3Packages.scipy
         ];
 
