@@ -230,6 +230,234 @@ build simulations/euro-stoxx-index-eur/hold-10.0/years-max/adjust-currency/adjus
   INDEX = euro-stoxx-index-eur
   ADJUST_CURRENCY = 
   ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-1.0/years-10/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 10
+  HOLD = 1.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-3.0/years-10/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 10
+  HOLD = 3.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-5.0/years-10/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 10
+  HOLD = 5.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-1.0/years-15/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 15
+  HOLD = 1.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-3.0/years-15/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 15
+  HOLD = 3.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-5.0/years-15/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 15
+  HOLD = 5.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-10.0/years-15/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 15
+  HOLD = 10.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-1.0/years-20/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 20
+  HOLD = 1.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-3.0/years-20/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 20
+  HOLD = 3.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-5.0/years-20/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 20
+  HOLD = 5.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-10.0/years-20/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 20
+  HOLD = 10.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-1.0/years-25/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 25
+  HOLD = 1.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-3.0/years-25/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 25
+  HOLD = 3.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-5.0/years-25/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 25
+  HOLD = 5.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-10.0/years-25/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 25
+  HOLD = 10.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-1.0/years-max/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = max
+  HOLD = 1.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-3.0/years-max/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = max
+  HOLD = 3.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-5.0/years-max/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = max
+  HOLD = 5.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-10.0/years-max/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = max
+  HOLD = 10.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-1.0/years-10/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 10
+  HOLD = 1.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-3.0/years-10/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 10
+  HOLD = 3.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-5.0/years-10/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 10
+  HOLD = 5.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-1.0/years-15/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 15
+  HOLD = 1.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-3.0/years-15/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 15
+  HOLD = 3.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-5.0/years-15/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 15
+  HOLD = 5.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-10.0/years-15/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 15
+  HOLD = 10.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-1.0/years-20/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 20
+  HOLD = 1.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-3.0/years-20/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 20
+  HOLD = 3.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-5.0/years-20/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 20
+  HOLD = 5.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-10.0/years-20/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 20
+  HOLD = 10.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-1.0/years-25/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 25
+  HOLD = 1.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-3.0/years-25/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 25
+  HOLD = 3.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-5.0/years-25/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 25
+  HOLD = 5.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-10.0/years-25/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 25
+  HOLD = 10.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-1.0/years-max/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = max
+  HOLD = 1.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-3.0/years-max/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = max
+  HOLD = 3.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-5.0/years-max/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = max
+  HOLD = 5.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-10.0/years-max/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = max
+  HOLD = 10.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
 build simulations/msci-world-100-index-750294/hold-1.0/years-10/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-world-100-index-750294.csv
   YEARS = 10
   HOLD = 1.0
@@ -5016,6 +5244,234 @@ build simulations/euro-stoxx-index-eur/hold-10.0/years-max/adjust-currency/ignor
   YEARS = max
   HOLD = 10.0
   INDEX = euro-stoxx-index-eur
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-1.0/years-10/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 10
+  HOLD = 1.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-3.0/years-10/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 10
+  HOLD = 3.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-5.0/years-10/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 10
+  HOLD = 5.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-1.0/years-15/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 15
+  HOLD = 1.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-3.0/years-15/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 15
+  HOLD = 3.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-5.0/years-15/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 15
+  HOLD = 5.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-10.0/years-15/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 15
+  HOLD = 10.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-1.0/years-20/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 20
+  HOLD = 1.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-3.0/years-20/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 20
+  HOLD = 3.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-5.0/years-20/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 20
+  HOLD = 5.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-10.0/years-20/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 20
+  HOLD = 10.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-1.0/years-25/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 25
+  HOLD = 1.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-3.0/years-25/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 25
+  HOLD = 3.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-5.0/years-25/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 25
+  HOLD = 5.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-10.0/years-25/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 25
+  HOLD = 10.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-1.0/years-max/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = max
+  HOLD = 1.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-3.0/years-max/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = max
+  HOLD = 3.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-5.0/years-max/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = max
+  HOLD = 5.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-10.0/years-max/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = max
+  HOLD = 10.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-1.0/years-10/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 10
+  HOLD = 1.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-3.0/years-10/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 10
+  HOLD = 3.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-5.0/years-10/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 10
+  HOLD = 5.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-1.0/years-15/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 15
+  HOLD = 1.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-3.0/years-15/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 15
+  HOLD = 3.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-5.0/years-15/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 15
+  HOLD = 5.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-10.0/years-15/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 15
+  HOLD = 10.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-1.0/years-20/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 20
+  HOLD = 1.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-3.0/years-20/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 20
+  HOLD = 3.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-5.0/years-20/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 20
+  HOLD = 5.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-10.0/years-20/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 20
+  HOLD = 10.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-1.0/years-25/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 25
+  HOLD = 1.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-3.0/years-25/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 25
+  HOLD = 3.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-5.0/years-25/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 25
+  HOLD = 5.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-10.0/years-25/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 25
+  HOLD = 10.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-1.0/years-max/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = max
+  HOLD = 1.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-3.0/years-max/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = max
+  HOLD = 3.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-5.0/years-max/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = max
+  HOLD = 5.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-10.0/years-max/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = max
+  HOLD = 10.0
+  INDEX = ftse-global-all-cap-index
   ADJUST_CURRENCY = 
   ADJUST_INFLATION = --ignore-inflation
 build simulations/msci-world-100-index-750294/hold-1.0/years-10/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-world-100-index-750294.csv
@@ -9806,6 +10262,234 @@ build simulations/euro-stoxx-index-eur/hold-10.0/years-max/ignore-currency/adjus
   INDEX = euro-stoxx-index-eur
   ADJUST_CURRENCY = --ignore-currency
   ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-1.0/years-10/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 10
+  HOLD = 1.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-3.0/years-10/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 10
+  HOLD = 3.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-5.0/years-10/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 10
+  HOLD = 5.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-1.0/years-15/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 15
+  HOLD = 1.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-3.0/years-15/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 15
+  HOLD = 3.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-5.0/years-15/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 15
+  HOLD = 5.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-10.0/years-15/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 15
+  HOLD = 10.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-1.0/years-20/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 20
+  HOLD = 1.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-3.0/years-20/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 20
+  HOLD = 3.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-5.0/years-20/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 20
+  HOLD = 5.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-10.0/years-20/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 20
+  HOLD = 10.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-1.0/years-25/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 25
+  HOLD = 1.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-3.0/years-25/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 25
+  HOLD = 3.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-5.0/years-25/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 25
+  HOLD = 5.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-10.0/years-25/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 25
+  HOLD = 10.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-1.0/years-max/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = max
+  HOLD = 1.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-3.0/years-max/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = max
+  HOLD = 3.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-5.0/years-max/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = max
+  HOLD = 5.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-all-word-high-dividend-yield-index/hold-10.0/years-max/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = max
+  HOLD = 10.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-1.0/years-10/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 10
+  HOLD = 1.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-3.0/years-10/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 10
+  HOLD = 3.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-5.0/years-10/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 10
+  HOLD = 5.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-1.0/years-15/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 15
+  HOLD = 1.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-3.0/years-15/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 15
+  HOLD = 3.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-5.0/years-15/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 15
+  HOLD = 5.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-10.0/years-15/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 15
+  HOLD = 10.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-1.0/years-20/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 20
+  HOLD = 1.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-3.0/years-20/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 20
+  HOLD = 3.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-5.0/years-20/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 20
+  HOLD = 5.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-10.0/years-20/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 20
+  HOLD = 10.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-1.0/years-25/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 25
+  HOLD = 1.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-3.0/years-25/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 25
+  HOLD = 3.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-5.0/years-25/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 25
+  HOLD = 5.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-10.0/years-25/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 25
+  HOLD = 10.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-1.0/years-max/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = max
+  HOLD = 1.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-3.0/years-max/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = max
+  HOLD = 3.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-5.0/years-max/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = max
+  HOLD = 5.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/ftse-global-all-cap-index/hold-10.0/years-max/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = max
+  HOLD = 10.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
 build simulations/msci-world-100-index-750294/hold-1.0/years-10/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-world-100-index-750294.csv
   YEARS = 10
   HOLD = 1.0
@@ -14592,6 +15276,234 @@ build simulations/euro-stoxx-index-eur/hold-10.0/years-max/ignore-currency/ignor
   YEARS = max
   HOLD = 10.0
   INDEX = euro-stoxx-index-eur
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-1.0/years-10/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 10
+  HOLD = 1.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-3.0/years-10/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 10
+  HOLD = 3.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-5.0/years-10/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 10
+  HOLD = 5.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-1.0/years-15/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 15
+  HOLD = 1.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-3.0/years-15/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 15
+  HOLD = 3.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-5.0/years-15/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 15
+  HOLD = 5.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-10.0/years-15/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 15
+  HOLD = 10.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-1.0/years-20/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 20
+  HOLD = 1.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-3.0/years-20/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 20
+  HOLD = 3.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-5.0/years-20/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 20
+  HOLD = 5.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-10.0/years-20/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 20
+  HOLD = 10.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-1.0/years-25/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 25
+  HOLD = 1.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-3.0/years-25/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 25
+  HOLD = 3.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-5.0/years-25/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 25
+  HOLD = 5.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-10.0/years-25/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = 25
+  HOLD = 10.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-1.0/years-max/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = max
+  HOLD = 1.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-3.0/years-max/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = max
+  HOLD = 3.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-5.0/years-max/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = max
+  HOLD = 5.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-all-word-high-dividend-yield-index/hold-10.0/years-max/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-all-word-high-dividend-yield-index.csv
+  YEARS = max
+  HOLD = 10.0
+  INDEX = ftse-all-word-high-dividend-yield-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-1.0/years-10/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 10
+  HOLD = 1.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-3.0/years-10/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 10
+  HOLD = 3.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-5.0/years-10/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 10
+  HOLD = 5.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-1.0/years-15/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 15
+  HOLD = 1.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-3.0/years-15/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 15
+  HOLD = 3.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-5.0/years-15/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 15
+  HOLD = 5.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-10.0/years-15/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 15
+  HOLD = 10.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-1.0/years-20/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 20
+  HOLD = 1.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-3.0/years-20/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 20
+  HOLD = 3.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-5.0/years-20/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 20
+  HOLD = 5.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-10.0/years-20/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 20
+  HOLD = 10.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-1.0/years-25/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 25
+  HOLD = 1.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-3.0/years-25/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 25
+  HOLD = 3.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-5.0/years-25/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 25
+  HOLD = 5.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-10.0/years-25/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = 25
+  HOLD = 10.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-1.0/years-max/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = max
+  HOLD = 1.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-3.0/years-max/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = max
+  HOLD = 3.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-5.0/years-max/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = max
+  HOLD = 5.0
+  INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/ftse-global-all-cap-index/hold-10.0/years-max/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/ftse-global-all-cap-index.csv
+  YEARS = max
+  HOLD = 10.0
+  INDEX = ftse-global-all-cap-index
   ADJUST_CURRENCY = --ignore-currency
   ADJUST_INFLATION = --ignore-inflation
 build simulations/msci-world-100-index-750294/hold-1.0/years-10/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-world-100-index-750294.csv

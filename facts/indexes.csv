@@ -41,3 +41,5 @@ euro-stoxx-index-eur,EURO STOXX Index EUR,SXXE,EUR,2008-12-31,https://www.wsj.co
 s&p-global-1200-index,S&P Global 1200 Index,SPG1200,USD,2008-12-31,https://www.wsj.com/market-data/quotes/index/INDEX/XX/S&P GLOBAL INDICES/SPG1200
 s&p-500-index,S&P 500 Index,SPX,USD,1978-01-03,https://www.wsj.com/market-data/quotes/index/SPX
 s&p-small-cap-600-growth-index,S&P Small Cap 600 Growth Index,SP600G,USD,2008-12-31,https://www.wsj.com/market-data/quotes/index/INDEX/XX/S&P US/SP600G
+ftse-all-word-high-dividend-yield-index,FTSE All Word High Dividend Yield Index,121235134,USD,2013-05-20,https://www.zonebourse.com/cours/indice/WHATEVER-121235134/
+ftse-global-all-cap-index,FTSE Global All Cap Index,121234682,USD,2013-03-01,https://www.zonebourse.com/cours/indice/WHATEVER-121234682/
