@@ -42,6 +42,9 @@ if test "$NO_FETCH" -eq 0; then
   log "Fetching indexes from Wall Street Journal"
   ignore_comments "$SCRIPT_DIR/"data/interesting-indexes/wall-street-journal.csv | "$SCRIPT_DIR/scripts/fetch-indexes-from-wsj.py" 57494d5ed7ad44af85bc59a51dd87c90
 
+  log "Fetching indexes from MSN"
+  ignore_comments "$SCRIPT_DIR/"data/interesting-indexes/msn.csv | "$SCRIPT_DIR/scripts/fetch-indexes-from-msn.py"
+
   log "Fetching ETFs"
   ignore_comments facts/indexes.csv | "$SCRIPT_DIR/scripts/fetch-etfs.py" > facts/etfs.csv
 fi

@@ -41,10 +41,6 @@ def parse_args():
 
 
 def log(message):
-    print(message, file=sys.stderr)
-
-
-def log_verbose(message):
     global verbose
     if verbose:
         print(message, file=sys.stderr)
@@ -120,7 +116,7 @@ def get_fx_factor(buy_date, sell_date, exchange_rates):
 
     buy_rate = get_nearest_rate(buy_date)
     sell_rate = get_nearest_rate(sell_date)
-    return sell_rate / buy_rate
+    return sell_rate, buy_rate
 
 
 def simulate_trades(
@@ -149,20 +145,24 @@ def simulate_trades(
             sell_value = data[sell_date]
             total_return = sell_value / buy_value
 
+            log(f"Total return of {buy_date} -> {sell_date}: {total_return}")
+
             if not ignore_inflation:
                 inflation_factor = get_inflation_factor(
                     buy_date, sell_date, inflation_data
                 )
+                log(f"Using inflation factor {inflation_factor}")
                 total_return /= inflation_factor
 
             if not ignore_currency:
-                fx_factor = get_fx_factor(buy_date, sell_date, exchange_rates)
-                total_return *= fx_factor
+                sell_price, buy_price = get_fx_factor(buy_date, sell_date, exchange_rates)
+                log(f"Using currency buying at 1 EUR = {buy_price} USD, selling at 1 EUR = {sell_price}")
+                total_return *= buy_price / sell_price
 
             annualized_return = total_return ** (1 / hold_years)
             percent = (annualized_return - 1) * 100
             results.append(percent)
-            log_verbose(f"ROI of {buy_date} -> {sell_date}: {percent}")
+            log(f"Annualized ROI of {buy_date} -> {sell_date}: {percent}%")
     return results
 
 
@@ -256,7 +256,9 @@ def save_kde_json(results, json_path, kde_points):
         ],
     }
 
-    with open(json_path, "w") as f:
+    log(f"Writing output to {json_path}")
+
+    with open(json_path, "w", encoding="utf8") as f:
         json.dump(kde_data, f, indent=4)
 
 
