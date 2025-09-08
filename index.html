@@ -378,9 +378,21 @@
 
     function showChart(name) {
       currentIndexName = name;
-      const { full_name = 'N/A' } = indexesMeta[name] || {};
+      let { full_name = 'N/A', years = "N/A" } = indexesMeta[name] || {};
+      age = years;
+      [hold, years] = selectedCombo.split('/').map(part => part.split('-')[1]);
+      key = `hold-${hold}/years-${years}/${adjustCurrency}/${adjustInflation}`;
+      let simulation = simulationsData[name][key]
       app.innerHTML = `
         <h2>${full_name}</h2>
+        <div><strong>Age</strong>: ${age} years</div>
+        <div><strong>Mean</strong>: ${simulation["mean"]}</div>
+        <div><strong>Median</strong>: ${simulation["median"]}</div>
+        <div><strong>Standard deviation</strong>: ${simulation["std_dev"]}</div>
+        <div><strong>Standard error</strong>: ${simulation["std_err"]}</div>
+        <div><strong>Min</strong>: ${simulation["min"]}</div>
+        <div><strong>Max</strong>: ${simulation["max"]}</div>
+        <div><strong>Simulations</strong>: ${simulation["simulations"]}</div>
         <div id="kdePlot" class="plot-div"></div>
         ${renderEtfsTable(name)}
         <div id="chartDiv" class="plot-div"></div>
