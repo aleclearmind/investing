@@ -354,7 +354,7 @@
           <td title="${etf.shareName}" style="font-family: monospace">${etf.isin}</td>
           <td>${etf.provider}</td>
           <td class="number" style="color: ${getColorScale(etf.expenseRatio, ranges.expenseRatio.min, ranges.expenseRatio.max, true)}">${(etf.expenseRatio * 100).toFixed(2)}%</td>
-          <td>${etf.currency}</td>
+          <td>${etf.currency}${etf.currencyHedged ? " (Hed)" : ""}</td>
           <td class="number">${etf.size.toFixed(2)}</td>
           <td class="number" style="color: ${getColorScale(etf.years, ranges.years.min, ranges.years.max)}">${etf.years}</td>
           <td>${etf.dividendPolicyId}</td>
