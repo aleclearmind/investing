@@ -352,7 +352,7 @@ def main():
         ignore_inflation=args.ignore_inflation,
     )
 
-    if results:
+    if results and len(set(results)) > 1:
         write_statistics(
             results,
             args.hold,
