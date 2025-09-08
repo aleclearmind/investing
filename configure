@@ -47,7 +47,14 @@ if test "$NO_FETCH" -eq 0; then
 
   log "Fetching ETFs"
   ignore_comments facts/indexes.csv | "$SCRIPT_DIR/scripts/fetch-etfs.py" > facts/etfs.csv
+
+  # Generate null index
+  EARLIEST_INDEX=$(sort -t, -k5 facts/indexes.csv  | head -n1 | cut -f1 -d,)
+  EARLIEST_DATE=$(sort -t, -k5 facts/indexes.csv  | head -n1 | cut -f5 -d,)
+  sed '2,$ s/,.*/,1/' 'facts/indexes/'"$EARLIEST_INDEX"'.csv' > facts/indexes/null.csv
+  echo "null,Null Index,null,USD,$EARLIEST_DATE,https://dev.null" >> facts/indexes.csv
 fi
+
 
 # Initialize the build.ninja file
 log "Generating build.ninja..."
