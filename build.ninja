@@ -4448,6 +4448,120 @@ build simulations/msci-world-value-select-screens-advanced-index-749045/hold-10.
   INDEX = msci-world-value-select-screens-advanced-index-749045
   ADJUST_CURRENCY = 
   ADJUST_INFLATION = 
+build simulations/null/hold-1.0/years-10/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 10
+  HOLD = 1.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/null/hold-3.0/years-10/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 10
+  HOLD = 3.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/null/hold-5.0/years-10/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 10
+  HOLD = 5.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/null/hold-1.0/years-15/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 15
+  HOLD = 1.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/null/hold-3.0/years-15/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 15
+  HOLD = 3.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/null/hold-5.0/years-15/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 15
+  HOLD = 5.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/null/hold-10.0/years-15/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 15
+  HOLD = 10.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/null/hold-1.0/years-20/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 20
+  HOLD = 1.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/null/hold-3.0/years-20/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 20
+  HOLD = 3.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/null/hold-5.0/years-20/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 20
+  HOLD = 5.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/null/hold-10.0/years-20/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 20
+  HOLD = 10.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/null/hold-1.0/years-25/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 25
+  HOLD = 1.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/null/hold-3.0/years-25/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 25
+  HOLD = 3.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/null/hold-5.0/years-25/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 25
+  HOLD = 5.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/null/hold-10.0/years-25/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 25
+  HOLD = 10.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/null/hold-1.0/years-max/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = max
+  HOLD = 1.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/null/hold-3.0/years-max/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = max
+  HOLD = 3.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/null/hold-5.0/years-max/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = max
+  HOLD = 5.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/null/hold-10.0/years-max/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = max
+  HOLD = 10.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
 build simulations/s&p-500-index/hold-1.0/years-10/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/s&p-500-index.csv
   YEARS = 10
   HOLD = 1.0
@@ -9462,6 +9576,120 @@ build simulations/msci-world-value-select-screens-advanced-index-749045/hold-10.
   YEARS = max
   HOLD = 10.0
   INDEX = msci-world-value-select-screens-advanced-index-749045
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-1.0/years-10/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 10
+  HOLD = 1.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-3.0/years-10/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 10
+  HOLD = 3.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-5.0/years-10/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 10
+  HOLD = 5.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-1.0/years-15/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 15
+  HOLD = 1.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-3.0/years-15/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 15
+  HOLD = 3.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-5.0/years-15/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 15
+  HOLD = 5.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-10.0/years-15/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 15
+  HOLD = 10.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-1.0/years-20/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 20
+  HOLD = 1.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-3.0/years-20/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 20
+  HOLD = 3.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-5.0/years-20/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 20
+  HOLD = 5.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-10.0/years-20/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 20
+  HOLD = 10.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-1.0/years-25/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 25
+  HOLD = 1.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-3.0/years-25/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 25
+  HOLD = 3.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-5.0/years-25/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 25
+  HOLD = 5.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-10.0/years-25/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 25
+  HOLD = 10.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-1.0/years-max/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = max
+  HOLD = 1.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-3.0/years-max/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = max
+  HOLD = 3.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-5.0/years-max/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = max
+  HOLD = 5.0
+  INDEX = null
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-10.0/years-max/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = max
+  HOLD = 10.0
+  INDEX = null
   ADJUST_CURRENCY = 
   ADJUST_INFLATION = --ignore-inflation
 build simulations/s&p-500-index/hold-1.0/years-10/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/s&p-500-index.csv
@@ -14480,6 +14708,120 @@ build simulations/msci-world-value-select-screens-advanced-index-749045/hold-10.
   INDEX = msci-world-value-select-screens-advanced-index-749045
   ADJUST_CURRENCY = --ignore-currency
   ADJUST_INFLATION = 
+build simulations/null/hold-1.0/years-10/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 10
+  HOLD = 1.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/null/hold-3.0/years-10/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 10
+  HOLD = 3.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/null/hold-5.0/years-10/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 10
+  HOLD = 5.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/null/hold-1.0/years-15/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 15
+  HOLD = 1.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/null/hold-3.0/years-15/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 15
+  HOLD = 3.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/null/hold-5.0/years-15/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 15
+  HOLD = 5.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/null/hold-10.0/years-15/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 15
+  HOLD = 10.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/null/hold-1.0/years-20/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 20
+  HOLD = 1.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/null/hold-3.0/years-20/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 20
+  HOLD = 3.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/null/hold-5.0/years-20/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 20
+  HOLD = 5.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/null/hold-10.0/years-20/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 20
+  HOLD = 10.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/null/hold-1.0/years-25/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 25
+  HOLD = 1.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/null/hold-3.0/years-25/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 25
+  HOLD = 3.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/null/hold-5.0/years-25/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 25
+  HOLD = 5.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/null/hold-10.0/years-25/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 25
+  HOLD = 10.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/null/hold-1.0/years-max/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = max
+  HOLD = 1.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/null/hold-3.0/years-max/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = max
+  HOLD = 3.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/null/hold-5.0/years-max/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = max
+  HOLD = 5.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/null/hold-10.0/years-max/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = max
+  HOLD = 10.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
 build simulations/s&p-500-index/hold-1.0/years-10/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/s&p-500-index.csv
   YEARS = 10
   HOLD = 1.0
@@ -19494,6 +19836,120 @@ build simulations/msci-world-value-select-screens-advanced-index-749045/hold-10.
   YEARS = max
   HOLD = 10.0
   INDEX = msci-world-value-select-screens-advanced-index-749045
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-1.0/years-10/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 10
+  HOLD = 1.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-3.0/years-10/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 10
+  HOLD = 3.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-5.0/years-10/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 10
+  HOLD = 5.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-1.0/years-15/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 15
+  HOLD = 1.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-3.0/years-15/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 15
+  HOLD = 3.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-5.0/years-15/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 15
+  HOLD = 5.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-10.0/years-15/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 15
+  HOLD = 10.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-1.0/years-20/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 20
+  HOLD = 1.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-3.0/years-20/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 20
+  HOLD = 3.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-5.0/years-20/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 20
+  HOLD = 5.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-10.0/years-20/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 20
+  HOLD = 10.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-1.0/years-25/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 25
+  HOLD = 1.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-3.0/years-25/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 25
+  HOLD = 3.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-5.0/years-25/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 25
+  HOLD = 5.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-10.0/years-25/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = 25
+  HOLD = 10.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-1.0/years-max/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = max
+  HOLD = 1.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-3.0/years-max/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = max
+  HOLD = 3.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-5.0/years-max/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = max
+  HOLD = 5.0
+  INDEX = null
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/null/hold-10.0/years-max/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/null.csv
+  YEARS = max
+  HOLD = 10.0
+  INDEX = null
   ADJUST_CURRENCY = --ignore-currency
   ADJUST_INFLATION = --ignore-inflation
 build simulations/s&p-500-index/hold-1.0/years-10/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/s&p-500-index.csv

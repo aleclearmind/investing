@@ -8,11 +8,24 @@
   <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
   <script src="https://unpkg.com/navigo@8.11.1/lib/navigo.min.js"></script>
   <style id="dynamic-styles"></style>
+  <style>
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 10px; /* Space between items */
+        max-width: 100%; /* Ensure it fits the container */
+        box-sizing: border-box;
+    }
+
+    .stats > div {
+        white-space: nowrap; /* Prevent text wrapping */
+    }
+  </style>
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark mb-4">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Indexes Viewer</a>
+      <a class="navbar-brand" href="#/">Indexes Viewer</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -76,8 +89,8 @@
     const COMBINATIONS = (() => {
       const yearsOptions = [10, 15, 20, 25, 'max'];
       const holdOptions = [1.0, 3.0, 5.0, 10.0];
-      return yearsOptions.flatMap(years =>
-        holdOptions.map(hold => ({
+      return holdOptions.flatMap(hold =>
+        yearsOptions.map(years => ({
           hold: hold.toFixed(1),
           years,
           value: `hold-${hold.toFixed(1)}/years-${years}`,
@@ -88,11 +101,12 @@
 
     const app = document.getElementById('app');
     const router = new Navigo(baseUrl, { hash: true });
-    let selectedCombo = localStorage.getItem('selectedCombo') ?? COMBINATIONS[0].value;
-    let adjustCurrency = localStorage.getItem('adjustCurrency') ?? "adjust-currency";
-    let adjustInflation = localStorage.getItem('adjustInflation') ?? "adjust-inflation";
+    let selectedCombo = "hold-10.0/years-20";
+    let adjustCurrency = "adjust-currency";
+    let adjustInflation = "adjust-inflation";
     let indexesMeta = {}, simulationsData = {}, etfsData = [], currentIndexName = null;
-    let sortState = JSON.parse(localStorage.getItem('sortState')) || { column: 0, ascending: true };
+    let sortState = { column: 0, ascending: true };
+    let currentRoute = 'home';
 
     const baseLayout = {
       plot_bgcolor: COLORS.navbar,
@@ -125,6 +139,8 @@
     adjustCurrencyCheckbox.checked = adjustCurrency === "adjust-currency";
     const adjustInflationCheckbox = document.getElementById('adjust-inflation');
     adjustInflationCheckbox.checked = adjustInflation === "adjust-inflation";
+
+    const homeLink = document.querySelector('.navbar-brand');
 
     // Centralized CSV Parsing
     function parseCSV(csvData) {
@@ -183,24 +199,68 @@
       });
     }
 
+    function replaceShareName(name) {
+      return name.replace("by DWS", "");
+    }
+
     function loadEtfsData() {
       return fetchCSV('facts/etfs.csv').then(rows => {
         const currentDate = new Date('2025-04-06');
         etfsData = rows.map(([indexName, isin, shareName, currencyHedged, expenseRatio, provider, replicationMethod, replicationModel, dividendPolicyId, creationDate, currency, size, trackingError, trackingDifference, description, trackinsightTicker]) => {
           const years = ((currentDate - new Date(creationDate)) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(1);
+          shareName = replaceShareName(shareName);
           return {
             indexName, isin, shareName, currencyHedged: currencyHedged === 'True', expenseRatio: Number(expenseRatio),
             provider, replicationMethod, replicationModel, dividendPolicyId, creationDate, years: parseFloat(years),
             currency, size: Number(size) / 1e9, trackingError: Number(trackingError), trackingDifference: Number(trackingDifference),
             description, trackinsightTicker
           };
-        });
+        }).filter(entry => (entry.currencyHedged && entry.currency == "EUR") || entry.currency == "USD");
       });
     }
 
     const dataLoaded = Promise.all([loadIndexesMeta(), loadSimulationsData(), loadEtfsData()]);
 
     // Utility Functions
+    function buildQuery() {
+      const params = {
+        combo: selectedCombo,
+        ac: adjustCurrency === "adjust-currency" ? '1' : '0',
+        ai: adjustInflation === "adjust-inflation" ? '1' : '0',
+        s: `${sortState.column},${sortState.ascending ? 'true' : 'false'}`
+      };
+      return new URLSearchParams(params).toString();
+    }
+
+    function updateUrl() {
+      const lastRoute = router.lastResolved();
+      const path = lastRoute && lastRoute.length > 0 ? lastRoute[0].url : (currentRoute === 'view' && currentIndexName ? `/view/${currentIndexName}` : '/');
+      const query = buildQuery();
+      router.navigate(path + (query ? '?' + query : ''));
+    }
+
+    function updateHomeLink() {
+      homeLink.href = `#/?${buildQuery()}`;
+    }
+
+    function applyParams(params) {
+      const p = params || {};
+      const ac = p.ac ?? '1';
+      adjustCurrency = ac === '1' ? "adjust-currency" : "ignore-currency";
+      const ai = p.ai ?? '1';
+      adjustInflation = ai === '1' ? "adjust-inflation" : "ignore-inflation";
+      selectedCombo = p.combo ?? "hold-10.0/years-20";
+      const s = p.s ?? '0,true';
+      const [col, ascStr] = s.split(',');
+      sortState.column = parseInt(col ?? 0);
+      sortState.ascending = ascStr === 'true';
+
+      horizonSelect.value = selectedCombo;
+      adjustCurrencyCheckbox.checked = ac === '1';
+      adjustInflationCheckbox.checked = ai === '1';
+      updateHomeLink();
+    }
+
     function getColorScale(value, min, max, isLowerBetter = false) {
       if (value === undefined) return COLORS.text;
       const ratio = (value - min) / (max - min) || 0;
@@ -209,7 +269,8 @@
 
     function sortTable(columnIndex) {
       sortState = { column: columnIndex, ascending: sortState.column === columnIndex ? !sortState.ascending : true };
-      localStorage.setItem('sortState', JSON.stringify(sortState));
+      updateUrl();
+      updateHomeLink();
       renderTable();
     }
 
@@ -255,10 +316,11 @@
       }, {});
       const formatPercent = val => val !== undefined ? (val > 0 ? `+${val}%` : `${val}%`) : 'N/A';
       const formatNumber = val => val !== undefined ? val : 'N/A';
+      const queryStr = buildQuery();
       document.querySelector('#indexesTable tbody').innerHTML = indexesData.map(data => {
         const { simData, meta, etfCount } = data;
         return `<tr>
-          <td><a href="${baseUrl}#${baseUrl}view/${data.name}">${meta.full_name || 'N/A'}</a></td>
+          <td><a href="#/view/${data.name}?${queryStr}">${meta.full_name || 'N/A'}</a></td>
           <td>${meta.currency || 'N/A'}</td>
           <td class="number" style="color: ${getColorScale(meta.years, ranges.Years.min, ranges.Years.max)}">${formatNumber(meta.years)}</td>
           <td class="number" style="color: ${getColorScale(simData.mean, ranges.Mean.min, ranges.Mean.max)}">${formatPercent(simData.mean)}</td>
@@ -346,10 +408,10 @@
 
       const tableBody = relatedEtfs.map(etf => `
         <tr>
-          <td>${etf.isin}</td>
+          <td title="${etf.shareName}" style="font-family: monospace">${etf.isin}</td>
           <td>${etf.provider}</td>
           <td class="number" style="color: ${getColorScale(etf.expenseRatio, ranges.expenseRatio.min, ranges.expenseRatio.max, true)}">${(etf.expenseRatio * 100).toFixed(2)}%</td>
-          <td>${etf.currency}</td>
+          <td>${etf.currency}${etf.currencyHedged ? " (Hed)" : ""}</td>
           <td class="number">${etf.size.toFixed(2)}</td>
           <td class="number" style="color: ${getColorScale(etf.years, ranges.years.min, ranges.years.max)}">${etf.years}</td>
           <td>${etf.dividendPolicyId}</td>
@@ -373,9 +435,23 @@
 
     function showChart(name) {
       currentIndexName = name;
-      const { full_name = 'N/A' } = indexesMeta[name] || {};
+      let { full_name = 'N/A', years = "N/A" } = indexesMeta[name] || {};
+      age = years;
+      [hold, years] = selectedCombo.split('/').map(part => part.split('-')[1]);
+      key = `hold-${hold}/years-${years}/${adjustCurrency}/${adjustInflation}`;
+      let simulation = simulationsData[name][key]
       app.innerHTML = `
         <h2>${full_name}</h2>
+        <div class="stats">
+          <div><strong>Age</strong>: ${age} years</div>
+          <div><strong>Mean</strong>: ${simulation["mean"]}</div>
+          <div><strong>Median</strong>: ${simulation["median"]}</div>
+          <div><strong>Standard deviation</strong>: ${simulation["std_dev"]}</div>
+          <div><strong>Standard error</strong>: ${simulation["std_err"]}</div>
+          <div><strong>Min</strong>: ${simulation["min"]}</div>
+          <div><strong>Max</strong>: ${simulation["max"]}</div>
+          <div><strong>Simulations</strong>: ${simulation["simulations"]}</div>
+        </div>
         <div id="kdePlot" class="plot-div"></div>
         ${renderEtfsTable(name)}
         <div id="chartDiv" class="plot-div"></div>
@@ -392,28 +468,43 @@
     // Event Listeners and Routing
     horizonSelect.addEventListener('change', e => {
       selectedCombo = e.target.value;
-      localStorage.setItem('selectedCombo', selectedCombo);
-      if (document.getElementById('indexesTable')) renderTable();
-      if (currentIndexName) updateKDE(currentIndexName);
+      horizonSelect.value = selectedCombo;
+      updateUrl();
+      updateHomeLink();
+      if (currentRoute === 'home') renderTable();
+      else if (currentRoute === 'view') showChart(currentIndexName);
     });
 
     adjustCurrencyCheckbox.addEventListener('change', e => {
       adjustCurrency = e.target.checked ? "adjust-currency" : "ignore-currency";
-      localStorage.setItem('adjustCurrency', adjustCurrency);
-      if (document.getElementById('indexesTable')) renderTable();
-      if (currentIndexName) updateKDE(currentIndexName);
+      adjustCurrencyCheckbox.checked = e.target.checked;
+      updateUrl();
+      updateHomeLink();
+      if (currentRoute === 'home') renderTable();
+      else if (currentRoute === 'view') showChart(currentIndexName);
     });
 
     adjustInflationCheckbox.addEventListener('change', e => {
       adjustInflation = e.target.checked ? "adjust-inflation" : "ignore-inflation";
-      localStorage.setItem('adjustInflation', adjustInflation);
-      if (document.getElementById('indexesTable')) renderTable();
-      if (currentIndexName) updateKDE(currentIndexName);
+      adjustInflationCheckbox.checked = e.target.checked;
+      updateUrl();
+      updateHomeLink();
+      if (currentRoute === 'home') renderTable();
+      else if (currentRoute === 'view') showChart(currentIndexName);
     });
 
     router.on({
-      '/': () => dataLoaded.then(showTable),
-      '/view/:name': ({ data }) => dataLoaded.then(() => showChart(data.name))
+      '/': ({ params }) => dataLoaded.then(() => {
+        applyParams(params);
+        showTable();
+        currentRoute = 'home';
+        currentIndexName = null;
+      }),
+      '/view/:name': ({ data, params }) => dataLoaded.then(() => {
+        applyParams(params);
+        showChart(data.name);
+        currentRoute = 'view';
+      })
     });
     router.resolve();
   </script>
