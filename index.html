@@ -8,6 +8,19 @@
   <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
   <script src="https://unpkg.com/navigo@8.11.1/lib/navigo.min.js"></script>
   <style id="dynamic-styles"></style>
+  <style>
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 10px; /* Space between items */
+        max-width: 100%; /* Ensure it fits the container */
+        box-sizing: border-box;
+    }
+
+    .stats > div {
+        white-space: nowrap; /* Prevent text wrapping */
+    }
+  </style>
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark mb-4">
@@ -429,14 +442,16 @@
       let simulation = simulationsData[name][key]
       app.innerHTML = `
         <h2>${full_name}</h2>
-        <div><strong>Age</strong>: ${age} years</div>
-        <div><strong>Mean</strong>: ${simulation["mean"]}</div>
-        <div><strong>Median</strong>: ${simulation["median"]}</div>
-        <div><strong>Standard deviation</strong>: ${simulation["std_dev"]}</div>
-        <div><strong>Standard error</strong>: ${simulation["std_err"]}</div>
-        <div><strong>Min</strong>: ${simulation["min"]}</div>
-        <div><strong>Max</strong>: ${simulation["max"]}</div>
-        <div><strong>Simulations</strong>: ${simulation["simulations"]}</div>
+        <div class="stats">
+          <div><strong>Age</strong>: ${age} years</div>
+          <div><strong>Mean</strong>: ${simulation["mean"]}</div>
+          <div><strong>Median</strong>: ${simulation["median"]}</div>
+          <div><strong>Standard deviation</strong>: ${simulation["std_dev"]}</div>
+          <div><strong>Standard error</strong>: ${simulation["std_err"]}</div>
+          <div><strong>Min</strong>: ${simulation["min"]}</div>
+          <div><strong>Max</strong>: ${simulation["max"]}</div>
+          <div><strong>Simulations</strong>: ${simulation["simulations"]}</div>
+        </div>
         <div id="kdePlot" class="plot-div"></div>
         ${renderEtfsTable(name)}
         <div id="chartDiv" class="plot-div"></div>
