@@ -183,11 +183,16 @@
       });
     }
 
+    function replaceShareName(name) {
+      return name.replace("by DWS", "");
+    }
+
     function loadEtfsData() {
       return fetchCSV('facts/etfs.csv').then(rows => {
         const currentDate = new Date('2025-04-06');
         etfsData = rows.map(([indexName, isin, shareName, currencyHedged, expenseRatio, provider, replicationMethod, replicationModel, dividendPolicyId, creationDate, currency, size, trackingError, trackingDifference, description, trackinsightTicker]) => {
           const years = ((currentDate - new Date(creationDate)) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(1);
+          shareName = replaceShareName(shareName);
           return {
             indexName, isin, shareName, currencyHedged: currencyHedged === 'True', expenseRatio: Number(expenseRatio),
             provider, replicationMethod, replicationModel, dividendPolicyId, creationDate, years: parseFloat(years),
