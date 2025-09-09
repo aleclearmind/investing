@@ -25,7 +25,7 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark mb-4">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#/">Indexes Viewer</a>
+      <a class="navbar-brand" href="#">Indexes Viewer</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -234,13 +234,13 @@
 
     function updateUrl() {
       const lastRoute = router.lastResolved();
-      const path = lastRoute && lastRoute.length > 0 ? lastRoute[0].url : (currentRoute === 'view' && currentIndexName ? `/view/${currentIndexName}` : '/');
+      const path = lastRoute && lastRoute.length > 0 ? lastRoute[0].url : (currentRoute === 'view' && currentIndexName ? `${baseUrl}view/${currentIndexName}` : '/');
       const query = buildQuery();
       router.navigate(path + (query ? '?' + query : ''));
     }
 
     function updateHomeLink() {
-      homeLink.href = `#/?${buildQuery()}`;
+      homeLink.href = `#${baseUrl}?${buildQuery()}`;
     }
 
     function applyParams(params) {
@@ -320,7 +320,7 @@
       document.querySelector('#indexesTable tbody').innerHTML = indexesData.map(data => {
         const { simData, meta, etfCount } = data;
         return `<tr>
-          <td><a href="#/view/${data.name}?${queryStr}">${meta.full_name || 'N/A'}</a></td>
+          <td><a href="#${baseUrl}view/${data.name}?${queryStr}">${meta.full_name || 'N/A'}</a></td>
           <td>${meta.currency || 'N/A'}</td>
           <td class="number" style="color: ${getColorScale(meta.years, ranges.Years.min, ranges.Years.max)}">${formatNumber(meta.years)}</td>
           <td class="number" style="color: ${getColorScale(simData.mean, ranges.Mean.min, ranges.Mean.max)}">${formatPercent(simData.mean)}</td>
