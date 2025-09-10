@@ -91,6 +91,29 @@ def fetch_tracking_data(ticker, index_name):
         return {}
 
 
+def fetch_cost_from_borsa_italiana(isin):
+    url = f"https://www.borsaitaliana.it/borsa/etf/scheda/{isin}.html"
+    logger.info(f"Requesting cost for {isin} to Borsa Italiana from {url}")
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.text
+        logger.info(f"Received fund description for {isin}")
+        logger.debug(f"Response: {data}")
+
+        # Remove newlines
+        data = data.replace("\n", "")
+
+        match = re.match(r""".*Commissioni totali annue.*?<span.*?>(.*?)</span>.*""", data)
+        if not match:
+            return None
+        cost = float(match.groups()[0].replace(",", ".").replace("%", ""))
+        return "{:.4f}".format(cost / 100)
+    except requests.RequestException as e:
+        logger.error(f"Failed to fetch description for {isin}")
+        return None
+
+
 def fetch_fund_description(ticker, index_name):
     encoded_ticker = urllib.parse.quote(ticker)
     url = f"https://www.trackinsight.com/data-api/funds/{encoded_ticker}.json"
@@ -217,13 +240,16 @@ def process_csv(input_file, output_file):
                 fetch_fund_description(ticker, index_name) if ticker else {}
             )
 
+            # Fetch actual cost from Borsa Italiana
+            cost_bi = fetch_cost_from_borsa_italiana(isin)
+
             # Prepare output row
             output_row = {
                 "index-name": index_name,
                 "isin": isin,
                 "share-name": fund.get("shareLabel", ""),
                 "currency-hedged": fund.get("currencyHedged", False),
-                "expense-ratio": fund.get("expense_ratio", ""),
+                "expense-ratio": cost_bi or fund.get("expense_ratio", ""),
                 "provider": fund.get("provider", ""),
                 "replication-method": map_value(
                     fund.get("replication_method", ""), REPLICATION_METHODS
