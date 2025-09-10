@@ -42,6 +42,14 @@
             Adjust inflation
           </label>
         </span>
+        <span class="kde-controls" style="margin-left: 1em">
+          <label for="xMinSelect" style="margin-right: 0.5em">Min:</label>
+          <select id="xMinSelect" class="form-select d-inline-block" style="width: auto; margin-right: 1em">
+          </select>
+          <label for="xMaxSelect" style="margin-right: 0.5em">Max:</label>
+          <select id="xMaxSelect" class="form-select d-inline-block" style="width: auto">
+          </select>
+        </span>
         <select style="margin-left: 1em" id="horizonSelect" class="form-select horizon-select"></select>
       </div>
     </div>
@@ -96,7 +104,7 @@
           value: `hold-${hold.toFixed(1)}/years-${years}`,
           label: `Hold for ${hold} years / Data for ${years === 'max' ? 'all' : years} years`
         }))
-      ).filter(value => value.years =="max" || (value.years > new Number(value.hold)));
+      ).filter(value => value.years == "max" || (value.years > new Number(value.hold)));
     })();
 
     const app = document.getElementById('app');
@@ -104,6 +112,8 @@
     let selectedCombo = "hold-10.0/years-20";
     let adjustCurrency = "adjust-currency";
     let adjustInflation = "adjust-inflation";
+    let xAxisMin = 'Auto';
+    let xAxisMax = 'Auto';
     let indexesMeta = {}, simulationsData = {}, etfsData = [], currentIndexName = null;
     let sortState = { column: 0, ascending: true };
     let currentRoute = 'home';
@@ -130,6 +140,11 @@
       { name: 'Max', numeric: true, sort: (a, b) => (a.simData.max || 0) - (b.simData.max || 0), isPercent: true, isHigherBetter: true },
       { name: 'ETF #', numeric: true, sort: (a, b) => (a.etfCount || 0) - (b.etfCount || 0), isHigherBetter: true }
     ];
+
+    // Generate options for x-axis range dropdowns (-20 to +20)
+    const rangeMin = -20;
+    const rangeMax = 20;
+    const rangeOptions = ['Auto', ...Array.from({length: rangeMax - rangeMin + 1}, (_, i) => i + rangeMin)];
 
     const horizonSelect = document.getElementById('horizonSelect');
     horizonSelect.innerHTML = COMBINATIONS.map(c => `<option value="${c.value}">${c.label}</option>`).join('');
@@ -227,7 +242,9 @@
         combo: selectedCombo,
         ac: adjustCurrency === "adjust-currency" ? '1' : '0',
         ai: adjustInflation === "adjust-inflation" ? '1' : '0',
-        s: `${sortState.column},${sortState.ascending ? 'true' : 'false'}`
+        s: `${sortState.column},${sortState.ascending ? 'true' : 'false'}`,
+        xmin: xAxisMin !== 'Auto' ? xAxisMin : '',
+        xmax: xAxisMax !== 'Auto' ? xAxisMax : ''
       };
       return new URLSearchParams(params).toString();
     }
@@ -254,10 +271,27 @@
       const [col, ascStr] = s.split(',');
       sortState.column = parseInt(col ?? 0);
       sortState.ascending = ascStr === 'true';
+      xAxisMin = p.xmin && rangeOptions.includes(Number(p.xmin)) ? Number(p.xmin) : 'Auto';
+      xAxisMax = p.xmax && rangeOptions.includes(Number(p.xmax)) ? Number(p.xmax) : 'Auto';
 
       horizonSelect.value = selectedCombo;
       adjustCurrencyCheckbox.checked = ac === '1';
       adjustInflationCheckbox.checked = ai === '1';
+      const xMinSelect = document.getElementById('xMinSelect');
+      const xMaxSelect = document.getElementById('xMaxSelect');
+      if (xMinSelect) xMinSelect.value = xAxisMin;
+      if (xMaxSelect) xMaxSelect.value = xAxisMax;
+
+      xMinSelect.innerHTML = `
+        ${rangeOptions.map(val => `<option value="${val}">${val >= 0 ? '+' : ''}${val}%</option>`).join('')}
+      `;
+      xMaxSelect.innerHTML = `
+        ${rangeOptions.map(val => `<option value="${val}">${val >= 0 ? '+' : ''}${val}%</option>`).join('')}
+      `;
+
+      xMinSelect.value = xAxisMin;
+      xMaxSelect.value = xAxisMax;
+
       updateHomeLink();
     }
 
@@ -289,23 +323,12 @@
 
       // a - b
       function sortColumn(a, b) {
-        if (a.simData.mean === undefined)
-          return Infinity;
-        if (b.simData.mean === undefined)
-          return -Infinity;
-        if (sortState.ascending) {
-          return columns[sortState.column].sort(b, a);
-        } else {
-          return columns[sortState.column].sort(a, b);
-        }
+        if (a.simData.mean === undefined) return Infinity;
+        if (b.simData.mean === undefined) return -Infinity;
+        return sortState.ascending ? columns[sortState.column].sort(b, a) : columns[sortState.column].sort(a, b);
       }
 
-      function wrapper(a, b) {
-        result = sortColumn(a, b);
-        return result;
-      }
-
-      indexesData.sort(wrapper);
+      indexesData.sort(sortColumn);
       const ranges = columns.reduce((acc, col) => {
         if (col.numeric) {
           const key = col.name;
@@ -375,11 +398,31 @@
       })));
       const tickVals = x.filter((_, i) => i % Math.floor(x.length / 5) === 0);
       const tickText = tickVals.map(val => val.toFixed(2) > 0 ? `+${val.toFixed(2)}%` : `${val.toFixed(2)}%`);
+
+      // Apply x-axis range if specified
+      const xaxis = {
+        ...baseLayout.xaxis,
+        title: 'Return',
+        tickvals: tickVals,
+        ticktext: tickText,
+        tickformat: '.2f'
+      };
+
+      if (xAxisMin !== 'Auto') xaxis.range = [xAxisMin, xaxis.range ? xaxis.range[1] : Math.max(...x)];
+      if (xAxisMax !== 'Auto') xaxis.range = [xaxis.range ? xaxis.range[0] : Math.min(...x), xAxisMax];
+
       Plotly.newPlot(divId, traces, {
         ...baseLayout,
-        xaxis: { ...baseLayout.xaxis, title: 'Return', tickvals: tickVals, ticktext: tickText, tickformat: '.2f' },
+        xaxis,
         yaxis: { ...baseLayout.yaxis, title: 'Density' },
-        shapes: verticalLinesData.map(line => ({ type: 'line', x0: line.value, x1: line.value, y0: 0, y1: Math.max(...y), line: { color: line.color, dash: line.dash } }))
+        shapes: verticalLinesData.map(line => ({
+          type: 'line',
+          x0: line.value,
+          x1: line.value,
+          y0: 0,
+          y1: Math.max(...y),
+          line: { color: line.color, dash: line.dash }
+        }))
       });
     }
 
@@ -396,7 +439,7 @@
       const relatedEtfs = etfsData.filter(etf => etf.indexName === name);
       if (!relatedEtfs.length) return '<p>No ETFs available for this index.</p>';
 
-      const headers = ['ISIN', 'Provider', 'Cost', 'Currency', 'Size', 'Years', 'Dividend', 'R. Method', 'R. Model', 'Trk. Error', 'Trk. Difference', 'TI', 'JE'];
+      const headers = ['ISIN', 'Provider', 'Cost', 'Currency', 'Size', 'Years', 'Dividend', 'R. Method', 'R. Model', 'Trk. Error', 'Trk. Difference', 'BI', 'TI', 'JE'];
       const tableHeader = `<thead><tr>${headers.map(header => `<th${['Size', 'Cost', 'Years', 'Trk. Error', 'Trk. Difference'].includes(header) ? ' class="number"' : ''}>${header}</th>`).join('')}</tr></thead>`;
 
       const ranges = {
@@ -419,6 +462,7 @@
           <td>${etf.replicationModel}</td>
           <td class="number" style="color: ${getColorScale(etf.trackingError, ranges.trackingError.min, ranges.trackingError.max, true)}">${(etf.trackingError * 100).toFixed(2)}%</td>
           <td class="number" style="color: ${getColorScale(etf.trackingDifference, ranges.trackingDifference.min, ranges.trackingDifference.max, false)}">${(etf.trackingDifference * 100).toFixed(2)}%</td>
+          <td><a href="https://www.borsaitaliana.it/borsa/etf/scheda/${etf.isin}.html" target="_blank">BI</a></td>
           <td><a href="https://www.trackinsight.com/en/fund/${etf.trackinsightTicker}" target="_blank">TI</a></td>
           <td><a href="https://www.justetf.com/en/etf-profile.html?isin=${etf.isin}" target="_blank">JE</a></td>
         </tr>
@@ -436,10 +480,10 @@
     function showChart(name) {
       currentIndexName = name;
       let { full_name = 'N/A', years = "N/A" } = indexesMeta[name] || {};
-      age = years;
-      [hold, years] = selectedCombo.split('/').map(part => part.split('-')[1]);
-      key = `hold-${hold}/years-${years}/${adjustCurrency}/${adjustInflation}`;
-      let simulation = simulationsData[name][key]
+      const age = years;
+      const [hold, yearsData] = selectedCombo.split('/').map(part => part.split('-')[1]);
+      const key = `hold-${hold}/years-${yearsData}/${adjustCurrency}/${adjustInflation}`;
+      const simulation = simulationsData[name][key];
       app.innerHTML = `
         <h2>${full_name}</h2>
         <div class="stats">
@@ -487,6 +531,22 @@
     adjustInflationCheckbox.addEventListener('change', e => {
       adjustInflation = e.target.checked ? "adjust-inflation" : "ignore-inflation";
       adjustInflationCheckbox.checked = e.target.checked;
+      updateUrl();
+      updateHomeLink();
+      if (currentRoute === 'home') renderTable();
+      else if (currentRoute === 'view') showChart(currentIndexName);
+    });
+
+    document.getElementById('xMinSelect').addEventListener('change', e => {
+      xAxisMin = e.target.value === 'Auto' ? 'Auto' : Number(e.target.value);
+      updateUrl();
+      updateHomeLink();
+      if (currentRoute === 'home') renderTable();
+      else if (currentRoute === 'view') showChart(currentIndexName);
+    });
+
+    document.getElementById('xMaxSelect').addEventListener('change', e => {
+      xAxisMax = e.target.value === 'Auto' ? 'Auto' : Number(e.target.value);
       updateUrl();
       updateHomeLink();
       if (currentRoute === 'home') renderTable();
