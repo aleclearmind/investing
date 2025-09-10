@@ -439,7 +439,7 @@
       const relatedEtfs = etfsData.filter(etf => etf.indexName === name);
       if (!relatedEtfs.length) return '<p>No ETFs available for this index.</p>';
 
-      const headers = ['ISIN', 'Provider', 'Cost', 'Currency', 'Size', 'Years', 'Dividend', 'R. Method', 'R. Model', 'Trk. Error', 'Trk. Difference', 'TI', 'JE'];
+      const headers = ['ISIN', 'Provider', 'Cost', 'Currency', 'Size', 'Years', 'Dividend', 'R. Method', 'R. Model', 'Trk. Error', 'Trk. Difference', 'BI', 'TI', 'JE'];
       const tableHeader = `<thead><tr>${headers.map(header => `<th${['Size', 'Cost', 'Years', 'Trk. Error', 'Trk. Difference'].includes(header) ? ' class="number"' : ''}>${header}</th>`).join('')}</tr></thead>`;
 
       const ranges = {
@@ -462,6 +462,7 @@
           <td>${etf.replicationModel}</td>
           <td class="number" style="color: ${getColorScale(etf.trackingError, ranges.trackingError.min, ranges.trackingError.max, true)}">${(etf.trackingError * 100).toFixed(2)}%</td>
           <td class="number" style="color: ${getColorScale(etf.trackingDifference, ranges.trackingDifference.min, ranges.trackingDifference.max, false)}">${(etf.trackingDifference * 100).toFixed(2)}%</td>
+          <td><a href="https://www.borsaitaliana.it/borsa/etf/scheda/${etf.isin}.html" target="_blank">BI</a></td>
           <td><a href="https://www.trackinsight.com/en/fund/${etf.trackinsightTicker}" target="_blank">TI</a></td>
           <td><a href="https://www.justetf.com/en/etf-profile.html?isin=${etf.isin}" target="_blank">JE</a></td>
         </tr>
