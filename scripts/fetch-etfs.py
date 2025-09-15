@@ -269,6 +269,8 @@ def process_csv(input_file, output_file):
                 "trackinsight-ticker": ticker or "",
             }
 
+            output_row = {key: value if type(value) is not str else value.replace('\n', '') for key, value in output_row.items()}
+
             writer.writerow(output_row)
         logger.info(
             f"Completed processing {len(benchmark_data)} funds for index {index_name}"
