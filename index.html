@@ -228,11 +228,18 @@
 
     // Data Loading
     function loadIndexesMeta() {
-      return fetchCSV('facts/indexes.csv').then(rows => {
-        const currentDate = new Date('2025-04-06');
-        rows.forEach(([name, full_name, code, currency, earliest_date]) => {
-          const years = ((currentDate - new Date(earliest_date)) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(1);
-          indexesMeta[name] = { full_name, code, currency, earliest_date, years: parseFloat(years) };
+      // Wait for ETFs to be loaded first
+      return loadEtfsData().then(() => {
+        return fetchCSV('facts/indexes.csv').then(rows => {
+          const currentDate = new Date('2025-04-06');
+          indexesMeta = {};
+          rows.forEach(([name, full_name, code, currency, earliest_date]) => {
+            // Only include indices that have at least one ETF
+            if (name === "null" || etfsData.some(etf => etf.indexName === name)) {
+              const years = ((currentDate - new Date(earliest_date)) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(1);
+              indexesMeta[name] = { full_name, code, currency, earliest_date, years: parseFloat(years) };
+            }
+          });
         });
       });
     }
@@ -240,17 +247,20 @@
     function loadSimulationsData() {
       return fetchCSV('simulations/indexes.csv').then(rows => {
         rows.forEach(([index, hold_years, total_years, adjustCurrency, adjustInflation, simulations, mean, median, std_dev, std_err, min, max]) => {
-          if (!simulationsData[index]) simulationsData[index] = {};
-          const key = `hold-${hold_years}/years-${total_years}/${adjustCurrency}/${adjustInflation}`;
-          simulationsData[index][key] = {
-            simulations: Math.round(Number(simulations)),
-            mean: Number(mean).toFixed(2),
-            median: Number(median).toFixed(2),
-            std_dev: Number(std_dev).toFixed(2),
-            std_err: Number(std_err).toFixed(4),
-            min: Number(min).toFixed(2),
-            max: Number(max).toFixed(2)
-          };
+          // Only process simulations for indices in indexesMeta
+          if (indexesMeta[index]) {
+            if (!simulationsData[index]) simulationsData[index] = {};
+            const key = `hold-${hold_years}/years-${total_years}/${adjustCurrency}/${adjustInflation}`;
+            simulationsData[index][key] = {
+              simulations: Math.round(Number(simulations)),
+              mean: Number(mean).toFixed(2),
+              median: Number(median).toFixed(2),
+              std_dev: Number(std_dev).toFixed(2),
+              std_err: Number(std_err).toFixed(4),
+              min: Number(min).toFixed(2),
+              max: Number(max).toFixed(2)
+            };
+          }
         });
       });
     }
@@ -275,7 +285,7 @@
       });
     }
 
-    const dataLoaded = Promise.all([loadIndexesMeta(), loadSimulationsData(), loadEtfsData(), loadCorrelationsData()]);
+    const dataLoaded = Promise.all([loadIndexesMeta(), loadSimulationsData(), loadCorrelationsData()]);
 
     // Utility Functions
     function buildQuery() {
@@ -523,6 +533,7 @@
     }
 
     function updateKDE(name) {
+      if (!indexesMeta[name]) return;
       const [hold, years] = selectedCombo.split('/').map(part => part.split('-')[1]);
       document.getElementById('kdePlot').innerHTML = "";
       fetch(`${baseUrl}simulations/${name}/hold-${hold}/years-${years}/${adjustCurrency}/${adjustInflation}/kde.json`)
@@ -532,6 +543,7 @@
     }
 
     function renderEtfsTable(name) {
+      if (!indexesMeta[name]) return '<p>Index not found.</p>';
       const relatedEtfs = etfsData.filter(etf => etf.indexName === name);
       if (!relatedEtfs.length) return '<p>No ETFs available for this index.</p>';
 
@@ -579,7 +591,7 @@
       const age = years;
       const [hold, yearsData] = selectedCombo.split('/').map(part => part.split('-')[1]);
       const key = `hold-${hold}/years-${yearsData}/${adjustCurrency}/${adjustInflation}`;
-      const simulation = simulationsData[name][key];
+      const simulation = simulationsData[name]?.[key] || {};
       app.innerHTML = `
         <h2>${full_name}</h2>
         <div class="stats">
