@@ -20,6 +20,29 @@
     .stats > div {
         white-space: nowrap; /* Prevent text wrapping */
     }
+
+    .correlation-table {
+      width: 10%;
+      overflow-x: auto;
+      margin: auto;
+    }
+    .correlation-table th {
+      text-align: right;
+      white-space: nowrap;
+      left: 0px;
+      position: sticky;
+      font-weight: normal;
+    }
+    .correlation-table th:not(:first-child) {
+      writing-mode: vertical-lr;
+    }
+    .correlation-table td {
+      text-align: right;
+    }
+    .correlation-table-container {
+      max-width: 100%;
+      overflow-x: auto;
+    }
   </style>
 </head>
 <body>
@@ -117,6 +140,8 @@
     let indexesMeta = {}, simulationsData = {}, etfsData = [], currentIndexName = null;
     let sortState = { column: 0, ascending: true };
     let currentRoute = 'home';
+    let correlationsData = {};
+    let minCorrelation = 1;
 
     const baseLayout = {
       plot_bgcolor: COLORS.navbar,
@@ -185,13 +210,36 @@
       return fetch(`${baseUrl}${url}`).then(res => res.text()).then(parseCSV);
     }
 
+    function loadCorrelationsData() {
+      return fetchCSV('facts/indexes-correlation.csv').then(rows => {
+        correlationsData = {};
+        rows.forEach(([a, b, , correlation]) => {
+          if (!correlationsData[a]) correlationsData[a] = {};
+          if (!correlationsData[b]) correlationsData[b] = {};
+          value = parseFloat(correlation)
+          if (minCorrelation > value)
+            minCorrelation = value;
+          value = parseFloat(correlation);
+          correlationsData[a][b] = value;
+          correlationsData[b][a] = value;
+        });
+      });
+    }
+
     // Data Loading
     function loadIndexesMeta() {
-      return fetchCSV('facts/indexes.csv').then(rows => {
-        const currentDate = new Date('2025-04-06');
-        rows.forEach(([name, full_name, code, currency, earliest_date]) => {
-          const years = ((currentDate - new Date(earliest_date)) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(1);
-          indexesMeta[name] = { full_name, code, currency, earliest_date, years: parseFloat(years) };
+      // Wait for ETFs to be loaded first
+      return loadEtfsData().then(() => {
+        return fetchCSV('facts/indexes.csv').then(rows => {
+          const currentDate = new Date('2025-04-06');
+          indexesMeta = {};
+          rows.forEach(([name, full_name, code, currency, earliest_date]) => {
+            // Only include indices that have at least one ETF
+            if (name === "null" || etfsData.some(etf => etf.indexName === name)) {
+              const years = ((currentDate - new Date(earliest_date)) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(1);
+              indexesMeta[name] = { full_name, code, currency, earliest_date, years: parseFloat(years) };
+            }
+          });
         });
       });
     }
@@ -199,17 +247,20 @@
     function loadSimulationsData() {
       return fetchCSV('simulations/indexes.csv').then(rows => {
         rows.forEach(([index, hold_years, total_years, adjustCurrency, adjustInflation, simulations, mean, median, std_dev, std_err, min, max]) => {
-          if (!simulationsData[index]) simulationsData[index] = {};
-          const key = `hold-${hold_years}/years-${total_years}/${adjustCurrency}/${adjustInflation}`;
-          simulationsData[index][key] = {
-            simulations: Math.round(Number(simulations)),
-            mean: Number(mean).toFixed(2),
-            median: Number(median).toFixed(2),
-            std_dev: Number(std_dev).toFixed(2),
-            std_err: Number(std_err).toFixed(4),
-            min: Number(min).toFixed(2),
-            max: Number(max).toFixed(2)
-          };
+          // Only process simulations for indices in indexesMeta
+          if (indexesMeta[index]) {
+            if (!simulationsData[index]) simulationsData[index] = {};
+            const key = `hold-${hold_years}/years-${total_years}/${adjustCurrency}/${adjustInflation}`;
+            simulationsData[index][key] = {
+              simulations: Math.round(Number(simulations)),
+              mean: Number(mean).toFixed(2),
+              median: Number(median).toFixed(2),
+              std_dev: Number(std_dev).toFixed(2),
+              std_err: Number(std_err).toFixed(4),
+              min: Number(min).toFixed(2),
+              max: Number(max).toFixed(2)
+            };
+          }
         });
       });
     }
@@ -234,7 +285,7 @@
       });
     }
 
-    const dataLoaded = Promise.all([loadIndexesMeta(), loadSimulationsData(), loadEtfsData()]);
+    const dataLoaded = Promise.all([loadIndexesMeta(), loadSimulationsData(), loadCorrelationsData()]);
 
     // Utility Functions
     function buildQuery() {
@@ -314,6 +365,60 @@
       });
     }
 
+    function renderCorrelationTable(digits, selectedIndex = null) {
+      const queryStr = buildQuery();
+
+      let indexes = Object.keys(indexesMeta).sort((a, b) =>
+        indexesMeta[a].full_name.localeCompare(indexesMeta[b].full_name)
+      );
+
+      // Sort indexes by correlation in ascending order if selectedIndex is provided
+      if (selectedIndex) {
+        indexes = indexes.sort((a, b) => {
+          const corrA = correlationsData[a]?.[selectedIndex] || 0;
+          const corrB = correlationsData[b]?.[selectedIndex] || 0;
+          return corrA - corrB; // Ascending order
+        });
+      }
+
+      // Determine headers based on whether a specific index is selected
+      const headerRow = selectedIndex
+        ? ""
+        : `<tr><th></th>${indexes.map(index => `<th><a href="#${baseUrl}view/${index}?${queryStr}">${indexesMeta[index].full_name || index}</a></th>`).join('')}</tr>`;
+
+      // Determine which indexes to include in columns
+      const columns = selectedIndex ? [selectedIndex] : indexes;
+
+      // Generate table body
+      const bodyRows = indexes.map(indexA => {
+        if (selectedIndex && indexA === selectedIndex)
+          return "";
+        const cells = columns.map(indexB => {
+          const value = correlationsData[indexA]?.[indexB];
+          if (value === undefined)
+            return `<td></td>`;
+          const correlation = value.toFixed(digits).replace("1.00", "1").replace("0.", ".") || '';
+          return `<td style="color: ${getColorScale(Math.max(0.9, value), 0.9, 1, true)}">${correlation}</td>`;
+        });
+        return `
+          <tr>
+            <th><a href="#${baseUrl}view/${indexA}?${queryStr}">${indexesMeta[indexA].full_name || indexA}</a></th>
+            ${cells.join('')}
+          </tr>
+        `;
+      }).join('');
+
+      return `
+        <h3>Index Correlations</h3>
+        <div class="correlation-table-container">
+          <table class="table table-dark table-striped table-hover correlation-table">
+            <thead>${headerRow}</thead>
+            <tbody>${bodyRows}</tbody>
+          </table>
+        </div>
+      `;
+    }
+
     // Rendering Functions
     function renderTable() {
       const indexesData = Object.keys(indexesMeta).map(name => ({
@@ -343,7 +448,7 @@
       document.querySelector('#indexesTable tbody').innerHTML = indexesData.map(data => {
         const { simData, meta, etfCount } = data;
         return `<tr>
-          <td><a href="#${baseUrl}view/${data.name}?${queryStr}">${meta.full_name || 'N/A'}</a></td>
+          <td class="number"><a href="#${baseUrl}view/${data.name}?${queryStr}">${meta.full_name || 'N/A'}</a></td>
           <td>${meta.currency || 'N/A'}</td>
           <td class="number" style="color: ${getColorScale(meta.years, ranges.Years.min, ranges.Years.max)}">${formatNumber(meta.years)}</td>
           <td class="number" style="color: ${getColorScale(simData.mean, ranges.Mean.min, ranges.Mean.max)}">${formatPercent(simData.mean)}</td>
@@ -364,6 +469,7 @@
           <thead><tr>${columns.map((col, i) => `<th${col.numeric ? ' class="number"' : ''}>${col.name} <a href="#" class="sort-link" data-col="${i}">▼</a></th>`).join('')}</tr></thead>
           <tbody></tbody>
         </table>
+        ${renderCorrelationTable(2)}
       `;
       renderTable();
       document.querySelectorAll('#indexesTable .sort-link').forEach(link => link.addEventListener('click', e => { e.preventDefault(); sortTable(parseInt(link.dataset.col)); }));
@@ -427,6 +533,7 @@
     }
 
     function updateKDE(name) {
+      if (!indexesMeta[name]) return;
       const [hold, years] = selectedCombo.split('/').map(part => part.split('-')[1]);
       document.getElementById('kdePlot').innerHTML = "";
       fetch(`${baseUrl}simulations/${name}/hold-${hold}/years-${years}/${adjustCurrency}/${adjustInflation}/kde.json`)
@@ -436,6 +543,7 @@
     }
 
     function renderEtfsTable(name) {
+      if (!indexesMeta[name]) return '<p>Index not found.</p>';
       const relatedEtfs = etfsData.filter(etf => etf.indexName === name);
       if (!relatedEtfs.length) return '<p>No ETFs available for this index.</p>';
 
@@ -483,7 +591,7 @@
       const age = years;
       const [hold, yearsData] = selectedCombo.split('/').map(part => part.split('-')[1]);
       const key = `hold-${hold}/years-${yearsData}/${adjustCurrency}/${adjustInflation}`;
-      const simulation = simulationsData[name][key];
+      const simulation = simulationsData[name]?.[key] || {};
       app.innerHTML = `
         <h2>${full_name}</h2>
         <div class="stats">
@@ -498,6 +606,7 @@
         </div>
         <div id="kdePlot" class="plot-div"></div>
         ${renderEtfsTable(name)}
+        ${renderCorrelationTable(4, name)}
         <div id="chartDiv" class="plot-div"></div>
       `;
       fetch(`${baseUrl}facts/indexes/${name}.csv`)

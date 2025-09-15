@@ -2,6 +2,14 @@
 rule generate_kde
   command=/home/runner/work/investing/investing/scripts/simulate.py '$INDEX' --hold $HOLD --years $YEARS $ADJUST_CURRENCY $ADJUST_INFLATION
   description=Generating KDE for $in -> $out
+
+rule compute_correlation
+  command=/home/runner/work/investing/investing/scripts/compute-correlation.py $INDICES > $out
+  description=Producing correlation data in $out
+
+build facts/indexes-correlation.csv: compute_correlation facts/indexes/euro-stoxx-50-index.csv facts/indexes/euro-stoxx-index-eur.csv facts/indexes/ftse-all-word-high-dividend-yield-index.csv facts/indexes/ftse-global-all-cap-index.csv facts/indexes/msci-acwi-imi-index-664204.csv facts/indexes/msci-acwi-index-892400.csv facts/indexes/msci-world-100-index-750294.csv facts/indexes/msci-world-1000-index-750299.csv facts/indexes/msci-world-30-index-750288.csv facts/indexes/msci-world-40-index-750290.csv facts/indexes/msci-world-50-index-750292.csv facts/indexes/msci-world-500-index-750297.csv facts/indexes/msci-world-diversified-multiple-factor-index-706536.csv facts/indexes/msci-world-enhanced-value-index-705130.csv facts/indexes/msci-world-equal-weighted-index-129857.csv facts/indexes/msci-world-factor-mix-a-series-index-usd-703454.csv facts/indexes/msci-world-growth-index-105867.csv facts/indexes/msci-world-growth-target-index-729749.csv facts/indexes/msci-world-imi-index-664185.csv facts/indexes/msci-world-imi-value-advanced-target-index-757222.csv facts/indexes/msci-world-index-990100.csv facts/indexes/msci-world-mid-cap-equal-weighted-index-705043.csv facts/indexes/msci-world-minimum-volatility-advanced-index-716003.csv facts/indexes/msci-world-minimum-volatility-advanced-select-index-730529.csv facts/indexes/msci-world-minimum-volatility-advanced-target-index-757224.csv facts/indexes/msci-world-minimum-volatility-index-usd-129896.csv facts/indexes/msci-world-momentum-advanced-select-index-738853.csv facts/indexes/msci-world-momentum-advanced-target-index-757225.csv facts/indexes/msci-world-momentum-index-703755.csv facts/indexes/msci-world-multiple-factor-advanced-index-716004.csv facts/indexes/msci-world-quality-advanced-index-716002.csv facts/indexes/msci-world-quality-advanced-select-index-747073.csv facts/indexes/msci-world-quality-index-702787.csv facts/indexes/msci-world-sector-neutral-quality-index-705169.csv facts/indexes/msci-world-selection-minimum-volatility-index-usd-717716.csv facts/indexes/msci-world-small-cap-index-106230.csv facts/indexes/msci-world-value-advanced-index-716001.csv facts/indexes/msci-world-value-advanced-select-index-738937.csv facts/indexes/msci-world-value-exposure-select-index-720342.csv facts/indexes/msci-world-value-index-105868.csv facts/indexes/msci-world-value-select-screens-advanced-index-749045.csv facts/indexes/null.csv facts/indexes/s&p-500-index.csv facts/indexes/s&p-global-1200-index.csv facts/indexes/s&p-small-cap-600-growth-index.csv facts/indexes/stoxx-europe-600-index.csv facts/indexes/stoxx-global-1800-index-usd.csv
+  INDICES= "euro-stoxx-50-index" "euro-stoxx-index-eur" "ftse-all-word-high-dividend-yield-index" "ftse-global-all-cap-index" "msci-acwi-imi-index-664204" "msci-acwi-index-892400" "msci-world-100-index-750294" "msci-world-1000-index-750299" "msci-world-30-index-750288" "msci-world-40-index-750290" "msci-world-50-index-750292" "msci-world-500-index-750297" "msci-world-diversified-multiple-factor-index-706536" "msci-world-enhanced-value-index-705130" "msci-world-equal-weighted-index-129857" "msci-world-factor-mix-a-series-index-usd-703454" "msci-world-growth-index-105867" "msci-world-growth-target-index-729749" "msci-world-imi-index-664185" "msci-world-imi-value-advanced-target-index-757222" "msci-world-index-990100" "msci-world-mid-cap-equal-weighted-index-705043" "msci-world-minimum-volatility-advanced-index-716003" "msci-world-minimum-volatility-advanced-select-index-730529" "msci-world-minimum-volatility-advanced-target-index-757224" "msci-world-minimum-volatility-index-usd-129896" "msci-world-momentum-advanced-select-index-738853" "msci-world-momentum-advanced-target-index-757225" "msci-world-momentum-index-703755" "msci-world-multiple-factor-advanced-index-716004" "msci-world-quality-advanced-index-716002" "msci-world-quality-advanced-select-index-747073" "msci-world-quality-index-702787" "msci-world-sector-neutral-quality-index-705169" "msci-world-selection-minimum-volatility-index-usd-717716" "msci-world-small-cap-index-106230" "msci-world-value-advanced-index-716001" "msci-world-value-advanced-select-index-738937" "msci-world-value-exposure-select-index-720342" "msci-world-value-index-105868" "msci-world-value-select-screens-advanced-index-749045" "null" "s&p-500-index" "s&p-global-1200-index" "s&p-small-cap-600-growth-index" "stoxx-europe-600-index" "stoxx-global-1800-index-usd"
+
 build simulations/euro-stoxx-50-index/hold-1.0/years-10/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/euro-stoxx-50-index.csv
   YEARS = 10
   HOLD = 1.0
@@ -456,6 +464,234 @@ build simulations/ftse-global-all-cap-index/hold-10.0/years-max/adjust-currency/
   YEARS = max
   HOLD = 10.0
   INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-1.0/years-10/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 10
+  HOLD = 1.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-3.0/years-10/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 10
+  HOLD = 3.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-5.0/years-10/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 10
+  HOLD = 5.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-1.0/years-15/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 15
+  HOLD = 1.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-3.0/years-15/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 15
+  HOLD = 3.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-5.0/years-15/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 15
+  HOLD = 5.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-10.0/years-15/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 15
+  HOLD = 10.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-1.0/years-20/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 20
+  HOLD = 1.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-3.0/years-20/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 20
+  HOLD = 3.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-5.0/years-20/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 20
+  HOLD = 5.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-10.0/years-20/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 20
+  HOLD = 10.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-1.0/years-25/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 25
+  HOLD = 1.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-3.0/years-25/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 25
+  HOLD = 3.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-5.0/years-25/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 25
+  HOLD = 5.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-10.0/years-25/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 25
+  HOLD = 10.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-1.0/years-max/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = max
+  HOLD = 1.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-3.0/years-max/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = max
+  HOLD = 3.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-5.0/years-max/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = max
+  HOLD = 5.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-10.0/years-max/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = max
+  HOLD = 10.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-1.0/years-10/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 10
+  HOLD = 1.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-3.0/years-10/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 10
+  HOLD = 3.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-5.0/years-10/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 10
+  HOLD = 5.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-1.0/years-15/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 15
+  HOLD = 1.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-3.0/years-15/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 15
+  HOLD = 3.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-5.0/years-15/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 15
+  HOLD = 5.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-10.0/years-15/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 15
+  HOLD = 10.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-1.0/years-20/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 20
+  HOLD = 1.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-3.0/years-20/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 20
+  HOLD = 3.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-5.0/years-20/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 20
+  HOLD = 5.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-10.0/years-20/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 20
+  HOLD = 10.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-1.0/years-25/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 25
+  HOLD = 1.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-3.0/years-25/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 25
+  HOLD = 3.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-5.0/years-25/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 25
+  HOLD = 5.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-10.0/years-25/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 25
+  HOLD = 10.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-1.0/years-max/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = max
+  HOLD = 1.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-3.0/years-max/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = max
+  HOLD = 3.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-5.0/years-max/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = max
+  HOLD = 5.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-10.0/years-max/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = max
+  HOLD = 10.0
+  INDEX = msci-acwi-index-892400
   ADJUST_CURRENCY = 
   ADJUST_INFLATION = 
 build simulations/msci-world-100-index-750294/hold-1.0/years-10/adjust-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-world-100-index-750294.csv
@@ -5588,6 +5824,234 @@ build simulations/ftse-global-all-cap-index/hold-10.0/years-max/adjust-currency/
   INDEX = ftse-global-all-cap-index
   ADJUST_CURRENCY = 
   ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-1.0/years-10/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 10
+  HOLD = 1.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-3.0/years-10/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 10
+  HOLD = 3.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-5.0/years-10/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 10
+  HOLD = 5.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-1.0/years-15/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 15
+  HOLD = 1.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-3.0/years-15/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 15
+  HOLD = 3.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-5.0/years-15/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 15
+  HOLD = 5.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-10.0/years-15/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 15
+  HOLD = 10.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-1.0/years-20/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 20
+  HOLD = 1.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-3.0/years-20/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 20
+  HOLD = 3.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-5.0/years-20/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 20
+  HOLD = 5.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-10.0/years-20/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 20
+  HOLD = 10.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-1.0/years-25/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 25
+  HOLD = 1.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-3.0/years-25/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 25
+  HOLD = 3.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-5.0/years-25/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 25
+  HOLD = 5.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-10.0/years-25/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 25
+  HOLD = 10.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-1.0/years-max/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = max
+  HOLD = 1.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-3.0/years-max/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = max
+  HOLD = 3.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-5.0/years-max/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = max
+  HOLD = 5.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-10.0/years-max/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = max
+  HOLD = 10.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-1.0/years-10/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 10
+  HOLD = 1.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-3.0/years-10/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 10
+  HOLD = 3.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-5.0/years-10/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 10
+  HOLD = 5.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-1.0/years-15/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 15
+  HOLD = 1.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-3.0/years-15/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 15
+  HOLD = 3.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-5.0/years-15/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 15
+  HOLD = 5.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-10.0/years-15/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 15
+  HOLD = 10.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-1.0/years-20/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 20
+  HOLD = 1.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-3.0/years-20/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 20
+  HOLD = 3.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-5.0/years-20/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 20
+  HOLD = 5.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-10.0/years-20/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 20
+  HOLD = 10.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-1.0/years-25/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 25
+  HOLD = 1.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-3.0/years-25/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 25
+  HOLD = 3.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-5.0/years-25/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 25
+  HOLD = 5.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-10.0/years-25/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 25
+  HOLD = 10.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-1.0/years-max/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = max
+  HOLD = 1.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-3.0/years-max/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = max
+  HOLD = 3.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-5.0/years-max/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = max
+  HOLD = 5.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-10.0/years-max/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = max
+  HOLD = 10.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = 
+  ADJUST_INFLATION = --ignore-inflation
 build simulations/msci-world-100-index-750294/hold-1.0/years-10/adjust-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-world-100-index-750294.csv
   YEARS = 10
   HOLD = 1.0
@@ -10718,6 +11182,234 @@ build simulations/ftse-global-all-cap-index/hold-10.0/years-max/ignore-currency/
   INDEX = ftse-global-all-cap-index
   ADJUST_CURRENCY = --ignore-currency
   ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-1.0/years-10/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 10
+  HOLD = 1.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-3.0/years-10/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 10
+  HOLD = 3.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-5.0/years-10/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 10
+  HOLD = 5.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-1.0/years-15/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 15
+  HOLD = 1.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-3.0/years-15/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 15
+  HOLD = 3.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-5.0/years-15/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 15
+  HOLD = 5.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-10.0/years-15/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 15
+  HOLD = 10.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-1.0/years-20/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 20
+  HOLD = 1.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-3.0/years-20/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 20
+  HOLD = 3.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-5.0/years-20/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 20
+  HOLD = 5.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-10.0/years-20/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 20
+  HOLD = 10.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-1.0/years-25/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 25
+  HOLD = 1.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-3.0/years-25/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 25
+  HOLD = 3.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-5.0/years-25/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 25
+  HOLD = 5.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-10.0/years-25/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 25
+  HOLD = 10.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-1.0/years-max/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = max
+  HOLD = 1.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-3.0/years-max/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = max
+  HOLD = 3.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-5.0/years-max/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = max
+  HOLD = 5.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-imi-index-664204/hold-10.0/years-max/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = max
+  HOLD = 10.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-1.0/years-10/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 10
+  HOLD = 1.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-3.0/years-10/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 10
+  HOLD = 3.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-5.0/years-10/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 10
+  HOLD = 5.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-1.0/years-15/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 15
+  HOLD = 1.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-3.0/years-15/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 15
+  HOLD = 3.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-5.0/years-15/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 15
+  HOLD = 5.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-10.0/years-15/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 15
+  HOLD = 10.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-1.0/years-20/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 20
+  HOLD = 1.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-3.0/years-20/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 20
+  HOLD = 3.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-5.0/years-20/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 20
+  HOLD = 5.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-10.0/years-20/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 20
+  HOLD = 10.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-1.0/years-25/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 25
+  HOLD = 1.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-3.0/years-25/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 25
+  HOLD = 3.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-5.0/years-25/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 25
+  HOLD = 5.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-10.0/years-25/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 25
+  HOLD = 10.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-1.0/years-max/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = max
+  HOLD = 1.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-3.0/years-max/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = max
+  HOLD = 3.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-5.0/years-max/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = max
+  HOLD = 5.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
+build simulations/msci-acwi-index-892400/hold-10.0/years-max/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = max
+  HOLD = 10.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = 
 build simulations/msci-world-100-index-750294/hold-1.0/years-10/ignore-currency/adjust-inflation/kde.json: generate_kde facts/indexes/msci-world-100-index-750294.csv
   YEARS = 10
   HOLD = 1.0
@@ -15846,6 +16538,234 @@ build simulations/ftse-global-all-cap-index/hold-10.0/years-max/ignore-currency/
   YEARS = max
   HOLD = 10.0
   INDEX = ftse-global-all-cap-index
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-1.0/years-10/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 10
+  HOLD = 1.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-3.0/years-10/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 10
+  HOLD = 3.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-5.0/years-10/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 10
+  HOLD = 5.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-1.0/years-15/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 15
+  HOLD = 1.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-3.0/years-15/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 15
+  HOLD = 3.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-5.0/years-15/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 15
+  HOLD = 5.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-10.0/years-15/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 15
+  HOLD = 10.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-1.0/years-20/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 20
+  HOLD = 1.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-3.0/years-20/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 20
+  HOLD = 3.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-5.0/years-20/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 20
+  HOLD = 5.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-10.0/years-20/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 20
+  HOLD = 10.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-1.0/years-25/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 25
+  HOLD = 1.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-3.0/years-25/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 25
+  HOLD = 3.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-5.0/years-25/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 25
+  HOLD = 5.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-10.0/years-25/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = 25
+  HOLD = 10.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-1.0/years-max/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = max
+  HOLD = 1.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-3.0/years-max/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = max
+  HOLD = 3.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-5.0/years-max/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = max
+  HOLD = 5.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-imi-index-664204/hold-10.0/years-max/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-imi-index-664204.csv
+  YEARS = max
+  HOLD = 10.0
+  INDEX = msci-acwi-imi-index-664204
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-1.0/years-10/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 10
+  HOLD = 1.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-3.0/years-10/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 10
+  HOLD = 3.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-5.0/years-10/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 10
+  HOLD = 5.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-1.0/years-15/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 15
+  HOLD = 1.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-3.0/years-15/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 15
+  HOLD = 3.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-5.0/years-15/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 15
+  HOLD = 5.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-10.0/years-15/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 15
+  HOLD = 10.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-1.0/years-20/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 20
+  HOLD = 1.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-3.0/years-20/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 20
+  HOLD = 3.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-5.0/years-20/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 20
+  HOLD = 5.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-10.0/years-20/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 20
+  HOLD = 10.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-1.0/years-25/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 25
+  HOLD = 1.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-3.0/years-25/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 25
+  HOLD = 3.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-5.0/years-25/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 25
+  HOLD = 5.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-10.0/years-25/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = 25
+  HOLD = 10.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-1.0/years-max/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = max
+  HOLD = 1.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-3.0/years-max/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = max
+  HOLD = 3.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-5.0/years-max/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = max
+  HOLD = 5.0
+  INDEX = msci-acwi-index-892400
+  ADJUST_CURRENCY = --ignore-currency
+  ADJUST_INFLATION = --ignore-inflation
+build simulations/msci-acwi-index-892400/hold-10.0/years-max/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-acwi-index-892400.csv
+  YEARS = max
+  HOLD = 10.0
+  INDEX = msci-acwi-index-892400
   ADJUST_CURRENCY = --ignore-currency
   ADJUST_INFLATION = --ignore-inflation
 build simulations/msci-world-100-index-750294/hold-1.0/years-10/ignore-currency/ignore-inflation/kde.json: generate_kde facts/indexes/msci-world-100-index-750294.csv

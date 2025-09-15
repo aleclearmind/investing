@@ -5,6 +5,7 @@ msci-world-small-cap-index-106230,MSCI World Small Cap Index,106230,USD,1998-12-
 msci-world-equal-weighted-index-129857,MSCI World Equal Weighted Index,129857,USD,1997-01-01,https://www.msci.com/indexes/index//129857
 msci-world-minimum-volatility-index-usd-129896,MSCI World Minimum Volatility Index (USD),129896,USD,1997-01-01,https://www.msci.com/indexes/index//129896
 msci-world-imi-index-664185,MSCI World IMI Index,664185,USD,1997-01-01,https://www.msci.com/indexes/index//664185
+msci-acwi-imi-index-664204,MSCI ACWI IMI Index,664204,USD,1997-01-01,https://www.msci.com/indexes/index//664204
 msci-world-quality-index-702787,MSCI World Quality Index,702787,USD,1997-01-01,https://www.msci.com/indexes/index//702787
 msci-world-momentum-index-703755,MSCI World Momentum Index,703755,USD,1997-01-01,https://www.msci.com/indexes/index//703755
 msci-world-factor-mix-a-series-index-usd-703454,MSCI World Factor Mix A-Series Index (USD),703454,USD,1997-01-01,https://www.msci.com/indexes/index//703454
@@ -33,6 +34,7 @@ msci-world-1000-index-750299,MSCI World 1000 Index,750299,USD,2000-05-31,https:/
 msci-world-imi-value-advanced-target-index-757222,MSCI World IMI Value Advanced Target Index,757222,USD,2010-05-26,https://www.msci.com/indexes/index//757222
 msci-world-minimum-volatility-advanced-target-index-757224,MSCI World Minimum Volatility Advanced Target Index,757224,USD,2010-05-26,https://www.msci.com/indexes/index//757224
 msci-world-momentum-advanced-target-index-757225,MSCI World Momentum Advanced Target Index,757225,USD,2010-05-26,https://www.msci.com/indexes/index//757225
+msci-acwi-index-892400,MSCI ACWI Index,892400,USD,1998-12-31,https://www.msci.com/indexes/index//892400
 msci-world-index-990100,MSCI World Index,990100,USD,1998-12-31,https://www.msci.com/indexes/index//990100
 stoxx-global-1800-index-usd,STOXX Global 1800 Index USD,SXW1,USD,2008-12-31,https://www.wsj.com/market-data/quotes/index/INDEX/XX/XSTX/SXW1
 stoxx-europe-600-index,STOXX Europe 600 Index,SXXP,EUR,1986-12-31,https://www.wsj.com/market-data/quotes/index/INDEX/XX/XSTX/SXXP
