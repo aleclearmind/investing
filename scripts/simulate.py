@@ -363,6 +363,8 @@ def main():
         )
         save_kde_json(results, json_path, kde_points)
     else:
+        with open(json_path, "w", encoding="utf8") as f:
+            json.dump({}, f, indent=4)
         log("No results!")
 
 
