@@ -407,7 +407,7 @@
       }).join('');
 
       return `
-        <h3>Index Correlations</h3>
+        <h3>Comparison with other indexes</h3>
         <div class="correlation-table-container">
           <table class="table table-dark table-striped table-hover correlation-table">
             <thead>${headerRow}</thead>
@@ -605,6 +605,7 @@
         <div id="kdePlot" class="plot-div"></div>
         ${renderEtfsTable(name)}
         ${renderCorrelationTable(4, name)}
+        <h3>Historical data</h3>
         <div id="chartDiv" class="plot-div"></div>
       `;
       fetch(`${baseUrl}facts/indexes/${name}.csv`)
