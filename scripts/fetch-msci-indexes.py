@@ -9,7 +9,7 @@ import logging
 import requests
 from datetime import datetime
 
-INDEX_URL = "https://www.msci.com/indexes/index/"
+INDEX_URL = "https://www.msci.com/indexes/index"
 API_URL = "https://www.msci.com/indexes/api/index/performance"
 OUTPUT_DIR = "facts/indexes"
 SUMMARY_CSV = "facts/indexes.csv"

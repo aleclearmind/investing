@@ -218,12 +218,12 @@
       return fetchCSV('facts/indexes.csv').then(rows => {
         const currentDate = new Date('2025-04-06');
         indexesMeta = {};
-        rows.forEach(([name, full_name, code, currency, earliest_date]) => {
+        rows.forEach(([name, full_name, code, currency, earliest_date, url]) => {
           full_name = full_name.replace(/ Index$/, '');
           // Only include indices that have at least one ETF
           if (name === "null" || etfsData.some(etf => etf.indexName === name)) {
             const years = ((currentDate - new Date(earliest_date)) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(1);
-            indexesMeta[name] = { full_name, code, currency, earliest_date, years: parseFloat(years) };
+            indexesMeta[name] = { full_name, code, currency, earliest_date, years: parseFloat(years), url };
           }
         });
       });
@@ -432,7 +432,8 @@
         { name: 'SE', key: 'std_err', type: "float", lowerIsBetter: true },
         { name: 'Min', key: 'min', type: "percentage", lowerIsBetter: false },
         { name: 'Max', key: 'max', type: "percentage", lowerIsBetter: false },
-        { name: 'ETF #', key: 'etfCount', type: "integer", lowerIsBetter: false }
+        { name: 'ETF #', key: 'etfCount', type: "integer", lowerIsBetter: false },
+        { name: 'URL', key: 'url', type: "string" }
       ];
 
       let isNumeric = (type) => type != "string";
@@ -443,6 +444,7 @@
         full_name: indexesMeta[name].full_name || 'N/A',
         currency: indexesMeta[name].currency || 'N/A',
         years: indexesMeta[name].years,
+        url: indexesMeta[name].url,
         ...simulationsData[name]?.[`${selectedCombo}/${adjustCurrency}/${adjustInflation}`] || {},
         etfCount: etfsData.filter(etf => etf.indexName === name).length
       }));
@@ -511,6 +513,8 @@
           const value = data[column.key];
           if (column.key === 'full_name') {
             return `<td class="number"><a href="#${baseUrl}view/${data.name}?${queryStr}">${value}</a></td>`;
+          } else if (column.key === 'url') {
+            return `<td><a href="${value}">W</a></td>`;
           } else if (column.type === 'string') {
             return `<td>${value}</td>`;
           } else {
@@ -648,7 +652,7 @@
 
     function showChart(name) {
       currentIndexName = name;
-      let { full_name = 'N/A', years = "N/A" } = indexesMeta[name] || {};
+      let { full_name = 'N/A', years = "N/A", url } = indexesMeta[name] || {};
       const age = years;
       const [hold, yearsData] = selectedCombo.split('/').map(part => part.split('-')[1]);
       const key = `hold-${hold}/years-${yearsData}/${adjustCurrency}/${adjustInflation}`;
@@ -657,6 +661,7 @@
       app.innerHTML = `
         <h2>${full_name}</h2>
         <div class="stats">
+          <div><a href="${url}">Website</a></div>
           <div><strong>Age</strong>: ${age} years</div>
           <div><strong>Mean</strong>: ${format(simulation["mean"], "percentage")}</div>
           <div><strong>Median</strong>: ${format(simulation["median"], "percentage")}</div>
