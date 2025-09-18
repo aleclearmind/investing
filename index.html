@@ -138,7 +138,7 @@
     let xAxisMin = 'Auto';
     let xAxisMax = 'Auto';
     let indexesMeta = {}, simulationsData = {}, etfsData = [], currentIndexName = null;
-    let sortState = { column: 0, ascending: true };
+    let sortState = { column: "", ascending: true };
     let currentRoute = 'home';
     let correlationsData = {};
     let minCorrelation = 1;
@@ -152,19 +152,6 @@
       margin: { t: 20, b: 50, l: 50, r: 20 },
       showlegend: false
     };
-
-    const columns = [
-      { name: 'Index', sort: (a, b) => a.meta.full_name.localeCompare(b.meta.full_name) },
-      { name: 'Curr.', sort: (a, b) => a.meta.currency.localeCompare(b.meta.currency) },
-      { name: 'Years', numeric: true, sort: (a, b) => (a.meta.years || 0) - (b.meta.years || 0), isHigherBetter: true },
-      { name: 'Mean', numeric: true, sort: (a, b) => (a.simData.mean || 0) - (b.simData.mean || 0), isPercent: true, isHigherBetter: true },
-      { name: 'Median', numeric: true, sort: (a, b) => (a.simData.median || 0) - (b.simData.median || 0), isPercent: true, isHigherBetter: true },
-      { name: 'σ', numeric: true, sort: (a, b) => (a.simData.std_dev || 0) - (b.simData.std_dev || 0), isLowerBetter: true },
-      { name: 'SE', numeric: true, sort: (a, b) => (a.simData.std_err || 0) - (b.simData.std_err || 0), isLowerBetter: true },
-      { name: 'Min', numeric: true, sort: (a, b) => (a.simData.min || 0) - (b.simData.min || 0), isPercent: true, isHigherBetter: true },
-      { name: 'Max', numeric: true, sort: (a, b) => (a.simData.max || 0) - (b.simData.max || 0), isPercent: true, isHigherBetter: true },
-      { name: 'ETF #', numeric: true, sort: (a, b) => (a.etfCount || 0) - (b.etfCount || 0), isHigherBetter: true }
-    ];
 
     // Generate options for x-axis range dropdowns (-20 to +20)
     const rangeMin = -20;
@@ -313,7 +300,7 @@
       selectedCombo = p.combo ?? "hold-10.0/years-20";
       const s = p.s ?? '0,true';
       const [col, ascStr] = s.split(',');
-      sortState.column = parseInt(col ?? 0);
+      sortState.column = col;
       sortState.ascending = ascStr === 'true';
       xAxisMin = p.xmin && rangeOptions.includes(Number(p.xmin)) ? Number(p.xmin) : 'Auto';
       xAxisMax = p.xmax && rangeOptions.includes(Number(p.xmax)) ? Number(p.xmax) : 'Auto';
@@ -339,22 +326,25 @@
       updateHomeLink();
     }
 
-    function getColorScale(value, min, max, isLowerBetter = false) {
+    function getColorScale(value, min, max, lowerIsBetter = false) {
       if (value === undefined) return COLORS.text;
+      value = Math.min(max, Math.max(min, value));
       const ratio = (value - min) / (max - min) || 0;
-      return `hsl(${isLowerBetter ? 120 * (1 - ratio) : 120 * ratio}, 40%, 70%)`;
+      return `hsl(${lowerIsBetter ? 120 * (1 - ratio) : 120 * ratio}, 40%, 70%)`;
     }
 
-    function sortTable(columnIndex) {
-      sortState = { column: columnIndex, ascending: sortState.column === columnIndex ? !sortState.ascending : true };
+    function sortTable(columnName) {
+      sortState = { column: columnName, ascending: sortState.column === columnName ? !sortState.ascending : true };
       updateUrl();
       updateHomeLink();
-      renderTable();
+      const table = renderTable(currentIndexName);
+      document.querySelector('#indexesTable tbody').innerHTML = table.body;
+      updateSortIndicators();
     }
 
     function updateSortIndicators() {
       document.querySelectorAll('#indexesTable .sort-link').forEach(link => {
-        link.textContent = sortState.column === parseInt(link.dataset.col) ? (sortState.ascending ? '▼' : '▲') : '▼';
+        link.textContent = sortState.column === link.dataset.col ? (sortState.ascending ? '▼' : '▲') : '▼';
       });
     }
 
@@ -412,60 +402,138 @@
       `;
     }
 
+    function format(value, type, digits) {
+      digits = digits || 2;
+
+      if (value === undefined) {
+        return "N/A";
+      } else if (type === "string") {
+        return value;
+      } else if (type === "percentage") {
+        return value > 0 ? `+${value.toFixed(digits)}%` : `${value.toFixed(digits)}%`;
+      } else if (type === "integer") {
+        return value > 0 ? `+${value}` : `${value}`;
+      } else if (type === "float") {
+        return value > 0 ? `+${value.toFixed(digits)}` : `${value.toFixed(digits)}`;
+      }
+    }
+
     // Rendering Functions
-    function renderTable() {
-      const indexesData = Object.keys(indexesMeta).map(name => ({
-        name, meta: indexesMeta[name], simData: simulationsData[name]?.[`${selectedCombo}/${adjustCurrency}/${adjustInflation}`] || {},
+    function renderTable(referenceIndex = null) {
+
+      // Define columns inline
+      let columns = [
+        { name: 'Index', key: 'full_name', type: "string" },
+        { name: 'Curr.', key: 'currency', type: "string" },
+        { name: 'Years', key: 'years', type: "float", digits: 1, lowerIsBetter: false },
+        { name: 'Mean', key: 'mean', type: "percentage", lowerIsBetter: false },
+        { name: 'Median', key: 'median', type: "percentage", lowerIsBetter: false },
+        { name: 'σ', key: 'std_dev', type: "float", lowerIsBetter: true },
+        { name: 'SE', key: 'std_err', type: "float", lowerIsBetter: true },
+        { name: 'Min', key: 'min', type: "percentage", lowerIsBetter: false },
+        { name: 'Max', key: 'max', type: "percentage", lowerIsBetter: false },
+        { name: 'ETF #', key: 'etfCount', type: "integer", lowerIsBetter: false }
+      ];
+
+      let isNumeric = (type) => type != "string";
+
+      // Build flat indexesData
+      let indexesData = Object.keys(indexesMeta).map(name => ({
+        name,
+        full_name: indexesMeta[name].full_name || 'N/A',
+        currency: indexesMeta[name].currency || 'N/A',
+        years: indexesMeta[name].years,
+        ...simulationsData[name]?.[`${selectedCombo}/${adjustCurrency}/${adjustInflation}`] || {},
         etfCount: etfsData.filter(etf => etf.indexName === name).length
       }));
 
-      // a - b
-      function sortColumn(a, b) {
-        if (a.simData.mean === undefined) return Infinity;
-        if (b.simData.mean === undefined) return -Infinity;
-        return sortState.ascending ? columns[sortState.column].sort(b, a) : columns[sortState.column].sort(a, b);
+      // If referenceIndex is provided, transform data to differences
+      if (referenceIndex) {
+
+        columns.splice(1, 0, { name: 'Correlation', key: 'correlation', type: "float", digits: 4, lowerIsBetter: true });
+
+        let referenceData = indexesData.find(d => d.name === referenceIndex);
+        if (referenceData) {
+          indexesData.forEach(data => {
+            if (data.name !== referenceIndex) {
+              data.correlation = correlationsData[data.name]?.[referenceIndex];
+              columns.forEach(column => {
+                if (column.key !== "correlation" && isNumeric(column.type)) {
+                  const value = data[column.key];
+                  const refValue = referenceData[column.key];
+                  data[column.key] = (value !== undefined && refValue !== undefined) ? (value - refValue) : undefined;
+                }
+              });
+            }
+          });
+        }
       }
 
-      indexesData.sort(sortColumn);
-      const ranges = columns.reduce((acc, col) => {
-        if (col.numeric) {
-          const key = col.name;
-          const values = indexesData.map(d => (key === 'Years' ? d.meta.years : key === 'ETFs' ? d.etfCount : d.simData[key.toLowerCase().replace(' ', '_')])).filter(v => v !== undefined);
-          acc[key] = { min: Math.min(...values), max: Math.max(...values) };
+      let columnIndex = columns.reduce((map, entry) => { map[entry.key] = entry; return map }, {});
+
+      indexesData = indexesData.filter((entry) => entry.mean !== undefined);
+
+      // Sort data
+      indexesData.sort((a, b) => {
+        let column = columnIndex[sortState.column];
+        if (column === undefined) {
+          console.log(`${sortState.column} not found in:`, columns);
+          return 0;
+        }
+        let defaultValue = column.lowerIsBetter ? Infinity : -Infinity;
+        let sort = isNumeric(column.type) ? ((a, b) => (a[column.key] || defaultValue) - (b[column.key] || defaultValue)) : ((a, b) => a[column.key].localeCompare(b[column.key]));
+        return sortState.ascending ? sort(b, a) : sort(a, b);
+      });
+
+      // Calculate ranges for color scaling
+      const ranges = columns.reduce((acc, column) => {
+        if (isNumeric(column.type)) {
+          const values = indexesData.map(d => d[column.key]).filter(v => v !== undefined);
+          acc[column.key] = { min: Math.min(...values), max: Math.max(...values) };
         }
         return acc;
       }, {});
-      const formatPercent = val => val !== undefined ? (val > 0 ? `+${val}%` : `${val}%`) : 'N/A';
+
+      ranges.correlation = { min: 0.9, max: 1 };
+
       const formatNumber = val => val !== undefined ? val : 'N/A';
+      const formatPercent = val => val !== undefined ? (val > 0 ? `+${val}%` : `${val}%`) : 'N/A';
       const queryStr = buildQuery();
-      document.querySelector('#indexesTable tbody').innerHTML = indexesData.map(data => {
-        const { simData, meta, etfCount } = data;
-        return `<tr>
-          <td class="number"><a href="#${baseUrl}view/${data.name}?${queryStr}">${meta.full_name || 'N/A'}</a></td>
-          <td>${meta.currency || 'N/A'}</td>
-          <td class="number" style="color: ${getColorScale(meta.years, ranges.Years.min, ranges.Years.max)}">${formatNumber(meta.years)}</td>
-          <td class="number" style="color: ${getColorScale(simData.mean, ranges.Mean.min, ranges.Mean.max)}">${formatPercent(simData.mean)}</td>
-          <td class="number" style="color: ${getColorScale(simData.median, ranges.Median.min, ranges.Median.max)}">${formatPercent(simData.median)}</td>
-          <td class="number" style="color: ${getColorScale(simData.std_dev, ranges['σ'].min, ranges['σ'].max, true)}">${formatNumber(simData.std_dev)}</td>
-          <td class="number" style="color: ${getColorScale(simData.std_err, ranges['SE'].min, ranges['SE'].max, true)}">${formatNumber(simData.std_err)}</td>
-          <td class="number" style="color: ${getColorScale(simData.min, ranges.Min.min, ranges.Min.max)}">${formatPercent(simData.min)}</td>
-          <td class="number" style="color: ${getColorScale(simData.max, ranges.Max.min, ranges.Max.max)}">${formatPercent(simData.max)}</td>
-          <td class="number" style="color: ${getColorScale(etfCount, ranges["ETF #"].min, ranges["ETF #"].max)}">${formatNumber(etfCount)}</td>
-        </tr>`;
+
+      // Generate table header
+      const header = `<thead><tr>${columns.map((column, i) => `
+        <th${isNumeric(column.type) ? ' class="number"' : ''}>${column.name} <a href="#" class="sort-link" data-col="${column.key}">▼</a></th>
+      `).join('')}</tr></thead>`;
+
+      // Generate table body
+      const body = indexesData.map(data => {
+        const rowData = columns.map(column => {
+          const value = data[column.key];
+          if (column.key === 'full_name') {
+            return `<td class="number"><a href="#${baseUrl}view/${data.name}?${queryStr}">${value}</a></td>`;
+          } else if (column.type === 'string') {
+            return `<td>${value}</td>`;
+          } else {
+            let color = getColorScale(value, ranges[column.key].min, ranges[column.key].max, column.lowerIsBetter);
+            return `<td class="number" style="color: ${color}">${format(value, column.type, column.digits)}</td>`;
+          }
+        });
+        return `<tr>${rowData.join('')}</tr>`;
       }).join('');
-      updateSortIndicators();
+
+      return { header, body };
     }
 
     function showTable() {
+      const table = renderTable();
       app.innerHTML = `
         <table id="indexesTable" class="table table-dark table-striped table-hover">
-          <thead><tr>${columns.map((col, i) => `<th${col.numeric ? ' class="number"' : ''}>${col.name} <a href="#" class="sort-link" data-col="${i}">▼</a></th>`).join('')}</tr></thead>
-          <tbody></tbody>
+          ${table.header}
+          <tbody>${table.body}</tbody>
         </table>
         ${renderCorrelationTable(2)}
       `;
-      renderTable();
-      document.querySelectorAll('#indexesTable .sort-link').forEach(link => link.addEventListener('click', e => { e.preventDefault(); sortTable(parseInt(link.dataset.col)); }));
+      document.querySelectorAll('#indexesTable .sort-link').forEach(link => link.addEventListener('click', e => { e.preventDefault(); sortTable(link.dataset.col); }));
     }
 
     function renderChart(name, x, y) {
@@ -555,7 +623,7 @@
           <td title="${etf.shareName}" style="font-family: monospace">${etf.isin}</td>
           <td>${etf.provider}</td>
           <td class="number" style="color: ${getColorScale(etf.expenseRatio, ranges.expenseRatio.min, ranges.expenseRatio.max, true)}">${(etf.expenseRatio * 100).toFixed(2)}%</td>
-          <td>${etf.currency}${etf.currencyHedged ? " (Hed)" : ""}</td>
+          <td>${etf.currencyHedged ? "h" : ""}${etf.currency}</td>
           <td class="number">${etf.size.toFixed(2)}</td>
           <td class="number" style="color: ${getColorScale(etf.years, ranges.years.min, ranges.years.max)}">${etf.years}</td>
           <td>${etf.dividendPolicyId}</td>
@@ -585,21 +653,26 @@
       const [hold, yearsData] = selectedCombo.split('/').map(part => part.split('-')[1]);
       const key = `hold-${hold}/years-${yearsData}/${adjustCurrency}/${adjustInflation}`;
       const simulation = simulationsData[name]?.[key] || {};
+      const table = renderTable(name);
       app.innerHTML = `
         <h2>${full_name}</h2>
         <div class="stats">
           <div><strong>Age</strong>: ${age} years</div>
-          <div><strong>Mean</strong>: ${simulation["mean"]}</div>
-          <div><strong>Median</strong>: ${simulation["median"]}</div>
-          <div><strong>Standard deviation</strong>: ${simulation["std_dev"]}</div>
-          <div><strong>Standard error</strong>: ${simulation["std_err"]}</div>
-          <div><strong>Min</strong>: ${simulation["min"]}</div>
-          <div><strong>Max</strong>: ${simulation["max"]}</div>
+          <div><strong>Mean</strong>: ${format(simulation["mean"], "percentage")}</div>
+          <div><strong>Median</strong>: ${format(simulation["median"], "percentage")}</div>
+          <div><strong>Standard deviation</strong>: ${format(simulation["std_dev"], "float")}</div>
+          <div><strong>Standard error</strong>: ${format(simulation["std_err"], "float")}</div>
+          <div><strong>Min</strong>: ${format(simulation["min"], "percentage")}</div>
+          <div><strong>Max</strong>: ${format(simulation["max"], "percentage")}</div>
           <div><strong>Simulations</strong>: ${simulation["simulations"]}</div>
         </div>
         <div id="kdePlot" class="plot-div"></div>
         ${renderEtfsTable(name)}
-        ${renderCorrelationTable(4, name)}
+        <h3>Comparison with other indexes</h3>
+        <table id="indexesTable" class="table table-dark table-striped table-hover">
+          ${table.header}
+          <tbody>${table.body}</tbody>
+        </table>
         <h3>Historical data</h3>
         <div id="chartDiv" class="plot-div"></div>
       `;
@@ -610,6 +683,7 @@
           renderChart(name, rows.map(r => r[0]), rows.map(r => parseFloat(r[1])));
         });
       updateKDE(name);
+      document.querySelectorAll('#indexesTable .sort-link').forEach(link => link.addEventListener('click', e => { e.preventDefault(); sortTable(link.dataset.col); }));
     }
 
     // Event Listeners and Routing
@@ -618,8 +692,12 @@
       horizonSelect.value = selectedCombo;
       updateUrl();
       updateHomeLink();
-      if (currentRoute === 'home') renderTable();
-      else if (currentRoute === 'view') showChart(currentIndexName);
+      if (currentRoute === 'home') {
+        const table = renderTable();
+        document.querySelector('#indexesTable tbody').innerHTML = table.body;
+      } else if (currentRoute === 'view') {
+        showChart(currentIndexName);
+      }
     });
 
     adjustCurrencyCheckbox.addEventListener('change', e => {
@@ -627,8 +705,12 @@
       adjustCurrencyCheckbox.checked = e.target.checked;
       updateUrl();
       updateHomeLink();
-      if (currentRoute === 'home') renderTable();
-      else if (currentRoute === 'view') showChart(currentIndexName);
+      if (currentRoute === 'home') {
+        const table = renderTable();
+        document.querySelector('#indexesTable tbody').innerHTML = table.body;
+      } else if (currentRoute === 'view') {
+        showChart(currentIndexName);
+      }
     });
 
     adjustInflationCheckbox.addEventListener('change', e => {
@@ -636,24 +718,36 @@
       adjustInflationCheckbox.checked = e.target.checked;
       updateUrl();
       updateHomeLink();
-      if (currentRoute === 'home') renderTable();
-      else if (currentRoute === 'view') showChart(currentIndexName);
+      if (currentRoute === 'home') {
+        const table = renderTable();
+        document.querySelector('#indexesTable tbody').innerHTML = table.body;
+      } else if (currentRoute === 'view') {
+        showChart(currentIndexName);
+      }
     });
 
     document.getElementById('xMinSelect').addEventListener('change', e => {
       xAxisMin = e.target.value === 'Auto' ? 'Auto' : Number(e.target.value);
       updateUrl();
       updateHomeLink();
-      if (currentRoute === 'home') renderTable();
-      else if (currentRoute === 'view') showChart(currentIndexName);
+      if (currentRoute === 'home') {
+        const table = renderTable();
+        document.querySelector('#indexesTable tbody').innerHTML = table.body;
+      } else if (currentRoute === 'view') {
+        showChart(currentIndexName);
+      }
     });
 
     document.getElementById('xMaxSelect').addEventListener('change', e => {
       xAxisMax = e.target.value === 'Auto' ? 'Auto' : Number(e.target.value);
       updateUrl();
       updateHomeLink();
-      if (currentRoute === 'home') renderTable();
-      else if (currentRoute === 'view') showChart(currentIndexName);
+      if (currentRoute === 'home') {
+        const table = renderTable();
+        document.querySelector('#indexesTable tbody').innerHTML = table.body;
+      } else if (currentRoute === 'view') {
+        showChart(currentIndexName);
+      }
     });
 
     router.on({
