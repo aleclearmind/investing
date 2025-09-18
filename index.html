@@ -251,20 +251,16 @@
             const key = `hold-${hold_years}/years-${total_years}/${adjustCurrency}/${adjustInflation}`;
             simulationsData[index][key] = {
               simulations: Math.round(Number(simulations)),
-              mean: Number(mean).toFixed(2),
-              median: Number(median).toFixed(2),
-              std_dev: Number(std_dev).toFixed(2),
-              std_err: Number(std_err).toFixed(4),
-              min: Number(min).toFixed(2),
-              max: Number(max).toFixed(2)
+              mean: Number(mean),
+              median: Number(median),
+              std_dev: Number(std_dev),
+              std_err: Number(std_err),
+              min: Number(min),
+              max: Number(max)
             };
           }
         });
       });
-    }
-
-    function replaceShareName(name) {
-      return name.replace("by DWS", "");
     }
 
     function loadEtfsData() {
@@ -272,10 +268,9 @@
         const currentDate = new Date('2025-04-06');
         etfsData = rows.map(([indexName, isin, shareName, currencyHedged, expenseRatio, provider, replicationMethod, replicationModel, dividendPolicyId, creationDate, currency, size, trackingError, trackingDifference, description, trackinsightTicker]) => {
           const years = ((currentDate - new Date(creationDate)) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(1);
-          shareName = replaceShareName(shareName);
           return {
             indexName, isin, shareName, currencyHedged: currencyHedged === 'True', expenseRatio: Number(expenseRatio),
-            provider, replicationMethod, replicationModel, dividendPolicyId, creationDate, years: parseFloat(years),
+            provider: provider.replace(" by DWS", ""), replicationMethod, replicationModel, dividendPolicyId, creationDate, years: parseFloat(years),
             currency, size: Number(size) / 1e9, trackingError: Number(trackingError), trackingDifference: Number(trackingDifference),
             description, trackinsightTicker
           };
