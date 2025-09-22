@@ -139,6 +139,7 @@
     let xAxisMax = 'Auto';
     let indexesMeta = {}, simulationsData = {}, etfsData = [], currentIndexName = null;
     let sortState = { column: "", ascending: true };
+    let etfSortState = { column: "", ascending: true };
     let currentRoute = 'home';
     let correlationsData = {};
     let minCorrelation = 1;
@@ -255,6 +256,9 @@
         const currentDate = new Date('2025-04-06');
         etfsData = rows.map(([indexName, isin, shareName, currencyHedged, expenseRatio, provider, replicationMethod, replicationModel, dividendPolicyId, creationDate, currency, size, trackingError, trackingDifference, description, trackinsightTicker]) => {
           const years = ((currentDate - new Date(creationDate)) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(1);
+          expenseRatio = expenseRatio * 100;
+          trackingError = trackingError * 100;
+          trackingDifference = trackingDifference * 100;
           return {
             indexName, isin, shareName, currencyHedged: currencyHedged === 'True', expenseRatio: Number(expenseRatio),
             provider: provider.replace(" by DWS", ""), replicationMethod, replicationModel, dividendPolicyId, creationDate, years: parseFloat(years),
@@ -274,6 +278,7 @@
         ac: adjustCurrency === "adjust-currency" ? '1' : '0',
         ai: adjustInflation === "adjust-inflation" ? '1' : '0',
         s: `${sortState.column},${sortState.ascending ? 'true' : 'false'}`,
+        es: `${etfSortState.column},${etfSortState.ascending ? 'true' : 'false'}`,
         xmin: xAxisMin !== 'Auto' ? xAxisMin : '',
         xmax: xAxisMax !== 'Auto' ? xAxisMax : ''
       };
@@ -302,6 +307,10 @@
       const [col, ascStr] = s.split(',');
       sortState.column = col;
       sortState.ascending = ascStr === 'true';
+      const es = p.es ?? '0,true';
+      const [etfCol, etfAscStr] = es.split(',');
+      etfSortState.column = etfCol;
+      etfSortState.ascending = etfAscStr === 'true';
       xAxisMin = p.xmin && rangeOptions.includes(Number(p.xmin)) ? Number(p.xmin) : 'Auto';
       xAxisMax = p.xmax && rangeOptions.includes(Number(p.xmax)) ? Number(p.xmax) : 'Auto';
 
@@ -342,9 +351,24 @@
       updateSortIndicators();
     }
 
+    function sortEtfsTable(columnName) {
+      etfSortState = { column: columnName, ascending: etfSortState.column === columnName ? !etfSortState.ascending : true };
+      updateUrl();
+      updateHomeLink();
+      const table = renderEtfsTable(currentIndexName);
+      document.querySelector('#etfsTable').outerHTML = table;
+      updateEtfSortIndicators();
+    }
+
     function updateSortIndicators() {
       document.querySelectorAll('#indexesTable .sort-link').forEach(link => {
         link.textContent = sortState.column === link.dataset.col ? (sortState.ascending ? '▼' : '▲') : '▼';
+      });
+    }
+
+    function updateEtfSortIndicators() {
+      document.querySelectorAll('#etfsTable .sort-link').forEach(link => {
+        link.textContent = etfSortState.column === link.dataset.col ? (etfSortState.ascending ? '▼' : '▲') : '▼';
       });
     }
 
@@ -538,6 +562,7 @@
         ${renderCorrelationTable(2)}
       `;
       document.querySelectorAll('#indexesTable .sort-link').forEach(link => link.addEventListener('click', e => { e.preventDefault(); sortTable(link.dataset.col); }));
+      updateSortIndicators();
     }
 
     function renderChart(name, x, y) {
@@ -609,37 +634,78 @@
 
     function renderEtfsTable(name) {
       if (!indexesMeta[name]) return '<p>Index not found.</p>';
-      const relatedEtfs = etfsData.filter(etf => etf.indexName === name);
+      let relatedEtfs = etfsData.filter(etf => etf.indexName === name);
       if (!relatedEtfs.length) return '<p>No ETFs available for this index.</p>';
 
-      const headers = ['ISIN', 'Provider', 'Cost', 'Currency', 'Size', 'Years', 'Dividend', 'R. Method', 'R. Model', 'Trk. Error', 'Trk. Difference', 'BI', 'TI', 'JE'];
-      const tableHeader = `<thead><tr>${headers.map(header => `<th${['Size', 'Cost', 'Years', 'Trk. Error', 'Trk. Difference'].includes(header) ? ' class="number"' : ''}>${header}</th>`).join('')}</tr></thead>`;
+      const columns = [
+        { name: 'ISIN', key: 'isin', type: 'string' },
+        { name: 'Provider', key: 'provider', type: 'string' },
+        { name: 'Cost', key: 'expenseRatio', type: 'percentage', lowerIsBetter: true, digits: 2 },
+        { name: 'Currency', key: 'currencyDisplay', type: 'string' },
+        { name: 'Size', key: 'size', type: 'float', lowerIsBetter: false, digits: 2 },
+        { name: 'Years', key: 'years', type: 'float', lowerIsBetter: false, digits: 1 },
+        { name: 'Dividend', key: 'dividendPolicyId', type: 'string' },
+        { name: 'R. Method', key: 'replicationMethod', type: 'string' },
+        { name: 'R. Model', key: 'replicationModel', type: 'string' },
+        { name: 'Trk. Error', key: 'trackingError', type: 'percentage', lowerIsBetter: true, digits: 2 },
+        { name: 'Trk. Difference', key: 'trackingDifference', type: 'percentage', lowerIsBetter: true, digits: 2 },
+        { name: 'BI', key: 'biLink', type: 'string' },
+        { name: 'TI', key: 'tiLink', type: 'string' },
+        { name: 'JE', key: 'jeLink', type: 'string' }
+      ];
 
-      const ranges = {
-        years: { min: Math.min(...relatedEtfs.map(e => e.years)), max: Math.max(...relatedEtfs.map(e => e.years)) },
-        expenseRatio: { min: Math.min(...relatedEtfs.map(e => e.expenseRatio)), max: Math.max(...relatedEtfs.map(e => e.expenseRatio)) },
-        trackingError: { min: Math.min(...relatedEtfs.map(e => e.trackingError)), max: Math.max(...relatedEtfs.map(e => e.trackingError)) },
-        trackingDifference: { min: Math.min(...relatedEtfs.map(e => e.trackingDifference)), max: Math.max(...relatedEtfs.map(e => e.trackingDifference)) }
-      };
+      // Prepare ETF data with display values
+      relatedEtfs = relatedEtfs.map(etf => ({
+        ...etf,
+        currencyDisplay: `${etf.currencyHedged ? 'h' : ''}${etf.currency}`,
+        biLink: `<a href="https://www.borsaitaliana.it/borsa/etf/scheda/${etf.isin}.html" target="_blank">BI</a>`,
+        tiLink: `<a href="https://www.trackinsight.com/en/fund/${etf.trackinsightTicker}" target="_blank">TI</a>`,
+        jeLink: `<a href="https://www.justetf.com/en/etf-profile.html?isin=${etf.isin}" target="_blank">JE</a>`
+      }));
 
-      const tableBody = relatedEtfs.map(etf => `
-        <tr>
-          <td title="${etf.shareName}" style="font-family: monospace">${etf.isin}</td>
-          <td>${etf.provider}</td>
-          <td class="number" style="color: ${getColorScale(etf.expenseRatio, ranges.expenseRatio.min, ranges.expenseRatio.max, true)}">${(etf.expenseRatio * 100).toFixed(2)}%</td>
-          <td>${etf.currencyHedged ? "h" : ""}${etf.currency}</td>
-          <td class="number">${etf.size.toFixed(2)}</td>
-          <td class="number" style="color: ${getColorScale(etf.years, ranges.years.min, ranges.years.max)}">${etf.years}</td>
-          <td>${etf.dividendPolicyId}</td>
-          <td>${etf.replicationMethod}</td>
-          <td>${etf.replicationModel}</td>
-          <td class="number" style="color: ${getColorScale(etf.trackingError, ranges.trackingError.min, ranges.trackingError.max, true)}">${(etf.trackingError * 100).toFixed(2)}%</td>
-          <td class="number" style="color: ${getColorScale(etf.trackingDifference, ranges.trackingDifference.min, ranges.trackingDifference.max, false)}">${(etf.trackingDifference * 100).toFixed(2)}%</td>
-          <td><a href="https://www.borsaitaliana.it/borsa/etf/scheda/${etf.isin}.html" target="_blank">BI</a></td>
-          <td><a href="https://www.trackinsight.com/en/fund/${etf.trackinsightTicker}" target="_blank">TI</a></td>
-          <td><a href="https://www.justetf.com/en/etf-profile.html?isin=${etf.isin}" target="_blank">JE</a></td>
-        </tr>
-      `).join('');
+      // Calculate ranges for color scaling
+      const ranges = columns.reduce((acc, column) => {
+        if (column.type === 'percentage' || column.type === 'float') {
+          const values = relatedEtfs.map(e => e[column.key]).filter(v => v !== undefined);
+          acc[column.key] = { min: Math.min(...values), max: Math.max(...values) };
+        }
+        return acc;
+      }, {});
+
+      // Sort ETFs
+      relatedEtfs.sort((a, b) => {
+        const column = columns.find(c => c.key === etfSortState.column);
+        if (!column) return 0;
+        const defaultValue = column.lowerIsBetter ? Infinity : -Infinity;
+        const aVal = a[etfSortState.column] !== undefined ? a[etfSortState.column] : defaultValue;
+        const bVal = b[etfSortState.column] !== undefined ? b[etfSortState.column] : defaultValue;
+        let result;
+        if (column.type === 'string') {
+          result = aVal.localeCompare(bVal);
+        } else {
+          result = aVal - bVal;
+        }
+        return etfSortState.ascending ? result : -result;
+      });
+
+      const tableHeader = `<thead><tr>${columns.map(column => `
+        <th${(column.type === 'percentage' || column.type === 'float') ? ' class="number"' : ''}>${column.name} <a href="#" class="sort-link" data-col="${column.key}">▼</a></th>
+      `).join('')}</tr></thead>`;
+
+      const tableBody = relatedEtfs.map(etf => {
+        const rowData = columns.map(column => {
+          const value = etf[column.key];
+          if (['biLink', 'tiLink', 'jeLink'].includes(column.key)) {
+            return `<td>${value}</td>`;
+          } else if (column.type === 'string') {
+            return `<td${column.key === 'isin' ? ' title="' + etf.shareName + '" style="font-family: monospace"' : ''}>${value}</td>`;
+          } else {
+            const color = getColorScale(value, ranges[column.key].min, ranges[column.key].max, column.lowerIsBetter);
+            return `<td class="number" style="color: ${color}">${format(value, column.type, column.digits)}</td>`;
+          }
+        });
+        return `<tr>${rowData.join('')}</tr>`;
+      }).join('');
 
       return `
         <h3>Related ETFs</h3>
@@ -689,6 +755,9 @@
         });
       updateKDE(name);
       document.querySelectorAll('#indexesTable .sort-link').forEach(link => link.addEventListener('click', e => { e.preventDefault(); sortTable(link.dataset.col); }));
+      document.querySelectorAll('#etfsTable .sort-link').forEach(link => link.addEventListener('click', e => { e.preventDefault(); sortEtfsTable(link.dataset.col); }));
+      updateSortIndicators();
+      updateEtfSortIndicators();
     }
 
     // Event Listeners and Routing
