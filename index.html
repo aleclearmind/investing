@@ -261,7 +261,7 @@
             currency, size: Number(size) / 1e9, trackingError: Number(trackingError), trackingDifference: Number(trackingDifference),
             description, trackinsightTicker
           };
-        }).filter(entry => (entry.currencyHedged && entry.currency == "EUR") || entry.currency == "USD");
+        }).filter(entry => ((entry.currencyHedged && entry.currency == "EUR") || entry.currency == "USD") && entry.dividendPolicyId == "Capitalization");
       });
     }
 
