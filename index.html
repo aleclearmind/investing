@@ -254,7 +254,7 @@
     function loadEtfsData() {
       return fetchCSV('facts/etfs.csv').then(rows => {
         const currentDate = new Date('2025-04-06');
-        etfsData = rows.map(([indexName, isin, shareName, currencyHedged, expenseRatio, provider, replicationMethod, replicationModel, dividendPolicyId, creationDate, currency, size, trackingError, trackingDifference, description, trackinsightTicker]) => {
+        etfsData = rows.map(([indexName, isin, shareName, currency, currencyHedged, correlation, currencyAdjustedCorrelation, expenseRatio, provider, replicationMethod, replicationModel, dividendPolicyId, creationDate, size, trackingError, trackingDifference, description, trackinsightTicker]) => {
           const years = ((currentDate - new Date(creationDate)) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(1);
           expenseRatio = expenseRatio * 100;
           trackingError = trackingError * 100;
@@ -263,7 +263,7 @@
             indexName, isin, shareName, currencyHedged: currencyHedged === 'True', expenseRatio: Number(expenseRatio),
             provider: provider.replace(" by DWS", ""), replicationMethod, replicationModel, dividendPolicyId, creationDate, years: parseFloat(years),
             currency, size: Number(size) / 1e9, trackingError: Number(trackingError), trackingDifference: Number(trackingDifference),
-            description, trackinsightTicker
+            description, trackinsightTicker, correlation: Number(correlation), currencyAdjustedCorrelation: Number(currencyAdjustedCorrelation)
           };
         }).filter(entry => ((entry.currencyHedged && entry.currency == "EUR") || entry.currency == "USD") && entry.dividendPolicyId == "Capitalization");
       });
@@ -348,7 +348,6 @@
       updateHomeLink();
       const table = renderTable(currentIndexName);
       document.querySelector('#indexesTable tbody').innerHTML = table.body;
-      updateSortIndicators();
     }
 
     function sortEtfsTable(columnName) {
@@ -357,19 +356,6 @@
       updateHomeLink();
       const table = renderEtfsTable(currentIndexName);
       document.querySelector('#etfsTable').outerHTML = table;
-      updateEtfSortIndicators();
-    }
-
-    function updateSortIndicators() {
-      document.querySelectorAll('#indexesTable .sort-link').forEach(link => {
-        link.textContent = sortState.column === link.dataset.col ? (sortState.ascending ? '▼' : '▲') : '▼';
-      });
-    }
-
-    function updateEtfSortIndicators() {
-      document.querySelectorAll('#etfsTable .sort-link').forEach(link => {
-        link.textContent = etfSortState.column === link.dataset.col ? (etfSortState.ascending ? '▼' : '▲') : '▼';
-      });
     }
 
     function renderCorrelationTable(digits, selectedIndex = null) {
@@ -426,19 +412,21 @@
       `;
     }
 
-    function format(value, type, digits) {
+    function formatNumber(value, type, digits, force_plus=false) {
       digits = digits || 2;
+
+      const positive_prefix = force_plus ? "+" : "";
 
       if (value === undefined) {
         return "N/A";
       } else if (type === "string") {
         return value;
       } else if (type === "percentage") {
-        return value > 0 ? `+${value.toFixed(digits)}%` : `${value.toFixed(digits)}%`;
+        return value > 0 ? `${positive_prefix}${value.toFixed(digits)}%` : `${value.toFixed(digits)}%`;
       } else if (type === "integer") {
-        return value > 0 ? `+${value}` : `${value}`;
+        return value > 0 ? `${positive_prefix}${value}` : `${value}`;
       } else if (type === "float") {
-        return value > 0 ? `+${value.toFixed(digits)}` : `${value.toFixed(digits)}`;
+        return value > 0 ? `${positive_prefix}${value.toFixed(digits)}` : `${value.toFixed(digits)}`;
       }
     }
 
@@ -448,7 +436,7 @@
       // Define columns inline
       let columns = [
         { name: 'Index', key: 'full_name', type: "string" },
-        { name: 'Curr.', key: 'currency', type: "string" },
+        { name: 'Currency', key: 'currency', type: "string" },
         { name: 'Years', key: 'years', type: "float", digits: 1, lowerIsBetter: false },
         { name: 'Mean', key: 'mean', type: "percentage", lowerIsBetter: false },
         { name: 'Median', key: 'median', type: "percentage", lowerIsBetter: false },
@@ -492,6 +480,14 @@
               });
             }
           });
+
+          columns.forEach(column => {
+            if (column.key !== "correlation" && isNumeric(column.type)) {
+              referenceData[column.key] = 0;
+            }
+          });
+          referenceData["correlation"] = 1;
+
         }
       }
 
@@ -522,13 +518,11 @@
 
       ranges.correlation = { min: 0.9, max: 1 };
 
-      const formatNumber = val => val !== undefined ? val : 'N/A';
-      const formatPercent = val => val !== undefined ? (val > 0 ? `+${val}%` : `${val}%`) : 'N/A';
       const queryStr = buildQuery();
 
       // Generate table header
       const header = `<thead><tr>${columns.map((column, i) => `
-        <th${isNumeric(column.type) ? ' class="number"' : ''}>${column.name} <a href="#" class="sort-link" data-col="${column.key}">▼</a></th>
+        <th${isNumeric(column.type) ? ' class="number"' : ''}><a href="#" class="sort-link" data-col="${column.key}">${column.name}</a></th>
       `).join('')}</tr></thead>`;
 
       // Generate table body
@@ -543,7 +537,7 @@
             return `<td>${value}</td>`;
           } else {
             let color = getColorScale(value, ranges[column.key].min, ranges[column.key].max, column.lowerIsBetter);
-            return `<td class="number" style="color: ${color}">${format(value, column.type, column.digits)}</td>`;
+            return `<td class="number" style="color: ${color}">${formatNumber(value, column.type, column.digits, referenceIndex)}</td>`;
           }
         });
         return `<tr>${rowData.join('')}</tr>`;
@@ -562,7 +556,6 @@
         ${renderCorrelationTable(2)}
       `;
       document.querySelectorAll('#indexesTable .sort-link').forEach(link => link.addEventListener('click', e => { e.preventDefault(); sortTable(link.dataset.col); }));
-      updateSortIndicators();
     }
 
     function renderChart(name, x, y) {
@@ -640,15 +633,15 @@
       const columns = [
         { name: 'ISIN', key: 'isin', type: 'string' },
         { name: 'Provider', key: 'provider', type: 'string' },
-        { name: 'Cost', key: 'expenseRatio', type: 'percentage', lowerIsBetter: true, digits: 2 },
+        { name: 'TER', key: 'expenseRatio', type: 'percentage', lowerIsBetter: true, digits: 2 },
         { name: 'Currency', key: 'currencyDisplay', type: 'string' },
+        { name: 'Correlation', key: 'correlation', type: 'float', lowerIsBetter: false, digits: 4 },
+        { name: 'Correlation (adj)', key: 'currencyAdjustedCorrelation', type: 'float', lowerIsBetter: false, digits: 4 },
         { name: 'Size', key: 'size', type: 'float', lowerIsBetter: false, digits: 2 },
         { name: 'Years', key: 'years', type: 'float', lowerIsBetter: false, digits: 1 },
-        { name: 'Dividend', key: 'dividendPolicyId', type: 'string' },
-        { name: 'R. Method', key: 'replicationMethod', type: 'string' },
         { name: 'R. Model', key: 'replicationModel', type: 'string' },
         { name: 'Trk. Error', key: 'trackingError', type: 'percentage', lowerIsBetter: true, digits: 2 },
-        { name: 'Trk. Difference', key: 'trackingDifference', type: 'percentage', lowerIsBetter: true, digits: 2 },
+        { name: 'Trk. Diff.', key: 'trackingDifference', type: 'percentage', lowerIsBetter: true, digits: 2 },
         { name: 'BI', key: 'biLink', type: 'string' },
         { name: 'TI', key: 'tiLink', type: 'string' },
         { name: 'JE', key: 'jeLink', type: 'string' }
@@ -664,9 +657,10 @@
       }));
 
       // Calculate ranges for color scaling
+      const isGood = (value) => value !== undefined && !Number.isNaN(value);
       const ranges = columns.reduce((acc, column) => {
         if (column.type === 'percentage' || column.type === 'float') {
-          const values = relatedEtfs.map(e => e[column.key]).filter(v => v !== undefined);
+          const values = relatedEtfs.map(e => e[column.key]).filter(isGood);
           acc[column.key] = { min: Math.min(...values), max: Math.max(...values) };
         }
         return acc;
@@ -677,8 +671,8 @@
         const column = columns.find(c => c.key === etfSortState.column);
         if (!column) return 0;
         const defaultValue = column.lowerIsBetter ? Infinity : -Infinity;
-        const aVal = a[etfSortState.column] !== undefined ? a[etfSortState.column] : defaultValue;
-        const bVal = b[etfSortState.column] !== undefined ? b[etfSortState.column] : defaultValue;
+        const aVal = isGood(a[etfSortState.column]) ? a[etfSortState.column] : defaultValue;
+        const bVal = isGood(b[etfSortState.column]) ? b[etfSortState.column] : defaultValue;
         let result;
         if (column.type === 'string') {
           result = aVal.localeCompare(bVal);
@@ -689,7 +683,7 @@
       });
 
       const tableHeader = `<thead><tr>${columns.map(column => `
-        <th${(column.type === 'percentage' || column.type === 'float') ? ' class="number"' : ''}>${column.name} <a href="#" class="sort-link" data-col="${column.key}">▼</a></th>
+        <th${(column.type === 'percentage' || column.type === 'float') ? ' class="number"' : ''}><a href="#" class="sort-link" data-col="${column.key}">${column.name}</a></th>
       `).join('')}</tr></thead>`;
 
       const tableBody = relatedEtfs.map(etf => {
@@ -701,7 +695,7 @@
             return `<td${column.key === 'isin' ? ' title="' + etf.shareName + '" style="font-family: monospace"' : ''}>${value}</td>`;
           } else {
             const color = getColorScale(value, ranges[column.key].min, ranges[column.key].max, column.lowerIsBetter);
-            return `<td class="number" style="color: ${color}">${format(value, column.type, column.digits)}</td>`;
+            return `<td class="number" style="color: ${color}">${formatNumber(value, column.type, column.digits)}</td>`;
           }
         });
         return `<tr>${rowData.join('')}</tr>`;
@@ -718,7 +712,7 @@
 
     function showChart(name) {
       currentIndexName = name;
-      let { full_name = 'N/A', years = "N/A", url } = indexesMeta[name] || {};
+      let { full_name = 'N/A', years = "N/A", currency, url } = indexesMeta[name] || {};
       const age = years;
       const [hold, yearsData] = selectedCombo.split('/').map(part => part.split('-')[1]);
       const key = `hold-${hold}/years-${yearsData}/${adjustCurrency}/${adjustInflation}`;
@@ -729,12 +723,13 @@
         <div class="stats">
           <div><a href="${url}">Website</a></div>
           <div><strong>Age</strong>: ${age} years</div>
-          <div><strong>Mean</strong>: ${format(simulation["mean"], "percentage")}</div>
-          <div><strong>Median</strong>: ${format(simulation["median"], "percentage")}</div>
-          <div><strong>Standard deviation</strong>: ${format(simulation["std_dev"], "float")}</div>
-          <div><strong>Standard error</strong>: ${format(simulation["std_err"], "float")}</div>
-          <div><strong>Min</strong>: ${format(simulation["min"], "percentage")}</div>
-          <div><strong>Max</strong>: ${format(simulation["max"], "percentage")}</div>
+          <div><strong>Currency</strong>: ${currency}</div>
+          <div><strong>Mean</strong>: ${formatNumber(simulation["mean"], "percentage")}</div>
+          <div><strong>Median</strong>: ${formatNumber(simulation["median"], "percentage")}</div>
+          <div><strong>Standard deviation</strong>: ${formatNumber(simulation["std_dev"], "float")}</div>
+          <div><strong>Standard error</strong>: ${formatNumber(simulation["std_err"], "float")}</div>
+          <div><strong>Min</strong>: ${formatNumber(simulation["min"], "percentage")}</div>
+          <div><strong>Max</strong>: ${formatNumber(simulation["max"], "percentage")}</div>
           <div><strong>Simulations</strong>: ${simulation["simulations"]}</div>
         </div>
         <div id="kdePlot" class="plot-div"></div>
@@ -756,8 +751,6 @@
       updateKDE(name);
       document.querySelectorAll('#indexesTable .sort-link').forEach(link => link.addEventListener('click', e => { e.preventDefault(); sortTable(link.dataset.col); }));
       document.querySelectorAll('#etfsTable .sort-link').forEach(link => link.addEventListener('click', e => { e.preventDefault(); sortEtfsTable(link.dataset.col); }));
-      updateSortIndicators();
-      updateEtfSortIndicators();
     }
 
     // Event Listeners and Routing

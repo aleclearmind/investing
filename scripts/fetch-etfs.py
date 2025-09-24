@@ -1,14 +1,22 @@
 #!/usr/bin/env python3
 
+# pylint: disable=logging-fstring-interpolation, missing-function-docstring, missing-class-docstring, line-too-long, import-error, missing-module-docstring, invalid-name
+
 import csv
-import requests
+import functools
+import os
 import json
-from datetime import datetime
 import urllib.parse
 import argparse
 import sys
 import logging
 import re
+
+from datetime import datetime
+from typing import List, Tuple
+
+import numpy as np
+import requests
 
 # Dictionaries for mapping numeric values to strings
 REPLICATION_METHODS = {1: "Direct", 2: "Indirect", 3: "Other"}
@@ -110,7 +118,7 @@ def fetch_cost_from_borsa_italiana(isin):
         cost = float(match.groups()[0].replace(",", ".").replace("%", ""))
         return "{:.4f}".format(cost / 100)
     except requests.RequestException as e:
-        logger.error(f"Failed to fetch description for {isin}")
+        logger.error(f"Failed to fetch description for {isin}: {e}")
         return None
 
 
@@ -174,6 +182,126 @@ def process_isin(isin_str, index_name, ticker):
 
     return filtered_isins[0]
 
+def zip_scaled_data(json_data):
+    stamp_data = json_data["stamp"]["data"]
+    stamp_scale = json_data["stamp"]["scale"]
+    nav_data = json_data["nav"]["data"]
+    nav_scale = json_data["nav"]["scale"]
+
+    return {date_to_string(datetime.fromtimestamp((stamp / stamp_scale) / 1000)): nav / nav_scale for stamp, nav in zip(stamp_data, nav_data)}
+
+
+def date_to_string(date):
+    return date.strftime('%Y-%m-%d')
+
+
+def get_performance_data(ticker):
+    today = date_to_string(datetime.today())
+    url = "https://www.trackinsight.com/search-api/snapshot/get_snapshots"
+    logger.info(f"Requesting performance_data for {ticker} to TrackInsight from {url}")
+    try:
+        response = requests.post(url, headers={'Content-Type': 'application/json'}, json={
+                                 "enterpriseId": None,
+                                 "requests": [
+                                     {
+                                         "fund": ticker,
+                                         "startDate": "1980-01-01",
+                                         "endDate": today,
+                                         "columns": [
+                                             "stamp",
+                                             "nav"
+                                         ]
+                                     }
+                                 ]
+                                })
+        response.raise_for_status()
+        data = response.json()
+        logger.debug(f"Response: {json.dumps(data, indent=2)}")
+
+        return zip_scaled_data(data[0])
+
+    except requests.RequestException as e:
+        logger.error(f"Failed to fetch description for {ticker}: {e}")
+        return None
+
+
+def load_index_performance(index_name):
+    result = {}
+    with open(f"facts/indexes/{index_name}.csv", mode='r', encoding="utf8") as file:
+        csv_dict_reader = csv.DictReader(file)
+        for row in csv_dict_reader:
+            result[row["date"]] = float(row["value"])
+    return result
+
+@functools.cache
+def load_exchange_rates(source_currency, target_currency, try_other=True):
+    result = {}
+    exchange_file = os.path.join(
+        "facts",
+        "exchange-rates",
+        f"{target_currency.lower()}-{source_currency.lower()}.csv",
+    )
+
+    if not os.path.exists(exchange_file):
+        if try_other:
+            return {key: 1 / value for key, value in load_exchange_rates(target_currency, source_currency, False).items()}
+        return {}
+
+    with open(exchange_file, mode='r', encoding="utf8") as file:
+        csv_dict_reader = csv.DictReader(file)
+        for row in csv_dict_reader:
+            result[row["date"]] = float(row["rate"])
+    return result
+
+
+def read_config():
+    config_path = os.path.join(os.getcwd(), "config.json")
+    with open(config_path, "r", encoding="utf8") as f:
+        config = json.load(f)
+        config["max_date"] = datetime.strptime(config["max_date"], "%Y-%m-%d")
+        config["min_date"] = datetime.strptime(config["min_date"], "%Y-%m-%d")
+        return config
+
+
+def convert_currency(data, source_currency, target_currency) -> List[float]:
+
+    if source_currency == target_currency:
+        return data
+
+    exchange_rates = load_exchange_rates(source_currency, target_currency)
+    if not exchange_rates:
+        logger.warning(f"No exchange rates from {source_currency} to {target_currency}")
+        return {}
+
+    return {
+        date: data[date] / exchange_rates[date]
+        for date in list(sorted(set(data) & set(exchange_rates)))
+    }
+
+
+class IndexCorrelation:
+    def __init__(self, reference_currency, index_name, index_currency):
+        self.reference_currency = reference_currency
+        self.index_performance = load_index_performance(index_name)
+        self.adjusted_index_performance = convert_currency(
+            self.index_performance, index_currency, reference_currency
+        )
+
+    def compute(self, fund_ticker, fund_currency) -> Tuple[float, float]:
+        fund_performance = get_performance_data(fund_ticker)
+        adjusted_index_performance = convert_currency(fund_performance, fund_currency, self.reference_currency)
+
+        def correlation(index_performance, fund_performance):
+            common_dates = list(sorted(set(fund_performance) & set(index_performance)))
+            def common(performance):
+                return [performance[date] for date in common_dates]
+            return np.corrcoef(common(index_performance), common(fund_performance))[0, 1]
+
+        return (
+            correlation(self.index_performance, adjusted_index_performance),
+            correlation(self.adjusted_index_performance, adjusted_index_performance)
+        )
+
 
 def process_csv(input_file, output_file):
     reader = csv.DictReader(input_file)
@@ -181,14 +309,16 @@ def process_csv(input_file, output_file):
         "index-name",
         "isin",
         "share-name",
+        "currency",
         "currency-hedged",
+        "correlation",
+        "currency-adjusted-correlation",
         "expense-ratio",
         "provider",
         "replication-method",
         "replication-model",
         "dividend-policy-id",
         "creation-date",
-        "currency",
         "size",
         "tracking-error",
         "tracking-difference",
@@ -198,12 +328,15 @@ def process_csv(input_file, output_file):
     writer = csv.DictWriter(output_file, fieldnames=fieldnames)
     writer.writeheader()
 
-    for row in reader:
-        index_name = row["name"]
+    config = read_config()
+    reference_currency = config["reference_currency"]
+
+    for index_row in reader:
+        index_name = index_row["name"]
         logger.info(f"Processing index: {index_name}")
         # Get benchmark data
 
-        search = row["full-name"]
+        search = index_row["full-name"]
         benchmark_data = fetch_benchmark_data(search, index_name)
 
         if not benchmark_data and "STOXX" in search:
@@ -218,27 +351,34 @@ def process_csv(input_file, output_file):
 
         if not benchmark_data:
             logger.warning(
-                f"No benchmark data found for {row['full-name']} (index {index_name})"
+                f"No benchmark data found for {index_row['full-name']} (index {index_name})"
             )
             continue
 
+
+        index_correlator = IndexCorrelation(reference_currency, index_name, index_row["currency"])
+
         # Process all results from benchmark data
         for fund in benchmark_data:
-            ticker = fund.get("ticker")
+            fund_ticker = fund.get("ticker")
             logger.info(
-                f"Processing fund: {ticker or 'unknown ticker'} (index {index_name})"
+                f"Processing fund: {fund_ticker or 'unknown ticker'} (index {index_name})"
             )
 
             # Process ISIN
-            isin = process_isin(fund.get("isin", ""), index_name, ticker)
+            isin = process_isin(fund.get("isin", ""), index_name, fund_ticker)
             if isin is None:
                 continue  # Skip this fund if no valid ISIN
 
             # Get tracking data and description
-            tracking_data = fetch_tracking_data(ticker, index_name) if ticker else {}
+            tracking_data = fetch_tracking_data(fund_ticker, index_name) if fund_ticker else {}
             description_data = (
-                fetch_fund_description(ticker, index_name) if ticker else {}
+                fetch_fund_description(fund_ticker, index_name) if fund_ticker else {}
             )
+
+            fund_currency = fund.get("currency", "")
+
+            index_correlation, adjusted_index_correlation = index_correlator.compute(fund_ticker, fund_currency)
 
             # Fetch actual cost from Borsa Italiana
             cost_bi = fetch_cost_from_borsa_italiana(isin)
@@ -266,10 +406,12 @@ def process_csv(input_file, output_file):
                 "tracking-error": tracking_data.get("te", ""),
                 "tracking-difference": tracking_data.get("td", ""),
                 "description": description_data.get("description", ""),
-                "trackinsight-ticker": ticker or "",
+                "trackinsight-ticker": fund_ticker or "",
+                "correlation":  index_correlation,
+                "currency-adjusted-correlation":  adjusted_index_correlation,
             }
 
-            output_row = {key: value if type(value) is not str else value.replace('\n', '') for key, value in output_row.items()}
+            output_row = {key: value if not isinstance(value, str) else value.replace('\n', '') for key, value in output_row.items()}
 
             writer.writerow(output_row)
         logger.info(
