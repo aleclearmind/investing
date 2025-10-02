@@ -170,6 +170,8 @@
 
     const homeLink = document.querySelector('.navbar-brand');
 
+    let config = {};
+
     // Centralized CSV Parsing
     function parseCSV(csvData) {
       const lines = csvData.trim().split('\n').slice(1); // Skip header
@@ -198,6 +200,16 @@
       return fetch(`${baseUrl}${url}`).then(res => res.text()).then(parseCSV);
     }
 
+    function fetchJSON(url) {
+      return fetch(`${baseUrl}${url}`).then(res => res.json());
+    }
+
+    function loadConfig() {
+      return fetchJSON("config.json").then(response => {
+        config = response;
+      });
+    }
+
     function loadCorrelationsData() {
       return fetchCSV('facts/indexes-correlation.csv').then(rows => {
         correlationsData = {};
@@ -217,7 +229,7 @@
     // Data Loading
     function loadIndexesMeta() {
       return fetchCSV('facts/indexes.csv').then(rows => {
-        const currentDate = new Date('2025-04-06');
+        const currentDate = new Date(config["max_date"]);
         indexesMeta = {};
         rows.forEach(([name, full_name, code, currency, earliest_date, url]) => {
           full_name = full_name.replace(/ Index$/, '');
@@ -253,7 +265,7 @@
 
     function loadEtfsData() {
       return fetchCSV('facts/etfs.csv').then(rows => {
-        const currentDate = new Date('2025-04-06');
+        const currentDate = new Date(config["max_date"]);
         etfsData = rows.map(([indexName, isin, shareName, currency, currencyHedged, correlation, currencyAdjustedCorrelation, expenseRatio, provider, replicationMethod, replicationModel, dividendPolicyId, creationDate, size, trackingError, trackingDifference, description, trackinsightTicker]) => {
           const years = ((currentDate - new Date(creationDate)) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(1);
           expenseRatio = expenseRatio * 100;
@@ -269,7 +281,7 @@
       });
     }
 
-    const dataLoaded = loadEtfsData().then(loadIndexesMeta).then(loadSimulationsData).then(loadCorrelationsData);
+    const dataLoaded = loadConfig().then(loadEtfsData).then(loadIndexesMeta).then(loadSimulationsData).then(loadCorrelationsData);
 
     // Utility Functions
     function buildQuery() {
