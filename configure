@@ -30,11 +30,17 @@ cp "$SCRIPT_DIR/config.json" .
 cp "$SCRIPT_DIR/index.html" .
 
 mkdir -p facts/inflation
-cp "$SCRIPT_DIR/facts/inflation/"* facts/inflation
-
 mkdir -p facts/exchange-rates
 
 if test "$NO_FETCH" -eq 0; then
+  log "Fetching inflation data for Italy"
+  (
+    echo "month,index"
+    curl --silent -g 'https://ec.europa.eu/eurostat/api/dissemination/sdmx/3.0/data/dataflow/ESTAT/prc_hicp_midx/1.0/*.*.*.*?c[freq]=M&c[unit]=I96&c[coicop]=CP00&c[geo]=IT&c[TIME_PERIOD]=ge:1996-01&format=csvdata' | \
+      awk -F, '{ print $7 "," $8 }' | \
+      tail -n +2
+  ) > facts/inflation/italy.csv
+
   log "Fetching EUR-USD exchange rates"
   (
     echo "date,rate"
