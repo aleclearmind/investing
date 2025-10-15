@@ -160,7 +160,7 @@ def simulate_trades(
                 total_return *= buy_price / sell_price
 
             annualized_return = total_return ** (1 / hold_years)
-            percent = (annualized_return - 1) * 100
+            percent = (annualized_return - 1)
             results.append(percent)
             log(f"Annualized ROI of {buy_date} -> {sell_date}: {percent}%")
     return results
