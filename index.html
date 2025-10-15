@@ -127,7 +127,7 @@
           value: `hold-${hold.toFixed(1)}/years-${years}`,
           label: `Hold for ${hold} years / Data for ${years === 'max' ? 'all' : years} years`
         }))
-      ).filter(value => value.years == "max" || (value.years > new Number(value.hold)));
+      ).filter(value => value.years == "max" || (value.years >= new Number(value.hold)));
     })();
 
     const app = document.getElementById('app');
@@ -266,13 +266,14 @@
     function loadEtfsData() {
       return fetchCSV('facts/etfs.csv').then(rows => {
         const currentDate = new Date(config["max_date"]);
-        etfsData = rows.map(([indexName, isin, shareName, currency, currencyHedged, correlation, currencyAdjustedCorrelation, expenseRatio, provider, replicationMethod, replicationModel, dividendPolicyId, creationDate, size, trackingError, trackingDifference, description, trackinsightTicker]) => {
+        etfsData = rows.map(([indexName, isin, shareName, currency, currencyHedged, indexComparisonDatapointCount, indexCorrelation, indexAverageDifferenceInYearlyReturns, adjustedIndexComparisonDatapointCount, adjustedIndexCorrelation, adjustedIndexAverageDifferenceInYearlyReturns, expenseRatio, provider, replicationMethod, replicationModel, dividendPolicyId, creationDate, size, trackingError, trackingDifference, description, trackinsightTicker]) => {
           const years = ((currentDate - new Date(creationDate)) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(1);
           return {
             indexName, isin, shareName, currencyHedged: currencyHedged === 'True', expenseRatio: Number(expenseRatio),
             provider: provider.replace(" by DWS", ""), replicationMethod, replicationModel, dividendPolicyId, creationDate, years: parseFloat(years),
             currency, size: Number(size) / 1e9, trackingError: Number(trackingError), trackingDifference: Number(trackingDifference),
-            description, trackinsightTicker, correlation: Number(correlation), currencyAdjustedCorrelation: Number(currencyAdjustedCorrelation)
+            description, trackinsightTicker,
+            indexComparisonDatapointCount: Number(indexComparisonDatapointCount), indexCorrelation: Number(indexCorrelation), indexAverageDifferenceInYearlyReturns: Number(indexAverageDifferenceInYearlyReturns), adjustedIndexComparisonDatapointCount: Number(adjustedIndexComparisonDatapointCount), adjustedIndexCorrelation: Number(adjustedIndexCorrelation), adjustedIndexAverageDifferenceInYearlyReturns: Number(adjustedIndexAverageDifferenceInYearlyReturns)
           };
         }).filter(entry => ((entry.currencyHedged && entry.currency == "EUR") || entry.currency == "USD") && entry.dividendPolicyId == "Capitalization");
       });
@@ -643,15 +644,15 @@
       const columns = [
         { name: 'ISIN', key: 'isin', type: 'string' },
         { name: 'Provider', key: 'provider', type: 'string' },
-        { name: 'TER', key: 'expenseRatio', type: 'percentage', lowerIsBetter: true, digits: 2 },
-        { name: 'Currency', key: 'currencyDisplay', type: 'string' },
-        { name: 'Correlation', key: 'correlation', type: 'float', lowerIsBetter: false, digits: 4 },
-        { name: 'Correlation (adj)', key: 'currencyAdjustedCorrelation', type: 'float', lowerIsBetter: false, digits: 4 },
         { name: 'Size', key: 'size', type: 'float', lowerIsBetter: false, digits: 2 },
         { name: 'Years', key: 'years', type: 'float', lowerIsBetter: false, digits: 1 },
+        { name: 'TER', key: 'expenseRatio', type: 'percentage', lowerIsBetter: true, digits: 2 },
+        { name: 'Currency', key: 'currencyDisplay', type: 'string' },
+        { name: 'Correlation', key: 'indexCorrelation', type: 'float', lowerIsBetter: false, digits: 4 },
+        { name: 'Return diff.', key: 'indexAverageDifferenceInYearlyReturns', type: 'percentage', lowerIsBetter: false, digits: 2 },
+        { name: 'Correlation (adj)', key: 'adjustedIndexCorrelation', type: 'float', lowerIsBetter: false, digits: 4 },
+        { name: 'Return diff. (adj)', key: 'adjustedIndexAverageDifferenceInYearlyReturns', type: 'percentage', lowerIsBetter: false, digits: 2 },
         { name: 'R. Model', key: 'replicationModel', type: 'string' },
-        { name: 'Trk. Error', key: 'trackingError', type: 'percentage', lowerIsBetter: true, digits: 2 },
-        { name: 'Trk. Diff.', key: 'trackingDifference', type: 'percentage', lowerIsBetter: true, digits: 2 },
         { name: 'BI', key: 'biLink', type: 'string' },
         { name: 'TI', key: 'tiLink', type: 'string' },
         { name: 'JE', key: 'jeLink', type: 'string' }

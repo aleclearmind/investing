@@ -2,7 +2,9 @@
 
 # pylint: disable=logging-fstring-interpolation, missing-function-docstring, missing-class-docstring, line-too-long, import-error, missing-module-docstring, invalid-name
 
+import bisect
 import csv
+from dataclasses import dataclass
 import functools
 import os
 import json
@@ -12,8 +14,8 @@ import sys
 import logging
 import re
 
-from datetime import datetime
-from typing import List, Tuple
+from datetime import datetime, timedelta
+from typing import List, Mapping, Tuple
 
 import numpy as np
 import requests
@@ -278,6 +280,73 @@ def convert_currency(data, source_currency, target_currency) -> List[float]:
         for date in list(sorted(set(data) & set(exchange_rates)))
     }
 
+@dataclass
+class FundIndexComparison:
+    datapoint_count: int
+    correlation: float
+    average_difference_in_yearly_returns: float
+
+    def __init__(self, index_performance, fund_performance):
+        # Compute common dates
+        common_dates = list(sorted(set(fund_performance) & set(index_performance)))
+        self.datapoint_count = len(common_dates)
+
+        # Compute correlation
+        def common(performance):
+            return [performance[date] for date in common_dates]
+        self.correlation = np.corrcoef(common(index_performance), common(fund_performance))[0, 1]
+
+        # Simulate yearly returns
+
+        def compute_average_yearly_return(performance: Mapping[str, float]):
+            dates = list(sorted(performance.keys()))
+            if not dates:
+                return None
+
+            returns = []
+            def add_year(date, years):
+                date = datetime.strptime(date, "%Y-%m-%d")
+                return (date + timedelta(days=int(365 * years))).strftime("%Y-%m-%d")
+
+            def find_end_date(start_date):
+                minimum_end_date = add_year(start_date, 1)
+                for candidate in dates[bisect.bisect_left(dates, minimum_end_date):]:
+                    if candidate >= minimum_end_date:
+                        return candidate
+                return None
+
+            def find_start_date(end_date):
+                minimum_start_date = add_year(end_date, -1)
+                for candidate in dates[bisect.bisect_left(dates, minimum_start_date):]:
+                    if candidate > minimum_start_date:
+                        return candidate
+                return None
+
+            start_date = dates[0]
+            while start_date:
+                end_date = find_end_date(start_date)
+                if not end_date:
+                    break
+
+                year_return = (performance[end_date] - performance[start_date]) / performance[start_date]
+                returns.append(year_return)
+
+                start_date = find_start_date(end_date)
+
+            if not returns:
+                return None
+
+            return np.mean(returns)
+
+        common = lambda data: {date: value for date, value in data.items() if date in common_dates}
+        index_average_yearly_return = compute_average_yearly_return(common(index_performance))
+        fund_average_yearly_return = compute_average_yearly_return(common(fund_performance))
+
+        if index_average_yearly_return and fund_average_yearly_return:
+            self.average_difference_in_yearly_returns = fund_average_yearly_return - index_average_yearly_return
+        else:
+            self.average_difference_in_yearly_returns = None
+
 
 class IndexCorrelation:
     def __init__(self, reference_currency, index_name, index_currency):
@@ -287,21 +356,14 @@ class IndexCorrelation:
             self.index_performance, index_currency, reference_currency
         )
 
-    def compute(self, fund_ticker, fund_currency) -> Tuple[float, float]:
+    def compute(self, fund_ticker, fund_currency) -> Tuple[FundIndexComparison, FundIndexComparison]:
         fund_performance = get_performance_data(fund_ticker)
         adjusted_index_performance = convert_currency(fund_performance, fund_currency, self.reference_currency)
 
-        def correlation(index_performance, fund_performance):
-            common_dates = list(sorted(set(fund_performance) & set(index_performance)))
-            def common(performance):
-                return [performance[date] for date in common_dates]
-            return np.corrcoef(common(index_performance), common(fund_performance))[0, 1]
-
         return (
-            correlation(self.index_performance, adjusted_index_performance),
-            correlation(self.adjusted_index_performance, adjusted_index_performance)
+            FundIndexComparison(self.index_performance, adjusted_index_performance),
+            FundIndexComparison(self.adjusted_index_performance, adjusted_index_performance)
         )
-
 
 def process_csv(input_file, output_file):
     reader = csv.DictReader(input_file)
@@ -311,8 +373,12 @@ def process_csv(input_file, output_file):
         "share-name",
         "currency",
         "currency-hedged",
-        "correlation",
-        "currency-adjusted-correlation",
+        "index-comparison-datapoint-count",
+        "index-correlation",
+        "index-average-difference-in-yearly-returns",
+        "adjusted-index-comparison-datapoint-count",
+        "adjusted-index-correlation",
+        "adjusted-index-average-difference-in-yearly-returns",
         "expense-ratio",
         "provider",
         "replication-method",
@@ -378,7 +444,7 @@ def process_csv(input_file, output_file):
 
             fund_currency = fund.get("currency", "")
 
-            index_correlation, adjusted_index_correlation = index_correlator.compute(fund_ticker, fund_currency)
+            index_comparison, adjusted_index_comparison = index_correlator.compute(fund_ticker, fund_currency)
 
             # Fetch actual cost from Borsa Italiana
             cost_bi = fetch_cost_from_borsa_italiana(isin)
@@ -407,8 +473,12 @@ def process_csv(input_file, output_file):
                 "tracking-difference": tracking_data.get("td", ""),
                 "description": description_data.get("description", ""),
                 "trackinsight-ticker": fund_ticker or "",
-                "correlation":  index_correlation,
-                "currency-adjusted-correlation":  adjusted_index_correlation,
+                "index-comparison-datapoint-count":  index_comparison.datapoint_count,
+                "index-correlation":  index_comparison.correlation,
+                "index-average-difference-in-yearly-returns":  index_comparison.average_difference_in_yearly_returns or "",
+                "adjusted-index-comparison-datapoint-count":  adjusted_index_comparison.datapoint_count,
+                "adjusted-index-correlation":  adjusted_index_comparison.correlation,
+                "adjusted-index-average-difference-in-yearly-returns":  adjusted_index_comparison.average_difference_in_yearly_returns or "",
             }
 
             output_row = {key: value if not isinstance(value, str) else value.replace('\n', '') for key, value in output_row.items()}
