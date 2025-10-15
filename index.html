@@ -127,7 +127,7 @@
           value: `hold-${hold.toFixed(1)}/years-${years}`,
           label: `Hold for ${hold} years / Data for ${years === 'max' ? 'all' : years} years`
         }))
-      ).filter(value => value.years == "max" || (value.years > new Number(value.hold)));
+      ).filter(value => value.years == "max" || (value.years >= new Number(value.hold)));
     })();
 
     const app = document.getElementById('app');
@@ -170,6 +170,8 @@
 
     const homeLink = document.querySelector('.navbar-brand');
 
+    let config = {};
+
     // Centralized CSV Parsing
     function parseCSV(csvData) {
       const lines = csvData.trim().split('\n').slice(1); // Skip header
@@ -198,6 +200,16 @@
       return fetch(`${baseUrl}${url}`).then(res => res.text()).then(parseCSV);
     }
 
+    function fetchJSON(url) {
+      return fetch(`${baseUrl}${url}`).then(res => res.json());
+    }
+
+    function loadConfig() {
+      return fetchJSON("config.json").then(response => {
+        config = response;
+      });
+    }
+
     function loadCorrelationsData() {
       return fetchCSV('facts/indexes-correlation.csv').then(rows => {
         correlationsData = {};
@@ -217,7 +229,7 @@
     // Data Loading
     function loadIndexesMeta() {
       return fetchCSV('facts/indexes.csv').then(rows => {
-        const currentDate = new Date('2025-04-06');
+        const currentDate = new Date(config["max_date"]);
         indexesMeta = {};
         rows.forEach(([name, full_name, code, currency, earliest_date, url]) => {
           full_name = full_name.replace(/ Index$/, '');
@@ -241,8 +253,8 @@
               simulations: Math.round(Number(simulations)),
               mean: Number(mean),
               median: Number(median),
-              std_dev: Number(std_dev),
-              std_err: Number(std_err),
+              std_dev: 100 * Number(std_dev),
+              std_err: 100 * Number(std_err),
               min: Number(min),
               max: Number(max)
             };
@@ -253,23 +265,21 @@
 
     function loadEtfsData() {
       return fetchCSV('facts/etfs.csv').then(rows => {
-        const currentDate = new Date('2025-04-06');
-        etfsData = rows.map(([indexName, isin, shareName, currency, currencyHedged, correlation, currencyAdjustedCorrelation, expenseRatio, provider, replicationMethod, replicationModel, dividendPolicyId, creationDate, size, trackingError, trackingDifference, description, trackinsightTicker]) => {
+        const currentDate = new Date(config["max_date"]);
+        etfsData = rows.map(([indexName, isin, shareName, currency, currencyHedged, indexComparisonDatapointCount, indexCorrelation, indexAverageDifferenceInYearlyReturns, adjustedIndexComparisonDatapointCount, adjustedIndexCorrelation, adjustedIndexAverageDifferenceInYearlyReturns, expenseRatio, provider, replicationMethod, replicationModel, dividendPolicyId, creationDate, size, trackingError, trackingDifference, description, trackinsightTicker]) => {
           const years = ((currentDate - new Date(creationDate)) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(1);
-          expenseRatio = expenseRatio * 100;
-          trackingError = trackingError * 100;
-          trackingDifference = trackingDifference * 100;
           return {
             indexName, isin, shareName, currencyHedged: currencyHedged === 'True', expenseRatio: Number(expenseRatio),
             provider: provider.replace(" by DWS", ""), replicationMethod, replicationModel, dividendPolicyId, creationDate, years: parseFloat(years),
             currency, size: Number(size) / 1e9, trackingError: Number(trackingError), trackingDifference: Number(trackingDifference),
-            description, trackinsightTicker, correlation: Number(correlation), currencyAdjustedCorrelation: Number(currencyAdjustedCorrelation)
+            description, trackinsightTicker,
+            indexComparisonDatapointCount: Number(indexComparisonDatapointCount), indexCorrelation: Number(indexCorrelation), indexAverageDifferenceInYearlyReturns: Number(indexAverageDifferenceInYearlyReturns), adjustedIndexComparisonDatapointCount: Number(adjustedIndexComparisonDatapointCount), adjustedIndexCorrelation: Number(adjustedIndexCorrelation), adjustedIndexAverageDifferenceInYearlyReturns: Number(adjustedIndexAverageDifferenceInYearlyReturns)
           };
         }).filter(entry => ((entry.currencyHedged && entry.currency == "EUR") || entry.currency == "USD") && entry.dividendPolicyId == "Capitalization");
       });
     }
 
-    const dataLoaded = loadEtfsData().then(loadIndexesMeta).then(loadSimulationsData).then(loadCorrelationsData);
+    const dataLoaded = loadConfig().then(loadEtfsData).then(loadIndexesMeta).then(loadSimulationsData).then(loadCorrelationsData);
 
     // Utility Functions
     function buildQuery() {
@@ -422,6 +432,7 @@
       } else if (type === "string") {
         return value;
       } else if (type === "percentage") {
+        value = value * 100;
         return value > 0 ? `${positive_prefix}${value.toFixed(digits)}%` : `${value.toFixed(digits)}%`;
       } else if (type === "integer") {
         return value > 0 ? `${positive_prefix}${value}` : `${value}`;
@@ -566,20 +577,20 @@
     }
 
     function renderKDE(divId, data) {
-      const x = data.kde_points.map(point => point.x);
+      const x = data.kde_points.map(point => 100 * point.x);
       const y = data.kde_points.map(point => point.density);
       const percentiles = data.percentiles;
       const traces = COLORS.kdeFills.map((color, i) => {
         const ranges = [null, '5th', '25th', '50th', '75th', '95th', null];
-        const [min, max] = [ranges[i], ranges[i + 1]].map(r => r ? percentiles[r] : null);
+        const [min, max] = [ranges[i], ranges[i + 1]].map(r => r ? 100 * percentiles[r] : null);
         const startIdx = min === null ? 0 : x.findIndex(val => val > min);
         const endIdx = max === null ? x.length : x.findIndex(val => val >= max) + 1;
         return { x: x.slice(startIdx, endIdx), y: y.slice(startIdx, endIdx), type: 'scatter', mode: 'lines', fill: 'tozeroy', fillcolor: color, line: { width: 0 } };
       });
       traces.push({ x, y, type: 'scatter', mode: 'lines', line: { shape: 'spline', color: COLORS.kdeLine } });
       const verticalLinesData = [
-        { value: data.mean, color: COLORS.meanLine, dash: 'dash' },
-        { value: data.median, color: COLORS.medianLine, dash: 'dash' },
+        { value: 100 * data.mean, color: COLORS.meanLine, dash: 'dash' },
+        { value: 100 * data.median, color: COLORS.medianLine, dash: 'dash' },
         { value: 0, color: COLORS.zeroLine, dash: 'solid' }
       ];
       traces.push(...verticalLinesData.map(line => ({
@@ -633,15 +644,15 @@
       const columns = [
         { name: 'ISIN', key: 'isin', type: 'string' },
         { name: 'Provider', key: 'provider', type: 'string' },
-        { name: 'TER', key: 'expenseRatio', type: 'percentage', lowerIsBetter: true, digits: 2 },
-        { name: 'Currency', key: 'currencyDisplay', type: 'string' },
-        { name: 'Correlation', key: 'correlation', type: 'float', lowerIsBetter: false, digits: 4 },
-        { name: 'Correlation (adj)', key: 'currencyAdjustedCorrelation', type: 'float', lowerIsBetter: false, digits: 4 },
         { name: 'Size', key: 'size', type: 'float', lowerIsBetter: false, digits: 2 },
         { name: 'Years', key: 'years', type: 'float', lowerIsBetter: false, digits: 1 },
+        { name: 'TER', key: 'expenseRatio', type: 'percentage', lowerIsBetter: true, digits: 2 },
+        { name: 'Currency', key: 'currencyDisplay', type: 'string' },
+        { name: 'Correlation', key: 'indexCorrelation', type: 'float', lowerIsBetter: false, digits: 4 },
+        { name: 'Return diff.', key: 'indexAverageDifferenceInYearlyReturns', type: 'percentage', lowerIsBetter: false, digits: 2 },
+        { name: 'Correlation (adj)', key: 'adjustedIndexCorrelation', type: 'float', lowerIsBetter: false, digits: 4 },
+        { name: 'Return diff. (adj)', key: 'adjustedIndexAverageDifferenceInYearlyReturns', type: 'percentage', lowerIsBetter: false, digits: 2 },
         { name: 'R. Model', key: 'replicationModel', type: 'string' },
-        { name: 'Trk. Error', key: 'trackingError', type: 'percentage', lowerIsBetter: true, digits: 2 },
-        { name: 'Trk. Diff.', key: 'trackingDifference', type: 'percentage', lowerIsBetter: true, digits: 2 },
         { name: 'BI', key: 'biLink', type: 'string' },
         { name: 'TI', key: 'tiLink', type: 'string' },
         { name: 'JE', key: 'jeLink', type: 'string' }
