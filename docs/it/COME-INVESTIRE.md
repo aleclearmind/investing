@@ -42,6 +42,7 @@ Non parleremo invece di:
 * **Mercato obbligazionario o liquidità.** Ha senso dividere il proprio capitale in vari tipi di investimenti. In particolare, per il capitale di cui si prevede di avere bisogno nel breve o medio termine.
   Il mantra per gli investimenti che suggerisco è "investite tutto il denaro di cui potete ragionevolmente fare a meno per *almeno* 10 anni".
   È importante pensare anche a come investire il resto del capitale, ma la cosa *più* importante è investire il prima possibile la parte di cui potete privarvi per un periodo di tempo lungo.
+  Molti suggeriscono di avere una strategia di ripartizione del capitale del tip 60% azionario (quello di cui parliamo qui) e 40% obbligazionario. In realtà, a me pare molto arbitrario, e mi sembra più utile porsi una domanda del tipo "nella mia situazione specifica, di quale parte del capitale posso privarmi per 10 anni senza battere ciglio?".
 * **Investimento nel mattone.** Investire nel mattone è probabilmente sopravvalutato, ma siamo italiani e ci piace possedere le case in cui abitiamo ([75% in Italia vs 65% della media EU](https://www.statista.com/statistics/246355/home-ownership-rate-in-europe/)).
   Secondo gli studi, stare in affitto e investire tutto il capitale che versereste come acconto nel mercato azionario è più vantaggioso, considerando anche i costi a cui non si pensa subito.
 
