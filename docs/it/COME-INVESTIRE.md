@@ -204,6 +204,10 @@ In pratica è una lista di 1320 aziende di dimensione medio-grande in 23 mercati
 
 Ad oggi è composto da aziende provenienti dai seguenti paesi: USA (72%), Giappone (5.5%), Regno Unito (3.64%), Canada (3.27%), Francia (2.66%) e altri (12.81%).
 
+In termini di aziende, ad oggi comprende NVIDIA (5.64%), Apple (5.05%), Microsoft (3.50%), Amazon (2.86%) e così via.
+
+In termini di "settori", ad oggi comprende tecnologia dell'informazione (30.66%) finanza (15.33%), industria (11.25%), beni di consumo voluttari (9.2%), servizi di comunicazione (8.66%) e così via.
+
 L'obiettivo dell'indice è quello di permetterti di essere esposto (nel bene e nel male) all'85% del capitale in cui è tecnicamente possibile investire in quei paesi (escludendo, ad esempio, quote riservate ai governi).
 
 Ora, non è possibile "comprare un indice", puoi però comprare un ETF ([exchange-traded fund](https://en.wikipedia.org/wiki/Exchange-traded_fund)) che si basa su quell'indice, ovvero che lo replica.
