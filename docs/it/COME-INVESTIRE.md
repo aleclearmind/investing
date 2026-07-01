@@ -595,6 +595,14 @@ Se siete interessati a strategie di investimento un filo più sofisticate, legge
 
 ## <a id="altre-osservazioni"></a>Altre osservazioni
 
+### E se devo disinvestire?
+
+Quando dovete disinvestire (ma idealmente anche annualmente), cercate di disinvestire in modo da ribilanciare il vostro portafoglio secondo la strategia che vi eravate prefissi.
+
+Ad esempio, ammettiamo abbiate investito come suggerito sopra, 87% in MSCI ACWI e 13% in MSCI Small Cap.
+Ammettiamo anche che dopo tre anni MSCI Small Cap sia andato molto meglio e ora rappresenta il 20% del vostro capitale.
+Se dovete vendere, ha senso vendere MSCI Small Cap in modo da riavvicinarsi alla vostra strategia iniziale di averlo al 13%.
+
 ### Ma i dividendi?
 
 In breve, sono fumo negli occhi.
