@@ -94,8 +94,8 @@ La strategia proposta in questo documento mira a diversificare quanto più possi
 Sul lungo periodo, risparmi apparentemente piccoli sui costi di investire, si trasformano in grandi guadagni.
 Questo accade perché, se reinvesti i guadagni fatti, sei soggetto all'[*interesse composto*](#interesse-composto). Questo significa che a fronte di risparmi piccoli in percentuale, sul lungo periodo, si possono avere grossi guadagni.
 Consideriamo ad esempio, due titoli uguali, ma uno costa 3.00% annuo e l'altro 0.10% annuo. Assumiamo che il rendimento escludendo i costi sia del 7.50%.
-Il primo (più costoso), in 20 anni vi restituirà un capitalle 2.4 volte l'originale.
-Il secondo (meno costoso), in 20 anni vi restituirà un capitalle 4.6 volte l'originale.
+Il primo (più costoso), in 20 anni vi restituirà un capitale 2.4 volte l'originale.
+Il secondo (meno costoso), in 20 anni vi restituirà un capitale 4.6 volte l'originale.
 Una differenza molto significativa. I due esempi di costi di gestione sono abbastanza estremi (tra i più costosi e tra i meno costosi), ma realistici.
 
 ### <a id="principio-5"></a>5. Decidi un orizzonte dell'investimento e non guardarlo più fino alla fine
@@ -180,7 +180,7 @@ Tipicamente questi fondi sono costosi ([Principio #4: tieni i costi bassi](#prin
 
 L'alternativa ovvia ai fondi gestiti sono degli strumenti finanziari come gli ETF, la cui composizione è determinata non da persone con conoscenze speciali, ma semplicemente prendendo acriticamente azioni di aziende che rispettano un certo criterio.
 
-Ad esempio, esistono ETF che sono composti dalle 500 più grandi aziende del mercato statunintense ([S&P 500](https://it.wikipedia.org/wiki/S%26P_500)). Chi gestisce il fondo compra e vende in base a chi entra o esce dalla classifica.
+Ad esempio, esistono ETF che sono composti dalle 500 più grandi aziende del mercato statunitense ([S&P 500](https://it.wikipedia.org/wiki/S%26P_500)). Chi gestisce il fondo compra e vende in base a chi entra o esce dalla classifica.
 Questi strumenti tipicamente hanno dei costi molto contenuti.
 
 Approfondimento: [la playlist su YouTube di Ben Felix che perora la causa *contro* i fondi gestiti attivamente](https://www.youtube.com/playlist?list=PLiOs3-llXq5BvEAMqHlhW4wOyZEpPH5B1).
@@ -227,9 +227,9 @@ Analizziamo il suo nome:
 * traccia l'indice *MSCI World* di cui parlavamo prima;
 * *UCITS* significa che è un titolo "armonizzato" secondo [la normativa europea omonima](https://en.wikipedia.org/wiki/Undertakings_for_Collective_Investment_in_Transferable_Securities_Directive_2009), che impone alcune regole;
 * è in dollari americani (*USD*, di questo parleremo meglio [più avanti](#valuta));
-* segue una politica di reinvestimento dei titoli che offrono divendi (*acc*); in pratica, invece che distribuirvi i dividendi, li reinveste.
+* segue una politica di reinvestimento dei titoli che offrono dividendi (*acc*); in pratica, invece che distribuirvi i dividendi, li reinveste.
 
-L'ISIN è il codice univoco dell'ETF. Potete usarlo per trovare informazioni rapidamente su quell'ETF senza confodervi con altri con nomi molto simili.
+L'ISIN è il codice univoco dell'ETF. Potete usarlo per trovare informazioni rapidamente su quell'ETF senza confondervi con altri con nomi molto simili.
 `IE` all'inizio del codice ISIN ci indica che il fondo ha sede in Irlanda.
 
 Esistono vari siti utili per trovare informazioni più specifiche su un ETF (ad esempio i costi), Borsa Italiana, Trackinsight e justETF:
@@ -264,7 +264,7 @@ Nel tempo, la composizione delle aziende dell'ETF varierà. Quindi le azioni di 
 La proporzione che un ETF contiene di ciascuna azienda può anche evolvere nel tempo.
 
 È importante comprendere questo aspetto: la composizione di un ETF varia nel tempo, in base alla variazione dell'indice a cui fa riferimento.
-Ad esempio, se un'azienda non rientra più nei criteri di dimensione per stare nell'indice MSCI World, le quote in vostro possesso tramite l'ETF verranno vendute e verrano acquisite quote di altre aziende.
+Ad esempio, se un'azienda non rientra più nei criteri di dimensione per stare nell'indice MSCI World, le quote in vostro possesso tramite l'ETF verranno vendute e verranno acquisite quote di altre aziende.
 
 Oltre alla composizione, anche *il valore* delle azioni di un'azienda individuale varieranno, salendo e scendendo.
 
@@ -282,9 +282,9 @@ Se avete perso, ovvero avete realizzato una *minusvalenza*, guadagnerete un "cre
 >
 > In Italia, la questione del "credito" fiscale è complessa, mutevole, ricca di scadenze e di storture. Qui non approfondiamo.
 >
-> Approfondimento: [Educati e Finanziati Avanzati 02: tassazione degli investimenti finanziari](https://www.youtube.com/watch?v=ZJy4y_vkj28) di Paolo Coletti, in particolare a [30' 31"](https://youtu.be/ZJy4y_vkj28?t=1831) si parla della stortura dellas tassazione degli ETF. Alla fine del video si accenna ad una proposta di correggere questa stortura ma, ad oggi, non mi risulta sia stata corretta.
+> Approfondimento: [Educati e Finanziati Avanzati 02: tassazione degli investimenti finanziari](https://www.youtube.com/watch?v=ZJy4y_vkj28) di Paolo Coletti, in particolare a [30' 31"](https://youtu.be/ZJy4y_vkj28?t=1831) si parla della stortura della tassazione degli ETF. Alla fine del video si accenna ad una proposta di correggere questa stortura ma, ad oggi, non mi risulta sia stata corretta.
 
-In Italia, la tasazione per i titoli è al 26%. Se si investe in titoli di stato europei (come BTP italiani o Bund tedeschi) la tassazione è invece al 12.5%, ma qui non parliamo di titoli di stato.
+In Italia, la tassazione per i titoli è al 26%. Se si investe in titoli di stato europei (come BTP italiani o Bund tedeschi) la tassazione è invece al 12.5%, ma qui non parliamo di titoli di stato.
 
 ### <a id="valuta"></a>In che valuta devo investire?
 
@@ -306,7 +306,7 @@ Sono contento che tu lo abbia chiesto! È una domanda importante a cui però non
 
 Chiaramente nulla garantisce che quello che è successo in passato si ripeterà uguale ma, nell'impossibilità di prevedere il futuro, questa è la risposta migliore che ci si può dare.
 
-Inutile dire che la domanda corretta dovrebbe essere "quanto posso aspettarmi di guadagnare *o perdere*?". Come vedremo tra poco, investire, anche sul lungo periodo, non da garanzia di non andare in perdita. Ma guardiamo i dati e cerchiamo di approciare la cosa con razionalità.
+Inutile dire che la domanda corretta dovrebbe essere "quanto posso aspettarmi di guadagnare *o perdere*?". Come vedremo tra poco, investire, anche sul lungo periodo, non da garanzia di non andare in perdita. Ma guardiamo i dati e cerchiamo di approcciare la cosa con razionalità.
 
 Di seguito, fissato un titolo (ad esempio quello sopra, `UBS Core MSCI World UCITS ETF USD acc`) e fissato un periodo di investimento (ad esempio 10 anni), guarderemo, secondo i dati storici, qual è la *distribuzione di probabilità* di avere un certo risultato.
 
@@ -321,7 +321,7 @@ Questi dati sono calcolati misurando tutte le possibili ipotesi di date di acqui
 
 Il risultato mostrato non considera solo il nudo rendimento del titolo, ma anche altri due fattori: il cambio Euro-dollaro americano e l'inflazione in Italia.
 Quindi, se il titolo di cui parliamo è denominato in dollari americani, la simulazione di rendimento terrà conto anche della variazione nel cambio Euro-dollaro nel periodo considerato (che può essere stato d'aiuto o d'ostacolo).
-Inoltre, i dati sono anche normalizzati all'inflazione. Ovvero, se il vostro investimento in 10 anni raddoppia il capitale ma l'inflazione ha dimezzato il potere d'acquisto dell'Euro, il rendimento che consideremo per quel periodo sarà nullo.
+Inoltre, i dati sono anche normalizzati all'inflazione. Ovvero, se il vostro investimento in 10 anni raddoppia il capitale ma l'inflazione ha dimezzato il potere d'acquisto dell'Euro, il rendimento che considereremo per quel periodo sarà nullo.
 In un certo senso, i dati che riportiamo ci dicono "quante *pagnotte* in più potrò comprarmi con il capitale che ho ora tra 10 anni?".
 
 I dati *non* considerano invece la tassazione (26%) e i costi di gestione (che variano a seconda dell'ETF scelto, nell'ordine del 0.10%).
@@ -461,7 +461,7 @@ Il mio suggerimento è:
 > [!CAUTION]
 > **Non saltate direttamente a questa sezione!**
 >
-> Assumetevi la responsabilità delle vostre scelte, riflettete, approfondite, usate il vosto senso critico e solo se alla fine siete convinti, per semplicità, seguite le istruzioni in questa sezione.
+> Assumetevi la responsabilità delle vostre scelte, riflettete, approfondite, usate il vostro senso critico e solo se alla fine siete convinti, per semplicità, seguite le istruzioni in questa sezione.
 >
 > Ricordatevi che questo non è una consulenza finanziaria professionale, ma solo una raccolta di riflessioni mie personali e una descrizione di come io investo.
 >
@@ -517,7 +517,7 @@ Assumendo abbiate aperto un conto su Trade Republic e abbiate trasferito (anche 
        Questa casella è un requisito di notifica dettato dalla [normativa europea MiFID 2](https://en.wikipedia.org/wiki/Markets_in_Financial_Instruments_Directive_2014) per effettuare operazioni senza l'intermediazione di un consulente finanziario, altresì nota come un'operazione di *mera esecuzione* (in inglese, *execution only*).
        In sostanza, se avete appena aperto un conto, la banca non ha sufficienti dati per valutare se l'operazione che state per eseguire è "appropriata".
        Come dicono le [risposte alle domande frequenti di Trade Republic](https://support.traderepublic.com/en-lv/848-Why-am-I-asked-about-my-trading-knowledge-and-experience-when-placing-an-order), è possibile che questo messaggio sparirà man mano che usate il vostro conto.
-       In breve, è un messaggio di avviso per voi e un modo per la banca per non avere reponsabilità legali.
+       In breve, è un messaggio di avviso per voi e un modo per la banca per non avere responsabilità legali.
 
        Facendo un'acquisto dall'app, questa dicitura non viene riportata e si dice invece:
        
@@ -673,13 +673,13 @@ Capisco. Controllare per questo genere di cose per una strategia di investimento
 Guardate la lista dei titoli di cui è composto l'ETF e valutate voi.
 In generale, state investendo sul "progresso economico dell'Occidente nel suo insieme".
 
-### <a id="hedging"></a>Voglio progettermi dalle fluttuazioni EUR-USD
+### <a id="hedging"></a>Voglio proteggermi dalle fluttuazioni EUR-USD
 
 In caso si desideri proteggersi dal rischio del cambio, è possibile acquistare ETF "hedged".
-In italiano si dice che un titolo ha "coperatura valutaria".
+In italiano si dice che un titolo ha "copertura valutaria".
 
 Ad esempio, se investite in dollari americani ma la valuta con cui fate (e farete) acquisti è l'Euro, è possibile prendere un ETF EUR-hedged.
-In pratica, state acquistando un'assicurazione che modererà, ma non annullerà, gli effetti negativi di periodi di cambio a voi sfavorevole e, viceversa, annullerà gli effetti positivi di periodi di cambio favorole.
+In pratica, state acquistando un'assicurazione che modererà, ma non annullerà, gli effetti negativi di periodi di cambio a voi sfavorevole e, viceversa, annullerà gli effetti positivi di periodi di cambio favorevole.
 Questa assicurazione ha un costo, infatti tipicamente gli ETF hedged sono più costosi (attenzione al [Principio #4](#principio-4)). Questi costi costi sono in parte fattorizzati nel costo dell'ETF e in parte no, nel senso che gli strumenti finanziari sottostanti per proteggervi dalla volatilità del cambio non sono perfetti e tipicamente peggiorano la performance del titolo rispetto alla sua versione non-hedged.
 
 Esiste una versione dell'ETF di UBS di cui abbiamo parlato sopra che traccia l'indice MSCI World che è EUR-hedged, ovvero ammortizza le oscillazioni dovute al cambio USD-EUR.
