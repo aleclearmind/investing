@@ -44,14 +44,17 @@ Non parleremo invece di:
   È importante pensare anche a come investire il resto del capitale, ma la cosa *più* importante è investire il prima possibile la parte di cui potete privarvi per un periodo di tempo lungo.
 * **Investimento nel mattone.** Investire nel mattone è probabilmente sopravvalutato, ma siamo italiani e ci piace possedere le case in cui abitiamo ([75% in Italia vs 65% della media EU](https://www.statista.com/statistics/246355/home-ownership-rate-in-europe/)).
   Secondo gli studi, stare in affitto e investire tutto il capitale che versereste come acconto nel mercato azionario è più vantaggioso, considerando anche i costi a cui non si pensa subito.
+
   Approfondimento: [la playlist sul canale di Ben Felix](https://www.youtube.com/playlist?list=PLiOs3-llXq5Ar6DuvqbYopF8hqB8gydva).
 * **Il fatto che tu abbia un mutuo.**
   Molto in breve, per quanto controintuitivo, se investite dei soldi mentre avete un mutuo, non è molto differente immaginarsi di essersi fatti prestare dei soldi dalla banca per investirli (invece che per acquistarci la casa).
   Farsi prestare dei soldi per investirli significa investire [*in leva*](https://it.wikipedia.org/wiki/Leva_finanziaria), che è un'operazione rischiosa.
   Se siete disposti a tollerare un rischio del genere, può avere senso *comunque* estinguere il mutuo e aumentare la percentuale di capitale che si investe sul mercato azionario.
   Molto concretamente, ha senso aumentare la parte del vostro risparmio mensile dedicato a ripagare il mutuo più rapidamente a scapito di quella che usate per investire.
+
   Approfondimento: [Mortgage Debt and Asset Allocation](https://www.youtube.com/watch?v=AKc01jo1qLw).
 * **Questioni fiscali**. O meglio ne accenneremo.
+
   Approfondimento: [Educati e Finanziati Avanzati 02: tassazione degli investimenti finanziari](https://www.youtube.com/watch?v=ZJy4y_vkj28)
 
 
