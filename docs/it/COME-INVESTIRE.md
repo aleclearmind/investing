@@ -258,7 +258,7 @@ Un altro documento importante che troviamo è il KID (Key Information Document),
 
 Tu disponi alla tua banca di acquistare un ETF.
 I soldi non saranno più nella tua disponibilità, né di quella della tua banca. In caso la banca fallisse, quei soldi sono salvi (anche se in Italia sei [tutelato fino a 100 000 EUR per banca](https://economiapertutti.bancaditalia.it/aree-tematiche/conto-corrente/il-fondo-interbancario-di-tutela-dei-depositi/index.html)).
-I soldi vengono trasferiti a chi gestisce l'ETF, nel caso sopra, in Irlanda, che comprerà con essi le quote delle aziende di cui il fondo è composto al prezzo del giorno dell'acquisto.
+I soldi vengono trasferiti a chi gestisce l'ETF, nel caso sopra, in Irlanda. In cambio dei soldi acquisite la titolarità di quote del fondo, che vi danno in modo indiretto titolarità di quote delle aziende in cui il fondo investe. La quantità di quote del fondo, e quindi indirettamente la quantità di quote delle aziende in cui investe, che state acquistando dipende dal prezzo di mercato del giorno dell'acquisto.
 
 Nel tempo, la composizione delle aziende dell'ETF varierà. Quindi le azioni di alcune aziende verranno vendute, le azioni di altre acquistate.
 La proporzione che un ETF contiene di ciascuna azienda può anche evolvere nel tempo.
