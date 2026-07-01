@@ -126,6 +126,15 @@ Approfondimento: [Dollar Cost Averaging vs. Lump Sum Investing](https://www.yout
 Se è il primo investimento investire una grossa cifra in un colpo solo può intimorire, ricordiamoci quindi che questo è un corollario e che il principio fondamentale è evitare di procrastinare indefinitamente iniziare ad investire.
 Il meglio sarebbe iniziare *oggi*, ma se è troppo per te, meglio investire lungo l'arco dei prossimi due mesi con un piano d'accumulo, piuttosto che tra 2 anni.
 
+> [!CAUTION]
+> **Importante**. Voglio ribadire questo aspetto: è normale che se è la prima volta che investite vi faccia paura investire tutto subito. Anche se è una questione abbastanza irrazionale, accogliete questa vostro timore e fate un piano di accumulo.
+> Quando si investe è importante non cedere alla componente psicologica. Tuttavia, se per timore di fare un'azione che porta ad un'efficienza dell'investimento marginalmente migliore, si arriva a procrastinare fino a non investire, allora rilassate questo criterio e fate un piano di accumulo.
+> **La cosa più importante è iniziare ad investire oggi**.
+
+Naturalmente, se non avete del capitale da parte da investire, ma volete investire parte dei vostri introiti, un piano di accumulo è una cosa molto ragionevole.
+In particolare, se volete investire parte del vostro reddito, è importante avere in piedi un meccanismo che funzioni automaticamente, indipendentemente dalla vostra disponibilità di tempo, disciplina e stress di un particolare mese.
+Un piano di accumulo automatico assolve a questo compito.
+
 ## <a id="cose-da-non-fare"></a>Cose da non fare
 
 ### Non comprare titoli individuali
