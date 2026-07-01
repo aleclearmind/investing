@@ -19,6 +19,7 @@
           pkgs.python3Packages.numpy
           pkgs.python3Packages.mypy
           pkgs.python3Packages.requests
+          pkgs.python3Packages.curl-cffi
           pkgs.python3Packages.scipy
         ];
 
