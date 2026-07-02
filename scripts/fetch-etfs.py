@@ -51,6 +51,9 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 TRACKINSIGHT_HOME = "https://www.trackinsight.com/"
+# Pin an explicit version rather than "chrome": that alias tracks the newest
+# build, which the curl-cffi in nixpkgs does not support yet.
+BROWSER_IMPERSONATE = "chrome124"
 
 
 def solve_waf_token():
@@ -91,7 +94,7 @@ class WafSession:
     def _bootstrap(self):
         logger.info("Clearing TrackInsight AWS WAF challenge with a headless browser...")
         user_agent, cookies = solve_waf_token()
-        session = requests.Session(impersonate="chrome")
+        session = requests.Session(impersonate=BROWSER_IMPERSONATE)
         session.headers.update(
             {
                 "User-Agent": user_agent,
@@ -127,7 +130,7 @@ class WafSession:
 # TrackInsight needs the WAF token; other hosts just need a browser-like TLS
 # fingerprint, so a plain impersonating session is enough.
 TRACKINSIGHT = WafSession()
-PLAIN = requests.Session(impersonate="chrome")
+PLAIN = requests.Session(impersonate=BROWSER_IMPERSONATE)
 
 
 def fetch_benchmark_data(full_name, index_name):

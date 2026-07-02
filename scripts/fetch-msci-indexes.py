@@ -21,8 +21,10 @@ SUMMARY_CSV = "facts/indexes.csv"
 DATE_FORMAT = "%Y-%m-%d"
 
 # MSCI sits behind Akamai Bot Manager: impersonate Chrome's TLS fingerprint and
-# solve the sec_cpt proof-of-work challenge when served.
-BROWSER_IMPERSONATE = "chrome"
+# solve the sec_cpt proof-of-work challenge when served. Pin an explicit version
+# rather than "chrome": that alias tracks the newest build, which the curl-cffi
+# in nixpkgs does not support yet.
+BROWSER_IMPERSONATE = "chrome124"
 MAX_CHALLENGE_ATTEMPTS = 4
 
 logging.basicConfig(
