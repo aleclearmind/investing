@@ -160,6 +160,7 @@ def update_indexes_csv(key, data, data_points):
 def main():
     args = parse_args()
     keys = read_keys()
+    failures = []
     for key in keys:
         try:
             data = fetch_data(key, args.token)
@@ -169,7 +170,14 @@ def main():
             update_indexes_csv(key, data, data_points)
         except Exception as e:
             logging.error(f"Error processing key {key}: {str(e)}")
-            continue
+            failures.append(key)
+
+    if failures:
+        logging.error(
+            f"{len(failures)} of {len(keys)} key(s) failed: {failures}. "
+            f"Failing to avoid publishing incomplete data."
+        )
+        sys.exit(1)
 
 
 if __name__ == "__main__":

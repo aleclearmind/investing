@@ -36,7 +36,7 @@ if test "$NO_FETCH" -eq 0; then
   log "Fetching inflation data for Italy"
   (
     echo "month,index"
-    curl --silent -g 'https://ec.europa.eu/eurostat/api/dissemination/sdmx/3.0/data/dataflow/ESTAT/prc_hicp_midx/1.0/*.*.*.*?c[freq]=M&c[unit]=I96&c[coicop]=CP00&c[geo]=IT&c[TIME_PERIOD]=ge:1996-01&format=csvdata' | \
+    curl --silent --fail -g 'https://ec.europa.eu/eurostat/api/dissemination/sdmx/3.0/data/dataflow/ESTAT/prc_hicp_midx/1.0/*.*.*.*?c[freq]=M&c[unit]=I96&c[coicop]=CP00&c[geo]=IT&c[TIME_PERIOD]=ge:1996-01&format=csvdata' | \
       awk -F, '{ print $7 "," $8 }' | \
       tail -n +2
   ) > facts/inflation/italy.csv
@@ -44,7 +44,7 @@ if test "$NO_FETCH" -eq 0; then
   log "Fetching EUR-USD exchange rates"
   (
     echo "date,rate"
-    curl -s -g 'https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/usd.xml' | \
+    curl -s --fail -g 'https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/usd.xml' | \
       grep Obs | \
       sed 's/<Obs TIME_PERIOD="//; s/" OBS_VALUE="/,/; s/" OBS_STA.*//'
   ) > facts/exchange-rates/eur-usd.csv
@@ -55,8 +55,10 @@ if test "$NO_FETCH" -eq 0; then
   log "Fetching indexes from Wall Street Journal"
   ignore_comments "$SCRIPT_DIR/"data/interesting-indexes/wall-street-journal.csv | "$SCRIPT_DIR/scripts/fetch-indexes-from-wsj.py" 57494d5ed7ad44af85bc59a51dd87c90
 
-  log "Fetching indexes from zonebourse"
-  ignore_comments "$SCRIPT_DIR/"data/interesting-indexes/zonebourse.csv | "$SCRIPT_DIR/scripts/fetch-indexes-from-zonebourse.py"
+  # Disabled: zonebourse blocks datacenter/CI IPs at the edge (HTTP 403 "Access
+  # Denied"), even through a headless browser, so it cannot run from CI.
+  # log "Fetching indexes from zonebourse"
+  # ignore_comments "$SCRIPT_DIR/"data/interesting-indexes/zonebourse.csv | "$SCRIPT_DIR/scripts/fetch-indexes-from-zonebourse.py"
 
   log "Fetching ETFs"
   ignore_comments facts/indexes.csv | "$SCRIPT_DIR/scripts/fetch-etfs.py" > facts/etfs.csv
