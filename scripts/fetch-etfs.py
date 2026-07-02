@@ -18,7 +18,7 @@ from datetime import datetime, timedelta
 from typing import List, Mapping, Tuple
 
 import numpy as np
-import requests
+from curl_cffi import requests
 
 # Dictionaries for mapping numeric values to strings
 REPLICATION_METHODS = {1: "Direct", 2: "Indirect", 3: "Other"}
@@ -50,6 +50,85 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+TRACKINSIGHT_HOME = "https://www.trackinsight.com/"
+
+
+def solve_waf_token():
+    # TrackInsight is behind AWS WAF; a real browser clears the challenge and
+    # yields an aws-waf-token cookie we can then reuse over plain HTTP.
+    from playwright.sync_api import sync_playwright
+
+    with sync_playwright() as playwright:
+        # chromium-headless-shell is a lighter headless-only build; fall back to
+        # full chromium if it isn't available.
+        try:
+            browser = playwright.chromium.launch(
+                headless=True, channel="chromium-headless-shell"
+            )
+        except Exception:
+            browser = playwright.chromium.launch(headless=True)
+        try:
+            context = browser.new_context(locale="en-US")
+            page = context.new_page()
+            page.goto(TRACKINSIGHT_HOME, wait_until="domcontentloaded", timeout=60000)
+            try:
+                page.wait_for_load_state("networkidle", timeout=20000)
+            except Exception:
+                pass
+            user_agent = page.evaluate("() => navigator.userAgent")
+            cookies = {c["name"]: c["value"] for c in context.cookies()}
+            return user_agent, cookies
+        finally:
+            browser.close()
+
+
+class WafSession:
+    """curl_cffi session carrying an AWS WAF token, refreshed when it expires."""
+
+    def __init__(self):
+        self._session = None
+
+    def _bootstrap(self):
+        logger.info("Clearing TrackInsight AWS WAF challenge with a headless browser...")
+        user_agent, cookies = solve_waf_token()
+        session = requests.Session(impersonate="chrome")
+        session.headers.update(
+            {
+                "User-Agent": user_agent,
+                "Accept": "application/json, text/plain, */*",
+                "Referer": TRACKINSIGHT_HOME,
+            }
+        )
+        for name, value in cookies.items():
+            session.cookies.set(name, value, domain=".trackinsight.com")
+        self._session = session
+
+    def request(self, method, url, **kwargs):
+        kwargs.setdefault("timeout", 60)
+        for _ in range(3):
+            if self._session is None:
+                self._bootstrap()
+            response = self._session.request(method, url, **kwargs)
+            # An empty 202 or an x-amzn-waf-action header means the token is
+            # missing/expired; refresh it with the browser and retry.
+            if response.status_code == 202 or response.headers.get("x-amzn-waf-action"):
+                self._session = None
+                continue
+            return response
+        raise RuntimeError(f"could not clear TrackInsight AWS WAF challenge for {url}")
+
+    def get(self, url, **kwargs):
+        return self.request("GET", url, **kwargs)
+
+    def post(self, url, **kwargs):
+        return self.request("POST", url, **kwargs)
+
+
+# TrackInsight needs the WAF token; other hosts just need a browser-like TLS
+# fingerprint, so a plain impersonating session is enough.
+TRACKINSIGHT = WafSession()
+PLAIN = requests.Session(impersonate="chrome")
+
 
 def fetch_benchmark_data(full_name, index_name):
     # Remove trailing " (${CURRENCY})" using regex
@@ -57,23 +136,19 @@ def fetch_benchmark_data(full_name, index_name):
     encoded_name = urllib.parse.quote(cleaned_name)
     url = f"https://www.trackinsight.com/search-api/search_v2/_/benchmark={encoded_name}/USD$3axaum,EUR$3axflow1m,EUR$3axflowYtd,currency,currencyHedged,dividendPolicyId,esg_grade,esg_release,expense_ratio,exposure_description,id,isin,perf1m,perfYtd,rating,shareClasses,shareLabel,ticker,ucits,provider,replication_method,replication_model,creationDate/default/0/100"
     logger.info(f"Requesting benchmark data for index {index_name}: {url}")
-    try:
-        response = requests.get(url)
-        response.raise_for_status()
-        data = response.json()
-        docs = data.get("results", {}).get("docs", [])
-        logger.info(
-            f"Received {len(docs)} entries from benchmark data for index {index_name}"
-        )
-        logger.debug(
-            f"Benchmark response for index {index_name}: {json.dumps(data, indent=2)}"
-        )
-        return docs
-    except requests.RequestException as e:
-        logger.error(
-            f"Failed to fetch benchmark data for {full_name} (index {index_name}): {e}"
-        )
-        return []
+    # No try/except here: a fetch error must propagate so the caller can fail the
+    # whole run rather than silently publishing an index with no ETFs.
+    response = TRACKINSIGHT.get(url)
+    response.raise_for_status()
+    data = response.json()
+    docs = data.get("results", {}).get("docs", [])
+    logger.info(
+        f"Received {len(docs)} entries from benchmark data for index {index_name}"
+    )
+    logger.debug(
+        f"Benchmark response for index {index_name}: {json.dumps(data, indent=2)}"
+    )
+    return docs
 
 
 def fetch_tracking_data(ticker, index_name):
@@ -81,7 +156,7 @@ def fetch_tracking_data(ticker, index_name):
     url = f"https://www.trackinsight.com/data-api/funds/{encoded_ticker}/td.json"
     logger.info(f"Requesting tracking data for {ticker} (index {index_name}): {url}")
     try:
-        response = requests.get(url)
+        response = TRACKINSIGHT.get(url)
         response.raise_for_status()
         data = response.json()
         if data is None:
@@ -94,7 +169,7 @@ def fetch_tracking_data(ticker, index_name):
             f"Tracking response for {ticker} (index {index_name}): {json.dumps(data, indent=2)}"
         )
         return data
-    except requests.RequestException as e:
+    except Exception as e:
         logger.error(
             f"Failed to fetch tracking data for {ticker} (index {index_name}): {e}"
         )
@@ -105,7 +180,7 @@ def fetch_cost_from_borsa_italiana(isin):
     url = f"https://www.borsaitaliana.it/borsa/etf/scheda/{isin}.html"
     logger.info(f"Requesting cost for {isin} to Borsa Italiana from {url}")
     try:
-        response = requests.get(url)
+        response = PLAIN.get(url)
         response.raise_for_status()
         data = response.text
         logger.info(f"Received fund description for {isin}")
@@ -119,7 +194,7 @@ def fetch_cost_from_borsa_italiana(isin):
             return None
         cost = float(match.groups()[0].replace(",", ".").replace("%", ""))
         return "{:.4f}".format(cost / 100)
-    except requests.RequestException as e:
+    except Exception as e:
         logger.error(f"Failed to fetch description for {isin}: {e}")
         return None
 
@@ -129,7 +204,7 @@ def fetch_fund_description(ticker, index_name):
     url = f"https://www.trackinsight.com/data-api/funds/{encoded_ticker}.json"
     logger.info(f"Requesting fund description for {ticker} (index {index_name}): {url}")
     try:
-        response = requests.get(url)
+        response = TRACKINSIGHT.get(url)
         response.raise_for_status()
         data = response.json()
         logger.info(f"Received fund description for {ticker} (index {index_name})")
@@ -137,7 +212,7 @@ def fetch_fund_description(ticker, index_name):
             f"Description response for {ticker} (index {index_name}): {json.dumps(data, indent=2)}"
         )
         return data
-    except requests.RequestException as e:
+    except Exception as e:
         logger.error(
             f"Failed to fetch description for {ticker} (index {index_name}): {e}"
         )
@@ -202,7 +277,7 @@ def get_performance_data(ticker):
     url = "https://www.trackinsight.com/search-api/snapshot/get_snapshots"
     logger.info(f"Requesting performance_data for {ticker} to TrackInsight from {url}")
     try:
-        response = requests.post(url, headers={'Content-Type': 'application/json'}, json={
+        response = TRACKINSIGHT.post(url, headers={'Content-Type': 'application/json'}, json={
                                  "enterpriseId": None,
                                  "requests": [
                                      {
@@ -222,7 +297,7 @@ def get_performance_data(ticker):
 
         return zip_scaled_data(data[0])
 
-    except requests.RequestException as e:
+    except Exception as e:
         logger.error(f"Failed to fetch description for {ticker}: {e}")
         return None
 
@@ -397,23 +472,31 @@ def process_csv(input_file, output_file):
     config = read_config()
     reference_currency = config["reference_currency"]
 
+    failures = []
     for index_row in reader:
         index_name = index_row["name"]
         logger.info(f"Processing index: {index_name}")
         # Get benchmark data
 
         search = index_row["full-name"]
-        benchmark_data = fetch_benchmark_data(search, index_name)
+        try:
+            benchmark_data = fetch_benchmark_data(search, index_name)
 
-        if not benchmark_data and "STOXX" in search:
-            benchmark_data = fetch_benchmark_data(
-                search.replace("EURO", "Euro").replace("STOXX", "Stoxx"), index_name
-            )
+            if not benchmark_data and "STOXX" in search:
+                benchmark_data = fetch_benchmark_data(
+                    search.replace("EURO", "Euro").replace("STOXX", "Stoxx"), index_name
+                )
 
-        if not benchmark_data and "EURO" in search:
-            benchmark_data = fetch_benchmark_data(
-                search.replace("EURO", "Euro"), index_name
+            if not benchmark_data and "EURO" in search:
+                benchmark_data = fetch_benchmark_data(
+                    search.replace("EURO", "Euro"), index_name
+                )
+        except Exception as e:
+            logger.error(
+                f"Failed to fetch benchmark data for {search} (index {index_name}): {e}"
             )
+            failures.append(index_name)
+            continue
 
         if not benchmark_data:
             logger.warning(
@@ -488,6 +571,8 @@ def process_csv(input_file, output_file):
             f"Completed processing {len(benchmark_data)} funds for index {index_name}"
         )
 
+    return failures
+
 
 def main():
     parser = argparse.ArgumentParser(description="Process index data from CSV and API")
@@ -517,7 +602,13 @@ def main():
     if args.verbose:
         logger.setLevel(logging.DEBUG)
 
-    process_csv(args.input, args.output)
+    failures = process_csv(args.input, args.output)
+    if failures:
+        logger.error(
+            f"{len(failures)} index(es) could not fetch ETF data: {failures}. "
+            f"Failing to avoid publishing incomplete data."
+        )
+        sys.exit(1)
 
 
 if __name__ == "__main__":
